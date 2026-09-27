@@ -1,0 +1,80 @@
+{
+  "name": "@vuemail/ui",
+  "version": "0.1.0",
+  "description": "A live preview of your Vuemail emails right in your browser.",
+  "type": "module",
+  "main": "./dist/node/index.mjs",
+  "types": "./dist/node/index.d.mts",
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/node/index.d.mts",
+      "default": "./dist/node/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "pnpm build:client && pnpm build:node",
+    "build:client": "vite build",
+    "build:node": "tsdown",
+    "dev": "vite",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuemail/vuemail.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://vuemail.dev",
+  "keywords": [
+    "vue",
+    "email",
+    "preview"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0",
+    "vuemail": "workspace:^"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "css-tree": "3.2.1",
+    "entities": "^7.0.1",
+    "html5parser": "^3.0.0",
+    "log-symbols": "^7.0.0",
+    "picospinner": "^3.0.0",
+    "vite": "catalog:"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@tailwindcss/vite": "catalog:",
+    "@types/css-tree": "catalog:",
+    "@types/node": "catalog:",
+    "@types/prismjs": "1.26.6",
+    "@vueuse/core": "^15.0.0",
+    "colorjs.io": "0.6.1",
+    "motion-v": "^2.4.4",
+    "prismjs": "^1.30.0",
+    "reka-ui": "catalog:",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "^4.6.3",
+    "vue-sonner": "^2.0.9",
+    "vue-tsc": "catalog:",
+    "vuemail": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

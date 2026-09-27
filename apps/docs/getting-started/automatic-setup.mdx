@@ -1,0 +1,90 @@
+---
+title: 'Automatic Setup'
+sidebarTitle: 'Automatic Setup'
+description: 'Add Vuemail to any JavaScript or TypeScript project in minutes.'
+icon: 'download'
+---
+
+import NextSteps from '/snippets/next-steps.mdx'
+
+<Note>Using monorepos? Then, we recommend following the [monorepo setup](/getting-started/monorepo-setup/choose-package-manager).</Note>
+
+## 1. Install
+
+We recommend using `create-vuemail`, which sets up everything automatically for you.
+
+<CodeGroup>
+
+```sh npm
+npx create-vuemail@latest
+```
+
+```sh yarn
+yarn create vuemail
+```
+
+```sh pnpm
+pnpm create vuemail
+```
+
+```sh bun
+bun create vuemail
+```
+
+</CodeGroup>
+
+This will create a new folder called `vuemail-starter` with a few email templates.
+
+## 2. Run locally
+
+First, install the dependencies:
+
+<CodeGroup>
+
+```sh npm
+npm install
+```
+
+```sh yarn
+yarn
+```
+
+```sh pnpm
+pnpm install
+```
+
+```sh bun
+bun install
+```
+
+</CodeGroup>
+
+Then, run the development server:
+
+<CodeGroup>
+
+```sh npm
+npm run dev
+```
+
+```sh yarn
+yarn dev
+```
+
+```sh pnpm
+pnpm dev
+```
+
+```sh bun
+bun dev
+```
+
+</CodeGroup>
+
+## 3. See changes live
+
+Visit [localhost:3000](http://localhost:3000) and edit any of the files on the `emails` folder to see the changes.
+
+## 4. Next steps
+
+<NextSteps/>

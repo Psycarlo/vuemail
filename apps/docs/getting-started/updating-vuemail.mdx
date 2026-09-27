@@ -1,0 +1,54 @@
+---
+title: 'Updating Vuemail'
+sidebarTitle: 'Updating Vuemail'
+description: 'How to update Vuemail to a newer version'
+icon: 'arrow-up-wide-short'
+---
+
+import NextSteps from '/snippets/next-steps.mdx';
+
+## Update the packages
+
+`vuemail` and `@vuemail/ui` are released together, and the CLI only runs the preview app when both
+are in the same version, so always update them at once:
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail@latest
+npm install @vuemail/ui@latest -D
+```
+
+```sh yarn
+yarn add vuemail@latest
+yarn add @vuemail/ui@latest -D
+```
+
+```sh pnpm
+pnpm add vuemail@latest
+pnpm add @vuemail/ui@latest -D
+```
+
+```sh bun
+bun add vuemail@latest
+bun add @vuemail/ui@latest -D
+```
+
+</CodeGroup>
+
+If you use them, update `@vuemail/nuxt`, `@vuemail/editor` and `@vuemail/render` too.
+
+<Info>
+  `vuemail` includes everything in `@vuemail/render`, so you only need `@vuemail/render` when you want
+  the render utility on its own. The editor, `@vuemail/editor`, and the preview app, `@vuemail/ui`,
+  are separate packages.
+</Info>
+
+## Check what changed
+
+Read the [changelog](/changelog) for what's new in each version, and for any change that needs you to
+update your emails.
+
+Coming from React Email instead? See [Migrating to Vuemail](/getting-started/migrating-to-vuemail#from-react-email).
+
+<NextSteps/>

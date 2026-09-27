@@ -1,0 +1,167 @@
+<script setup lang="ts">
+import {
+  Body,
+  Column,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Row,
+  Section,
+  Text,
+} from 'vuemail';
+
+const steps = [
+  {
+    number: 1,
+    imageUrl: '/static/stagg-eletric-kettle.jpg',
+    title: 'Start Your Search',
+    description:
+      'Search for the products you need or upload your list of requirements.',
+    learnMoreLink: '#',
+  },
+  {
+    number: 2,
+    imageUrl: '/static/atmos-vacuum-canister.jpg',
+    title: 'Compare & Save',
+    description:
+      'Compare prices and offers from different suppliers to find the best deals.',
+    learnMoreLink: '#',
+  },
+  {
+    number: 3,
+    imageUrl: '/static/bundle-collection.jpg',
+    title: 'Build Your Cart',
+    description:
+      'Select your desired items and add them to your shopping cart.',
+    learnMoreLink: '#',
+  },
+  {
+    number: 4,
+    imageUrl: '/static/clara-french-press.jpg',
+    title: 'Enjoy The Benefits',
+    description:
+      'Receive your products and enjoy the savings and convenience of our service.',
+    learnMoreLink: '#',
+  },
+];
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Body :style="{ backgroundColor: 'rgb(255,255,255)' }">
+      <Preview>How Our Service Works: 5 Simple Steps</Preview>
+      <Container
+        :style="{
+          backgroundColor: 'rgb(255,255,255)',
+          borderRadius: '8px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: '600px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
+          paddingTop: '24px',
+          paddingBottom: '0px',
+        }"
+      >
+        <Heading
+          as="h1"
+          :style="{
+            fontSize: '24px',
+            lineHeight: '32px',
+            marginBottom: '42px',
+            textAlign: 'center',
+          }"
+        >
+          How Our Service Works: 5 Simple Steps
+        </Heading>
+        <Section
+          v-for="step in steps"
+          :key="step.title"
+          :style="{ marginBottom: '30px' }"
+        >
+          <Row :style="{ marginBottom: '24px' }">
+            <Column width="40%" :style="{ width: '40%', paddingRight: '24px' }">
+              <Img
+                :src="step.imageUrl"
+                width="100%"
+                height="168"
+                :alt="`Step image - ${step.number}`"
+                :style="{
+                  borderRadius: '4px',
+                  display: 'block',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  width: '100%',
+                }"
+              />
+            </Column>
+            <Column width="60%" :style="{ width: '60%', paddingRight: '24px' }">
+              <Row
+                width="24"
+                :style="{ width: '24px', height: '24px', marginBottom: '18px' }"
+                :align="undefined"
+              >
+                <Column
+                  width="24"
+                  height="24"
+                  :style="{
+                    borderRadius: '9999px',
+                    height: '24px',
+                    width: '24px',
+                    backgroundColor: 'rgb(79,70,229)',
+                    color: 'rgb(255,255,255)',
+                    fontWeight: 600,
+                    fontSize: '12px',
+                    lineHeight: 1,
+                  }"
+                  align="center"
+                  valign="middle"
+                >
+                  {{ step.number }}
+                </Column>
+              </Row>
+              <Heading
+                as="h2"
+                :style="{
+                  fontSize: '20px',
+                  fontWeight: '700',
+                  lineHeight: '1',
+                  marginBottom: '8px',
+                  marginTop: '0px',
+                }"
+              >
+                {{ step.title }}
+              </Heading>
+              <Text
+                :style="{
+                  color: 'rgb(107,114,128)',
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  margin: '0px',
+                }"
+              >
+                {{ step.description }}
+              </Text>
+              <Link
+                :href="step.learnMoreLink"
+                :style="{
+                  color: 'rgb(79,70,229)',
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginTop: '12px',
+                  textDecorationLine: 'none',
+                }"
+              >Learn more →</Link>
+            </Column>
+          </Row>
+        </Section>
+      </Container>
+    </Body>
+  </Html>
+</template>

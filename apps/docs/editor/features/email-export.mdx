@@ -1,0 +1,223 @@
+---
+title: "Email Export"
+sidebarTitle: "Email Export"
+description: "Convert editor content to email-ready HTML."
+icon: "file-export"
+---
+
+## Quick start
+
+If you use the standalone `EmailEditor` component, you can access the email HTML and plain text through a template ref.
+
+```vue
+<script setup lang="ts">
+import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
+import { ref, useTemplateRef } from 'vue';
+
+const emailEditor = useTemplateRef<EmailEditorRef>('email-editor');
+const html = ref('');
+
+async function handleExport() {
+  if (!emailEditor.value) return;
+  html.value = await emailEditor.value.getEmailHTML();
+}
+</script>
+
+<template>
+  <div>
+    <EmailEditor ref="email-editor" content="<p>Edit me</p>" />
+    <button type="button" @click="handleExport">Export HTML</button>
+    <textarea v-if="html" readonly :value="html" />
+  </div>
+</template>
+```
+
+The ref exposes three export methods:
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getEmailHTML()` | `Promise<string>` | Email-ready HTML |
+| `getEmailText()` | `Promise<string>` | Plain text version |
+| `getEmail()` | `Promise<{ html, text }>` | Both in a single call |
+
+All three use [composeVueEmail](/editor/api-reference/compose-vue-email) under the hood. The `@update`
+and `@ready` events receive the same object.
+
+## Using without EmailEditor
+
+Use [composeVueEmail](/editor/api-reference/compose-vue-email) directly to convert editor content into email-ready HTML and plain text without [EmailEditor](/editor/api-reference/email-editor).
+
+```vue export-panel.vue
+<script setup lang="ts">
+import { composeVueEmail, useCurrentEditor } from '@vuemail/editor/core';
+import { ref } from 'vue';
+
+const { editor } = useCurrentEditor();
+const html = ref('');
+const exporting = ref(false);
+
+async function handleExport() {
+  if (!editor.value) return;
+  exporting.value = true;
+  const result = await composeVueEmail({ editor: editor.value });
+  html.value = result.html;
+  exporting.value = false;
+}
+</script>
+
+<template>
+  <div>
+    <button type="button" :disabled="exporting" @click="handleExport">
+      {{ exporting ? 'Exporting...' : 'Export HTML' }}
+    </button>
+    <textarea
+      v-if="html"
+      readonly
+      :value="html"
+      rows="16"
+      :style="{ width: '100%', fontFamily: 'monospace' }"
+    />
+  </div>
+</template>
+```
+
+```vue my-editor.vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { EmailTheming } from '@vuemail/editor/plugins';
+import { BubbleMenu } from '@vuemail/editor/ui';
+import ExportPanel from './export-panel.vue';
+
+const extensions = [StarterKit, EmailTheming];
+
+const content = `
+  <h1>My Email Newsletter</h1>
+  <p>Edit this content, then click <strong>Export HTML</strong> to see the generated email markup.</p>
+  <p>The exported HTML uses Vuemail components and is ready to send.</p>
+`;
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <BubbleMenu />
+    <ExportPanel />
+  </EditorProvider>
+</template>
+```
+
+## How it works
+
+The `composeVueEmail` function follows this pipeline:
+
+1. **Read** the editor's JSON document
+2. **Traverse** each node and mark in the document tree
+3. **Call** `renderToVueEmail()` on each `EmailNode` and `EmailMark` extension
+4. **Apply** theme styles via the `SerializerPlugin` (if `EmailTheming` is configured)
+5. **Wrap** the content in a `BaseTemplate`
+6. **Renders** to an HTML string and plain text version using [render](/utilities/render)
+
+The return value is:
+
+```ts
+const { html, text, unformattedHtml } = await composeVueEmail({ editor });
+
+// html            — Full HTML email string, formatted for reading
+// text            — Plain text version for email clients that don't support HTML
+// unformattedHtml — The same HTML without formatting, smaller for storing or sending
+```
+
+## Preview text
+
+The `preview` parameter sets the email preview text.
+
+Email preview text is the snippet shown in inbox list views before the email is opened.
+
+```ts
+const result = await composeVueEmail({
+  editor,
+  preview: 'Check out our latest updates!',
+});
+```
+
+Leave `preview` out to omit preview text.
+
+## Using with theming
+
+When the `EmailTheming` extension is in your extensions array, theme styles are automatically
+injected into the exported HTML.
+
+The serializer uses the `SerializerPlugin` provided by `EmailTheming` to resolve styles for each node based on the current theme and depth in the
+document tree.
+
+```ts
+const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
+
+// Later, when exporting:
+const { html } = await composeVueEmail({ editor });
+// ...the html includes all theme styles inline
+```
+
+## Full example with export panel
+
+Here's a complete editor with theming and an export panel, using the `export-panel.vue` component from above.
+
+```vue full-email-builder.vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { EmailTheming } from '@vuemail/editor/plugins';
+import {
+  BubbleMenu,
+  defaultSlashCommands,
+  SlashCommand,
+} from '@vuemail/editor/ui';
+import { computed, ref } from 'vue';
+import ExportPanel from './export-panel.vue';
+
+type EditorTheme = 'basic' | 'minimal';
+
+const theme = ref<EditorTheme>('basic');
+const extensions = computed(() => [
+  StarterKit,
+  EmailTheming.configure({ theme: theme.value }),
+]);
+
+const content = `
+  <h1>Weekly Newsletter</h1>
+  <p>Edit this content, then click <strong>Export HTML</strong> to see the generated email markup.</p>
+`;
+</script>
+
+<template>
+  <div>
+    <div :style="{ display: 'flex', gap: '8px', marginBottom: '16px' }">
+      <button type="button" @click="theme = 'basic'">Basic Theme</button>
+      <button type="button" @click="theme = 'minimal'">Minimal Theme</button>
+    </div>
+    <EditorProvider :key="theme" :extensions="extensions" :content="content">
+      <BubbleMenu
+        :hide-when-active-nodes="['button']"
+        :hide-when-active-marks="['link']"
+      />
+      <BubbleMenu.LinkDefault />
+      <BubbleMenu.ButtonDefault />
+      <SlashCommand :items="defaultSlashCommands" />
+      <ExportPanel />
+    </EditorProvider>
+  </div>
+</template>
+```
+
+## Examples
+
+See email export in action with runnable examples:
+
+<CardGroup cols={2}>
+  <Card title="Email Export" icon="code" href="https://vuemail.dev/editor/email-export">
+    Export editor content to themed HTML.
+  </Card>
+  <Card title="Full Email Builder" icon="code" href="https://vuemail.dev/editor/full-email-builder">
+    Complete editor with theming, menus, and export.
+  </Card>
+</CardGroup>

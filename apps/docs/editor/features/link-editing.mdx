@@ -1,0 +1,80 @@
+---
+title: "Link Editing"
+sidebarTitle: "Link Editing"
+description: "Add inline link editing with the link bubble menu."
+icon: "link"
+---
+
+## Quick start
+
+Use `BubbleMenu.LinkDefault` to add an inline link editing toolbar.
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { BubbleMenu } from '@vuemail/editor/ui';
+import '@vuemail/editor/themes/default.css';
+
+const extensions = [StarterKit];
+
+const content = `
+  <p>Click on <a href="https://vuemail.dev" target="_blank">this link</a> to see the link bubble menu.</p>
+  <p>Try adding more links by selecting text and pressing Cmd+K.</p>
+`;
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <BubbleMenu.LinkDefault />
+  </EditorProvider>
+</template>
+```
+
+## How it works
+
+When you click on a link in the editor, the link bubble menu appears with:
+
+- **Edit button**: Opens an inline form to change the URL
+- **Open button**: Opens the link in a new tab
+- **Unlink button**: Removes the link, keeping the text
+
+To **add a new link**, select text and press `Cmd+K` (or `Ctrl+K` on Windows/Linux).
+
+## Bubble menu
+
+When combining the link bubble menu with `BubbleMenu`, use `hide-when-active-marks` to prevent
+the text bubble menu from appearing when a link is focused.
+
+```vue
+<EditorProvider :extensions="extensions" :content="content">
+  <BubbleMenu :hide-when-active-marks="['link']" />
+  <BubbleMenu.LinkDefault />
+</EditorProvider>
+```
+
+Without `hide-when-active-marks`, both menus will try to show at the same time when a link is selected.
+
+## HTML content with links
+
+When using HTML strings as content, `<a>` tags are automatically parsed into the editor's
+link model.
+
+```ts
+const content = `
+  <p>Visit <a href="https://vuemail.dev" target="_blank">Vuemail</a> for more info.</p>
+`;
+```
+
+The link extension is included in `StarterKit` with `openOnClick` disabled by default.
+This means that clicking a link in edit mode focuses it rather than navigating away.
+
+## Examples
+
+See link editing in action with a runnable example:
+
+<CardGroup cols={2}>
+  <Card title="Link Editing" icon="code" href="https://vuemail.dev/editor/link-editing">
+    Inline link editing with Cmd+K support.
+  </Card>
+</CardGroup>

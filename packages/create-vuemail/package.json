@@ -1,0 +1,42 @@
+{
+  "name": "create-vuemail",
+  "version": "0.1.0",
+  "description": "The easiest way to get started with Vuemail",
+  "main": "src/index.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "commander": "catalog:",
+    "fs-extra": "^11.3.3",
+    "log-symbols": "^7.0.0",
+    "ora": "^8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuemail/vuemail.git",
+    "directory": "packages/create-vuemail"
+  },
+  "homepage": "https://vuemail.dev",
+  "keywords": [
+    "vue",
+    "email"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "bin": {
+    "create-vuemail": "src/index.js"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "nypm": "^0.6.6",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vuemail": "workspace:*"
+  }
+}

@@ -1,0 +1,266 @@
+---
+title: "CLI"
+sidebarTitle: "CLI"
+description: "After installing the Vuemail package (or cloning a starter), you can start using the command line interface (CLI)."
+icon: "square-terminal"
+---
+
+The `vuemail` package installs the CLI as both `email` and `vuemail`, so `npx email dev` and `npx vuemail dev` run the same command.
+
+<Note>
+  `email dev`, `email build`, `email start` and `email export` run on the preview app,
+  `@vuemail/ui`, which needs to be installed as a dev dependency in the same version as `vuemail`.
+  If it's missing, or its version doesn't match, the CLI offers to install it for you.
+</Note>
+
+## `email dev`
+
+Starts a local development server that will watch your files and automatically rebuild
+your email template when you make changes.
+
+**Options**
+
+<ResponseField name="--dir" type="string" default="./emails">
+  Change the directory of your email templates. Alias: `-d`.
+</ResponseField>
+<ResponseField name="--port" type="string" default="3000">
+  Port to run dev server on. Alias: `-p`.
+</ResponseField>
+<ResponseField name="--clients" type="string">
+  Comma-separated list of email clients to show compatibility warnings for, like
+  `gmail,outlook`. Alias: `-c`. It takes precedence over the `COMPATIBILITY_EMAIL_CLIENTS`
+  environment variable, which accepts the same list. Without either, compatibility is checked
+  against `gmail`, `apple-mail`, `outlook` and `yahoo`.
+
+  Supported email clients: `gmail`, `outlook`, `yahoo`, `apple-mail`, `aol`, `thunderbird`,
+  `microsoft`, `samsung-email`, `sfr`, `orange`, `protonmail`, `hey`, `mail-ru`, `fastmail`,
+  `laposte`, `t-online-de`, `free-fr`, `gmx`, `web-de`, `ionos-1and1`, `rainloop` and `wp-pl`.
+</ResponseField>
+
+**F.A.Q**
+
+<AccordionGroup>
+  <Accordion title="Where can I place my static files for previewing?">
+    Almost always you will need to have static files in your emails, and seeing
+    them on the preview server without having to first host on a CDN is very helpful.
+
+    We do allow for this, and currently, you can place your files inside a `static`
+    directory inside your `emails` directory.
+
+    This does adjust to your `--dir` option, so if your `emails` directory was inside
+    `./src/emails`, you would place your static files inside `./src/emails/static`.
+
+    These static files are directly served from our preview server by looking into the
+    requests made into it that start with `/static` (i.e. `http://localhost:3000/static/...`) and serving the files at that point,
+    this also allows for you to have images inside your emails like so:
+
+    ```vue
+    <script setup lang="ts">
+    import { Html, Img } from 'vuemail';
+    </script>
+
+    <template>
+      <Html>
+        <Img src="/static/email-logo.png" />
+      </Html>
+    </template>
+    ```
+
+    <Info>
+      This does not mean your images are hosted for you to send the emails.
+
+        If you do send the rendered email, and you are trying to link to an image,
+        or some other asset inside `emails/static`, they will not load on the email that was sent.
+
+        We recommend that you use a different source link to your files depending on whether you're
+        running in production or not. Here's an example
+
+        ```vue
+        <script setup lang="ts">
+        import { Html, Img } from 'vuemail';
+
+        const baseURL = process.env.NODE_ENV === 'production' ? 'https://cdn.com' : '';
+        </script>
+
+        <template>
+          <Html>
+            <Img :src="`${baseURL}/static/email-logo.png`" />
+          </Html>
+        </template>
+        ```
+
+        The starter created by `npx create-vuemail@latest` does the same with the
+        `VERCEL_URL` environment variable, for a preview deployed on Vercel.
+    </Info>
+
+  </Accordion>
+  <Accordion title="How can I define props specific to the email's preview?">
+    Considering that you are already default exporting the Vue component
+    that will render as your email template, as every single file component does,
+    you can just define `PreviewProps` with `defineOptions` as follows:
+
+    ```vue Email template
+    <script setup lang="ts">
+    import { Html, Link } from 'vuemail';
+
+    const { source } = defineProps<{ source: string }>();
+
+    defineOptions({
+      PreviewProps: {
+        source: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+    });
+    </script>
+
+    <template>
+      <Html>
+        <Link :href="source">click here if you want candy 👀</Link>
+      </Html>
+    </template>
+    ```
+
+    And then, when opening this email's preview, the `PreviewProps` will be used as props into the email.
+    So, in a nutshell, it will render the same as if you were to do:
+
+    ```ts Another file
+    import { render } from 'vuemail';
+    import Email from './path-to-my-email.vue';
+
+    await render(Email, Email.PreviewProps);
+    ```
+
+    <Info>
+      `defineOptions` is hoisted out of `<script setup>`, so `PreviewProps` can't use
+      variables declared there: write the values inline.
+    </Info>
+
+  </Accordion>
+  <Accordion title="How to make the preview server ignore directories?">
+    Once the preview server has started and is now open on `localhost`, the preview server
+    reads recursively down into all of your files and directories. This can be disabled
+    from a directory down by prefixing it with `_`, e.g. `components -> _components`.
+
+    So if you wanted to make components for your emails, you could have a file structure as follows:
+
+    ```bash
+    my-project
+    ├── emails
+    │   ├── _components
+    │   │   └── this-is-not-going-to-appear-in-the-sidebar.vue
+    │   ├── email.vue
+    │   └── static
+    ├── package.json
+    └── tsconfig.json
+    ```
+
+    Then the only file that will be shown on the preview server is going to be your `email.vue`.
+
+    Files whose name starts with `_` are left out as well.
+
+  </Accordion>
+  <Accordion title="The heuristics for files to be considered emails">
+    To avoid uncanny files appearing in the sidebar of the preview server,
+    we account for a few heuristics to determine whether or not we should
+    include it:
+
+    1. A `.vue` file is an email if it renders an `<Html>` element, or if it defines `PreviewProps`.
+       This keeps the components your emails are made of out of the sidebar.
+    2. Other scripts the preview supports, like `.js` files, are emails if they have a default export, which is what gets rendered.
+    3. An `.html` file is always shown, as it is.
+
+    These can certainly fail as they are only heuristics, so if you do find
+    any issues with these, feel free to open an [issue](https://github.com/vuemail/vuemail/issues).
+
+  </Accordion>
+</AccordionGroup>
+
+## `email build`
+
+Builds the preview app, with all of your emails, into a static website inside `.vuemail`.
+Every email is rendered, linted and checked for compatibility ahead of time, and the `static`
+directory is copied along, so the output can be hosted on any static hosting. See [Deployment](/deployment).
+
+**Options**
+
+<ResponseField name="--dir" type="string" default="./emails">
+  Change the directory of your email templates. Alias: `-d`.
+</ResponseField>
+<ResponseField name="--outDir" type="string" default=".vuemail">
+  Change the output directory. Alias: `-o`.
+</ResponseField>
+<ResponseField name="--clients" type="string">
+  Comma-separated list of email clients to check compatibility for, the same as for
+  [`email dev`](#email-dev). Alias: `-c`.
+</ResponseField>
+
+## `email start`
+
+Serves the built preview app that is inside `.vuemail`.
+
+**Options**
+
+<ResponseField name="--dir" type="string" default=".vuemail">
+  Change the directory with the built preview. Alias: `-d`.
+</ResponseField>
+<ResponseField name="--port" type="string" default="3000">
+  Port to run the server on. Alias: `-p`.
+</ResponseField>
+
+## `email export`
+
+Generates the plain HTML files of your emails into a `out` directory.
+
+<Info>
+  A very common misconception is to assume that `email export` is the default or primary way of rendering
+  email templates.
+
+  The primary and preferable way is always going to be the [render](/utilities/render) utility,
+  by passing in the needed data through props, on the exact moment of sending the email.
+
+  `email export` is a secondary way meant for situations where Vuemail cannot be used optimally.
+  With this secondary way, comes significant drawbacks, mainly the need for manual templating, which
+  could be done easily with the `render` utility. It being a secondary way, we would strongly recommend
+  you don't use it unless you really are forced into it.
+
+  As an example, two cases where `email export` makes itself necessary include:
+  - When the email content must be processed by a backend in a language other than JavaScript.
+  - When the platform handling email, such as Shopify, forces you into manual templating.
+
+  You also should not have to worry about `render`'s performance, as typically, the introduced
+  time in rendering is going to be milliseconds when compared to manual templating.
+</Info>
+
+**Options**
+
+<ResponseField name="--outDir" type="string" default="out">
+  Change the output directory.
+</ResponseField>
+<ResponseField name="--pretty" type="boolean" default="false">
+  Minify or prettify the generated HTML file. Alias: `-p`.
+</ResponseField>
+<ResponseField name="--plainText" type="boolean" default="false">
+  Set output format as plain text. Alias: `-t`.
+</ResponseField>
+<ResponseField name="--dir" type="string" default="./emails">
+  Change the directory of your email templates. Alias: `-d`.
+</ResponseField>
+<ResponseField name="--extension" type="string">
+  Set a custom file extension for rendered templates (for example, `blade.php`). When omitted,
+  the extension defaults to `.html`, or `.txt` when `--plainText` is enabled. Alias: `-e`.
+</ResponseField>
+<ResponseField name="--silent" type="boolean" default="false">
+  Hide the spinner with process information. Alias: `-s`.
+</ResponseField>
+
+## `email help <cmd>`
+
+Shows all the options for a specific command.
+
+## `email resend setup`
+
+Sets up a configuration in your home directory with your Resend API Key by prompting interactively.
+The preview server uses it to upload your emails to [Resend](/integrations/resend#set-up-templates-with-resend).
+
+## `email resend reset`
+
+Removes your API Key from the configuration in your home directory.

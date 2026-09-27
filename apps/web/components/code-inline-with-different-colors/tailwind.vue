@@ -1,0 +1,12 @@
+<script setup lang="ts">
+import { CodeInline, Text } from 'vuemail';
+</script>
+
+<template>
+  <Text class="text-center">
+    Install the
+    <CodeInline
+      class="rounded-[6px] bg-green-300 px-[4px] py-[2px]"
+    >vuemail</CodeInline> package
+  </Text>
+</template>

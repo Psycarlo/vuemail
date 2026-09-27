@@ -1,0 +1,217 @@
+---
+title: "Getting Started"
+sidebarTitle: "Getting Started"
+description: "Set up the email editor in your Vue project in under 5 minutes."
+icon: "rocket"
+---
+
+import EditorInstall from '/snippets/editor-install.mdx'
+import EditorNextSteps from '/snippets/editor-next-steps.mdx'
+
+## Prerequisites
+
+<Note>
+  The editor requires **Vue 3.4+** and a bundler that supports [package exports](https://nodejs.org/api/packages.html#exports) and CSS imports (Vite, Nuxt, Webpack 5, etc.).
+  The editor itself is only created once the component is mounted, in the browser.
+</Note>
+
+## Install
+
+Install the editor and its peer dependencies:
+
+<EditorInstall />
+
+## Quick start
+
+The recommended way to start is with the standalone `EmailEditor` component. It
+gives you a working editor with the default bubble menus, slash commands,
+theming, and export helpers already wired up:
+
+```vue
+<script setup lang="ts">
+import { EmailEditor } from '@vuemail/editor';
+
+const content = `
+  <h1>Welcome</h1>
+  <p>
+    This is the simplest way to use the editor. Try selecting text to see the
+    bubble menu, or type "/" for slash commands.
+  </p>
+`;
+</script>
+
+<template>
+  <EmailEditor :content="content" />
+</template>
+```
+
+This renders a functional editor, but it's unstyled. To style the editor,
+import the default theme:
+
+```ts
+import '@vuemail/editor/themes/default.css';
+```
+
+You can also build your own theme to style the editor to look and feel like
+your own app. See [styling](/editor/features/styling).
+
+See the [API Reference](/editor/api-reference/email-editor) for details.
+
+<Tip>
+  Start here unless you need full control over the extension list, provider
+  layout, or UI composition, in which case see [Lower-level setup](#lower-level-setup).
+</Tip>
+
+## Content format
+
+The editor accepts content in two formats:
+
+**HTML string** — Parsed automatically into the editor's document model:
+
+```vue
+<script setup lang="ts">
+import { EmailEditor } from '@vuemail/editor';
+
+const content = `
+  <h1>Welcome</h1>
+  <p>This is a <a href="https://vuemail.dev">link</a>.</p>
+`;
+</script>
+
+<template>
+  <EmailEditor :content="content" />
+</template>
+```
+
+**TipTap JSON** — A structured document tree:
+
+```json
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "Hello world" }
+      ]
+    }
+  ]
+}
+```
+
+## Lower-level setup
+
+If you need more control, drop down to `EditorProvider` and compose the
+editor yourself. This is the lower-level path: you choose the extensions, add
+UI overlays manually, and import any CSS you need.
+
+Common building blocks on this path are [`StarterKit`](/editor/api-reference/extensions-list),
+[`BubbleMenu`](/editor/api-reference/ui/bubble-menu),
+[`SlashCommand`](/editor/api-reference/ui/slash-command),
+[`EmailTheming`](/editor/api-reference/theming-api),
+[`composeVueEmail`](/editor/api-reference/compose-vue-email), and the
+[`useCurrentEditor`](/editor/api-reference/use-editor) composable.
+
+The simplest manual setup uses `StarterKit` with `EditorProvider` and no UI
+overlays:
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+
+const extensions = [StarterKit];
+
+const content = `
+  <h1>Welcome</h1>
+  <p>Start typing or edit this text.</p>
+`;
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content" />
+</template>
+```
+
+`EditorProvider` creates the editor, renders its content, and provides the editor to the
+components you put inside it, which is where UI overlays go.
+
+### Import CSS
+
+When you use the lower-level UI components directly, import the bundled theme:
+
+```ts
+import '@vuemail/editor/themes/default.css';
+```
+
+This single import includes the default color theme and the built-in UI styles
+for bubble menus, slash commands, and the inspector.
+
+<Tip>
+  If you want to import only the pieces you use, skip the bundled theme and
+  import the individual CSS files instead:
+
+  ```ts
+  import '@vuemail/editor/styles/bubble-menu.css';
+  import '@vuemail/editor/styles/slash-command.css';
+  import '@vuemail/editor/styles/inspector.css';
+  ```
+</Tip>
+
+### Adding a bubble menu
+
+To add a floating formatting toolbar that appears when you select text, add `BubbleMenu`
+as a child of `EditorProvider`:
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { BubbleMenu } from '@vuemail/editor/ui';
+import '@vuemail/editor/themes/default.css';
+
+const extensions = [StarterKit];
+
+const content = `
+  <p>
+    Select this text to see the bubble menu. Try <strong>bold</strong>,
+    <em>italic</em>, and other formatting options.
+  </p>
+`;
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <BubbleMenu />
+  </EditorProvider>
+</template>
+```
+
+Select text in the editor to see the formatting toolbar with bold, italic,
+underline, alignment, and more.
+
+## Examples
+
+See these features in action with runnable examples:
+
+<CardGroup cols={2}>
+  <Card title="Standalone Editor — Minimal" icon="code" href="https://vuemail.dev/editor/standalone-editor">
+    The simplest possible editor setup.
+  </Card>
+  <Card title="Basic Editor" icon="code" href="https://vuemail.dev/editor/basic-editor">
+    EditorProvider with StarterKit and no overlays.
+  </Card>
+  <Card title="Standalone Editor — Full Features" icon="code" href="https://vuemail.dev/editor/standalone-editor-full">
+    Theme toggle, HTML export, and JSON output.
+  </Card>
+  <Card title="Standalone Editor — Inspector" icon="code" href="https://vuemail.dev/editor/standalone-editor-inspector">
+    Add an inspector sidebar with zero manual setup.
+  </Card>
+  <Card title="All Examples" icon="folder-open" href="https://vuemail.dev/editor">
+    Browse the complete set of interactive examples.
+  </Card>
+</CardGroup>
+
+## Next steps
+
+<EditorNextSteps />

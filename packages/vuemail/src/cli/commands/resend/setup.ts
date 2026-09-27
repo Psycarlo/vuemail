@@ -1,0 +1,29 @@
+import { styleText } from 'node:util';
+import logSymbols from 'log-symbols';
+import prompts from 'prompts';
+import { conf } from '../../utils/conf';
+
+export async function resendSetup() {
+  const previousValue = conf.get('resendApiKey');
+  if (typeof previousValue === 'string' && previousValue.length > 0) {
+    console.info(
+      `You already have a Resend API Key configured (${styleText('grey', previousValue.slice(0, 11))}...), continuing will replace it.`,
+    );
+  }
+
+  const { apiKey } = await prompts({
+    type: 'password',
+    name: 'apiKey',
+    message: 'Enter your API Key (make sure it has "Full Access")',
+  });
+
+  if (typeof apiKey === 'string' && apiKey.trim().length > 0) {
+    conf.set('resendApiKey', apiKey.trim());
+    console.info(
+      `${logSymbols.success} Resend integration successfully set up`,
+    );
+    console.info(
+      `You can always remove it with ${styleText('green', 'npx vuemail@latest resend reset')}`,
+    );
+  }
+}

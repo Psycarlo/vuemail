@@ -1,0 +1,20 @@
+{
+  "name": "playground",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "email build",
+    "dev": "email dev",
+    "export": "email export",
+    "start": "email start"
+  },
+  "dependencies": {
+    "vue": "catalog:",
+    "vuemail": "workspace:*"
+  },
+  "devDependencies": {
+    "@vuemail/ui": "workspace:*",
+    "tsconfig": "workspace:*"
+  }
+}

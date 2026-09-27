@@ -1,0 +1,42 @@
+---
+title: 'Setup'
+sidebarTitle: '1. Setup'
+description: 'Things you will need to do beforehand to setup the project'
+---
+
+Before you can start developing, you will need to get the project setup.
+
+<Info>
+To contribute to the project, you must use **Node 20.19** or higher.
+</Info>
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/vuemail/vuemail
+    ```
+  </Step>
+  <Step title={<>Install <a href="https://pnpm.io/installation">pnpm</a></>}>
+    ```bash
+    npm install -g pnpm
+    ```
+  </Step>
+  <Step title="Install all the dependencies">
+    ```bash inside of vuemail
+    pnpm install
+    ```
+  </Step>
+  <Step title="Build all the packages">
+    ```bash inside of vuemail
+    pnpm build
+    ```
+    <Note>
+    The packages depend on each other's builds, like the demo emails depend on the built `vuemail` and
+    `@vuemail/ui`, so build them once before running tests or the preview.
+    </Note>
+  </Step>
+</Steps>
+
+If you plan to contribute to the docs, view our [Writing docs](/contributing/development-workflow/5-writing-docs) guide for additional setup.
+
+If you have any trouble, please [reach out on GitHub Discussions](https://github.com/vuemail/vuemail/discussions) or consider [opening up an issue on GitHub](https://github.com/vuemail/vuemail/issues/new?template=1.bug_report.yml) after reading the [issue guidelines](/contributing/opening-issues).

@@ -1,0 +1,68 @@
+---
+title: "Send email using Lettermint"
+sidebarTitle: "Lettermint"
+description: "Learn how to send an email using Vuemail and the Lettermint Node.js SDK."
+---
+
+## 1. Install dependencies
+
+Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Lettermint Node.js SDK](https://www.npmjs.com/package/lettermint).
+
+<CodeGroup>
+
+```sh npm
+npm install lettermint vuemail
+```
+
+```sh yarn
+yarn add lettermint vuemail
+```
+
+```sh pnpm
+pnpm add lettermint vuemail
+```
+
+```sh bun
+bun add lettermint vuemail
+```
+
+</CodeGroup>
+
+## 2. Create an email using Vue
+
+Start by building your email template in a `.vue` file.
+
+```vue email.vue
+<script setup lang="ts">
+import { Button, Html } from 'vuemail';
+
+const { url } = defineProps<{ url: string }>();
+</script>
+
+<template>
+  <Html lang="en">
+    <Button :href="url">Click me</Button>
+  </Html>
+</template>
+```
+
+## 3. Convert to HTML and send email
+
+Import the email template you just built, convert into an HTML string, and use the Lettermint SDK to send it.
+
+```ts
+import { Lettermint } from "lettermint";
+import { render } from 'vuemail';
+import Email from './email.vue';
+
+const email = Lettermint.email(process.env.LETTERMINT_SENDING_TOKEN);
+
+const emailHtml = await render(Email, { url: 'https://example.com' });
+
+await email
+  .from("you@example.com")
+  .to("user@gmail.com")
+  .subject("hello world")
+  .html(emailHtml)
+  .send();
+```

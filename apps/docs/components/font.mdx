@@ -1,0 +1,83 @@
+---
+title: "Font"
+sidebarTitle: "Font"
+description: "A Vue Font component to set your fonts."
+icon: "book-font"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. This applies your font to all tags inside your email.
+Note, that not all email clients supports web fonts, this is why it is important to configure your `fallback-font-family`.
+To view all email clients that supports web fonts [see](https://www.caniemail.com/features/css-at-font-face/)
+
+```vue
+<script setup lang="ts">
+import { Font, Head, Html } from 'vuemail';
+</script>
+
+<template>
+  <Html lang="en">
+    <Head>
+      <Font
+        font-family="Roboto"
+        fallback-font-family="Verdana"
+        :web-font="{
+          url: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
+          format: 'woff2',
+        }"
+        :font-weight="400"
+        font-style="normal"
+      />
+    </Head>
+  </Html>
+</template>
+```
+
+## Props
+
+<ResponseField name="font-family" type="string" required>
+  The font family you want to use. If the web-font property is configured, this
+  should contain the name of that font
+</ResponseField>
+
+<ResponseField name="fallback-font-family" type="string | string[]" required>
+  The fallback font family the system should you, if web fonts are not supported
+  or the chosen font is not installed on the system. An array lists them in order of priority.
+</ResponseField>
+
+<ResponseField name="web-font" type="{url: string, format: string} | undefined">
+  The webFont the supported email client should use
+</ResponseField>
+
+<ResponseField name="font-weight" type="number | string" default="400">
+  The weight of the font
+</ResponseField>
+
+<ResponseField name="font-style" type="string" default="normal">
+  The style of the font
+</ResponseField>
+
+<Support/>

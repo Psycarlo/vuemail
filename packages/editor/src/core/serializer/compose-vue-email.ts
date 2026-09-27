@@ -1,0 +1,188 @@
+import type { Editor, JSONContent } from '@tiptap/core';
+import type { MarkType, Schema } from '@tiptap/pm/model';
+import { h, type VNodeChild } from 'vue';
+import { pretty, render, toPlainText } from 'vuemail';
+import { inlineCssToJs } from '../../utils/styles';
+import { DefaultBaseTemplate } from './default-base-template';
+import { EmailMark } from './email-mark';
+import { EmailNode } from './email-node';
+import type { SerializerPlugin } from './serializer-plugin';
+
+const NODES_WITH_INCREMENTED_CHILD_DEPTH = new Set([
+  'bulletList',
+  'orderedList',
+]);
+
+/**
+ * ProseMirror assigns each mark type a numeric `rank` at schema compile time; the public
+ * `MarkType` typings omit it, but it exists at runtime (see prosemirror-model `MarkType.compile`).
+ */
+type MarkTypeWithRank = MarkType & { rank: number };
+
+function getMarkRank(schema: Schema, markName: string): number {
+  const markType = schema.marks[markName] as MarkTypeWithRank | undefined;
+  return markType?.rank ?? Number.MAX_SAFE_INTEGER;
+}
+
+/** Sort marks by schema rank (Tiptap extension priority → ProseMirror order). */
+function sortMarksBySchema(
+  marks: NonNullable<JSONContent['marks']>,
+  schema: Schema,
+): NonNullable<JSONContent['marks']> {
+  return [...marks].sort(
+    (a, b) => getMarkRank(schema, b.type) - getMarkRank(schema, a.type),
+  );
+}
+
+interface ComposeVueEmailResult {
+  /** Prettier-formatted HTML, suitable for displaying in a source-code view. */
+  html: string;
+  /** Plain-text version of the email body. */
+  text: string;
+  /**
+   * Unformatted HTML as produced by `render()` before `pretty()` runs.
+   * Use this when persisting or sending the email — Prettier indentation
+   * can inflate the byte size by 5–10× on deeply-nested table layouts
+   * (e.g. exports from Stripo, Mailchimp), and adds nothing for clients
+   * that parse HTML to render it.
+   */
+  unformattedHtml: string;
+}
+
+/**
+ * Composes the editor's document into an email: every node and mark is
+ * rendered into Vuemail components, which are then rendered into HTML.
+ */
+export const composeVueEmail = async ({
+  editor,
+  preview,
+  previewMode = false,
+}: {
+  editor: Editor;
+  preview?: string;
+  previewMode?: boolean;
+}): Promise<ComposeVueEmailResult> => {
+  const data = editor.getJSON();
+  const extensions = editor.extensionManager.extensions;
+
+  const serializerPlugin = extensions
+    .map(
+      (ext) =>
+        (ext as { options?: { serializerPlugin?: SerializerPlugin } }).options
+          ?.serializerPlugin,
+    )
+    .filter((p) => Boolean(p))
+    .at(-1);
+
+  const typeToExtensionMap = Object.fromEntries(
+    extensions.map((extension) => [extension.name, extension]),
+  );
+
+  function parseContent(
+    _content: JSONContent[] | undefined,
+    depth = 0,
+  ): VNodeChild[] | undefined {
+    let content = _content;
+    if (!content) {
+      return;
+    }
+
+    // Drop empty paragraphs that exist only as editing affordances (the
+    // TrailingNode filler after a trailing table/section, the schema filler
+    // in an empty cell); blank lines between paragraphs still render.
+    content = content.filter((node, index, nodes) => {
+      if (node.type !== 'paragraph' || node.content?.length) {
+        return true;
+      }
+      if (index !== nodes.length - 1) {
+        return true;
+      }
+      const previousNode = nodes[index - 1];
+      return previousNode ? previousNode.type === 'paragraph' : false;
+    });
+
+    return content.map((node: JSONContent): VNodeChild => {
+      const style = serializerPlugin?.getNodeStyles(node, depth, editor) ?? {};
+
+      const inlineStyles = inlineCssToJs(node.attrs?.style);
+
+      if (!node.type) {
+        return null;
+      }
+
+      const emailNode = typeToExtensionMap[node.type];
+      if (!emailNode || !(emailNode instanceof EmailNode)) {
+        return null;
+      }
+
+      const renderNode = emailNode.config.renderToVueEmail;
+      const childDepth = NODES_WITH_INCREMENTED_CHILD_DEPTH.has(node.type)
+        ? depth + 1
+        : depth;
+
+      let renderedNode: VNodeChild = node.text
+        ? node.text
+        : renderNode({
+            node:
+              node.type === 'table' && inlineStyles.width && !node.attrs?.width
+                ? {
+                    ...node,
+                    attrs: { ...node.attrs, width: inlineStyles.width },
+                  }
+                : node,
+            style,
+            extension: emailNode,
+            children: parseContent(node.content, childDepth),
+          });
+
+      if (node.marks) {
+        for (const mark of sortMarksBySchema(node.marks, editor.schema)) {
+          const emailMark = typeToExtensionMap[mark.type];
+          if (emailMark instanceof EmailMark) {
+            const markStyle =
+              serializerPlugin?.getNodeStyles(
+                {
+                  type: mark.type,
+                  attrs: mark.attrs ?? {},
+                },
+                depth,
+                editor,
+              ) ?? {};
+            renderedNode = emailMark.config.renderToVueEmail({
+              mark,
+              node,
+              style: markStyle,
+              extension: emailMark,
+              children: renderedNode,
+            });
+          }
+        }
+      }
+
+      return renderedNode;
+    });
+  }
+
+  const BaseTemplate = serializerPlugin?.BaseTemplate ?? DefaultBaseTemplate;
+
+  const parsedContent = parseContent(data.content);
+  const unformattedHtml = await render(
+    h({
+      name: 'VuemailEditorEmail',
+      render: () =>
+        BaseTemplate({
+          previewText: preview,
+          editor,
+          previewMode,
+          children: parsedContent,
+        }),
+    }),
+  );
+
+  const [prettyHtml, text] = await Promise.all([
+    pretty(unformattedHtml),
+    toPlainText(unformattedHtml),
+  ]);
+
+  return { html: prettyHtml, text, unformattedHtml };
+};

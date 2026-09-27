@@ -1,0 +1,68 @@
+---
+title: "Send email using eusend"
+sidebarTitle: "eusend"
+description: "Learn how to send an email using Vuemail and the eusend Node.js SDK."
+---
+
+## 1. Install dependencies
+
+Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [eusend Node.js SDK](https://www.npmjs.com/package/@eusend_dev/sdk).
+
+<CodeGroup>
+
+```sh npm
+npm install @eusend_dev/sdk vuemail
+```
+
+```sh yarn
+yarn add @eusend_dev/sdk vuemail
+```
+
+```sh pnpm
+pnpm add @eusend_dev/sdk vuemail
+```
+
+```sh bun
+bun add @eusend_dev/sdk vuemail
+```
+
+</CodeGroup>
+
+## 2. Create an email using Vue
+
+Start by building your email template in a `.vue` file.
+
+```vue email.vue
+<script setup lang="ts">
+import { Button, Html } from 'vuemail';
+
+const { url } = defineProps<{ url: string }>();
+</script>
+
+<template>
+  <Html lang="en">
+    <Button :href="url">Click me</Button>
+  </Html>
+</template>
+```
+
+## 3. Convert to HTML and send email
+
+<Info>When integrating with other services, you need to convert your Vue template into HTML before sending, which is what `render` does.</Info>
+
+Import the email template you just built, convert it into an HTML string, and use the eusend SDK to send it.
+
+```ts
+import { Eusend } from "@eusend_dev/sdk";
+import { render } from 'vuemail';
+import Email from './email.vue';
+
+const eusend = new Eusend(process.env.EUSEND_API_KEY);
+
+await eusend.emails.send({
+  from: "you@example.com",
+  to: "user@gmail.com",
+  subject: "hello world",
+  html: await render(Email, { url: 'https://example.com' }),
+});
+```

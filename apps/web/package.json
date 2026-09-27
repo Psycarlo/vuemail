@@ -1,0 +1,49 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "vitest run",
+    "typecheck": "nuxt typecheck",
+    "components:dev": "email dev -d ./components",
+    "components:build": "email build -d ./components"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "@tiptap/core": "catalog:",
+    "@tiptap/vue-3": "catalog:",
+    "@vuemail/editor": "workspace:*",
+    "@vuemail/nuxt": "workspace:*",
+    "@vueuse/core": "^15.0.0",
+    "lucide-vue-next": "^1.0.0",
+    "motion-v": "^2.4.4",
+    "nuxt": "catalog:",
+    "prismjs": "^1.30.0",
+    "reka-ui": "catalog:",
+    "resend": "^6.30.0",
+    "tailwindcss": "catalog:",
+    "three": "^0.186.1",
+    "vaul-vue": "^0.4.1",
+    "vue": "catalog:",
+    "vue-router": "^4.6.3",
+    "vue-sonner": "^2.0.9",
+    "vuemail": "workspace:*",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/prismjs": "1.26.6",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vuemail/ui": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

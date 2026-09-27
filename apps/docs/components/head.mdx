@@ -1,0 +1,66 @@
+---
+title: "Head"
+sidebarTitle: "Head"
+description: "Contains head components, related to the document such as style and meta elements."
+icon: "head-side"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. Include children tags where needed.
+
+```vue
+<script setup lang="ts">
+import { Head } from 'vuemail';
+</script>
+
+<template>
+  <Head>
+    <title>My email title</title>
+  </Head>
+</template>
+```
+
+<Info>
+  `<style>` tags can't be written in Vue templates, so to add one to the head, render it from
+  `<script setup>` with a small functional component:
+
+  ```vue
+  <script setup lang="ts">
+  import { h } from 'vue';
+  import { Head } from 'vuemail';
+
+  const Styles = () => h('style', { innerHTML: 'a { color: #42b883; }' });
+  </script>
+
+  <template>
+    <Head>
+      <Styles />
+    </Head>
+  </template>
+  ```
+</Info>
+
+<Support/>

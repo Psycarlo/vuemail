@@ -1,0 +1,208 @@
+---
+title: 'Render'
+sidebarTitle: 'Render'
+description: 'Transform Vue components into HTML email templates.'
+---
+
+## 1. Install dependencies
+
+Install package from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+<Info>
+  `render` is also published on its own as `@vuemail/render`, for when you only need the render utility.
+  Both packages export the same functions.
+</Info>
+
+## 2. Create an email using Vue
+
+Start by building your email template in a `.vue` file.
+
+```vue email.vue
+<script setup lang="ts">
+import { Button, Hr, Html, Text } from 'vuemail';
+</script>
+
+<template>
+  <Html lang="en">
+    <Text>Some title</Text>
+    <Hr />
+    <Button href="https://example.com">Click me</Button>
+  </Html>
+</template>
+```
+
+## 3. Convert to HTML
+
+Import an existing Vue component and convert into a HTML string.
+
+<Info>You can use the `pretty` function to beautify the output.</Info>
+
+```ts
+import { pretty, render } from 'vuemail';
+import MyTemplate from './email.vue';
+
+const html = await pretty(await render(MyTemplate));
+
+console.log(html);
+```
+
+This will generate the following output:
+
+```html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" lang="en">
+  <p style="font-size:14px;line-height:24px;margin-top:16px;margin-bottom:16px">
+    Some title
+  </p>
+  <hr
+    style="width:100%;border:none;border-color:transparent;border-top:1px solid #eaeaea" />
+  <a
+    href="https://example.com"
+    style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;mso-padding-alt:0px"
+    target="_blank"
+    ><span
+      ><!--[if mso]><i style="mso-font-width:0%;mso-text-raise:0px" hidden></i><![endif]--></span
+    ><span
+      style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px"
+      >Click me</span
+    ><span
+      ><!--[if mso]><i style="mso-font-width:0%" hidden>&#8203;</i><![endif]--></span
+    ></a
+  >
+</html>
+```
+
+### Passing props
+
+The second argument of `render` are the props of the email:
+
+```ts
+import { render } from 'vuemail';
+import WelcomeEmail from './emails/welcome.vue';
+
+const html = await render(WelcomeEmail, { firstName: 'Jim' });
+```
+
+`render` also takes a VNode, created with `h()`, in which case the options are its second argument:
+
+```ts
+import { h } from 'vue';
+import { render } from 'vuemail';
+import WelcomeEmail from './emails/welcome.vue';
+
+const html = await render(h(WelcomeEmail, { firstName: 'Jim' }), { pretty: true });
+```
+
+<Info>
+  If a component throws while the email renders, including from an async `setup()`, `render` rejects
+  with that error instead of returning an incomplete email.
+</Info>
+
+## 4. Convert to Plain Text
+
+Plain text versions of emails are important because they ensure that the message can be read by the recipient even if they are unable to view the HTML version of the email.
+
+This is important because not all email clients and devices can display HTML email, and some recipients may have chosen to disable HTML email for security or accessibility reasons.
+
+Here's how to convert a Vue component into plain text.
+
+```ts
+import { render, toPlainText } from 'vuemail';
+import MyTemplate from './email.vue';
+
+const html = await render(MyTemplate);
+const text = toPlainText(html);
+
+console.log(text);
+```
+
+This will generate the following output:
+
+```
+Some title
+
+----------------------------------------
+
+Click me https://example.com
+```
+
+The `plainText` option does the same in a single call: `await render(MyTemplate, {}, { plainText: true })`.
+
+### Exclude content from plain-text output
+
+Add `data-skip-in-text="true"` to an element to exclude the element and its contents when using `toPlainText()`. This does not exclude the element from the HTML output.
+
+```vue
+<script setup lang="ts">
+import { Html, Section, Text } from 'vuemail';
+</script>
+
+<template>
+  <Html>
+    <Text>This content appears in both outputs.</Text>
+    <Section data-skip-in-text="true">
+      <Text>This content appears only in the HTML output.</Text>
+    </Section>
+  </Html>
+</template>
+```
+
+The plain-text output will be:
+
+```text
+This content appears in both outputs.
+```
+
+## Installing Vue plugins
+
+`render` renders each email with a new Vue application. To install plugins your emails depend on, like
+[vue-i18n](/guides/internationalization/vue-i18n), pass a `setupApp` function, which receives that
+application before it renders:
+
+```ts
+import { render } from 'vuemail';
+import { createI18n } from 'vue-i18n';
+import WelcomeEmail from './emails/welcome.vue';
+
+const i18n = createI18n({ legacy: false, locale: 'es', messages });
+
+const html = await render(WelcomeEmail, { name: 'Ana' }, {
+  setupApp: (app) => app.use(i18n),
+});
+```
+
+## Options
+
+<ResponseField name="pretty" type="boolean">
+  Beautify HTML output
+</ResponseField>
+<ResponseField name="plainText" type="boolean">
+  Generate plain text version
+</ResponseField>
+<ResponseField name="htmlToTextOptions" type="HtmlToTextOptions">
+  `html-to-text` [options](https://github.com/html-to-text/node-html-to-text/tree/master/packages/html-to-text#options) used for rendering
+</ResponseField>
+<ResponseField name="unstableTextConversion" type="boolean">
+  With `plainText`, converts to plain text with an in-house formatter instead of `html-to-text`,
+  which doesn't take `htmlToTextOptions`. Experimental.
+</ResponseField>
+<ResponseField name="setupApp" type="(app: App) => unknown">
+  Called with the Vue application used for rendering, before it renders. Use it to install plugins,
+  like `vue-i18n`.
+</ResponseField>

@@ -1,0 +1,300 @@
+---
+title: "Inspector"
+sidebarTitle: "Inspector"
+description: "Contextual sidebar components for document, node, and text editing."
+icon: "sidebar"
+---
+
+The Inspector is a sidebar that provides a way to inspect and edit the email's properties. From the Inspector, you can edit document, node, and text properties such as colors, fonts, and padding.
+
+View a minimal example of the Inspector at the [Standalone Editor Inspector](https://vuemail.dev/editor/standalone-editor-inspector) demo page.
+
+Everything is accessed through a single import:
+
+```ts
+import { Inspector } from '@vuemail/editor/ui';
+```
+
+`Inspector.Root` must be rendered inside the current editor context, and it
+requires the [EmailTheming](/editor/api-reference/theming-api) extension to be present in the editor.
+
+## Core components
+
+### Inspector.Root
+
+Wraps your inspector UI and decides which panel should be active based on the
+current selection.
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { EmailTheming } from '@vuemail/editor/plugins';
+import { Inspector } from '@vuemail/editor/ui';
+
+const extensions = [StarterKit, EmailTheming];
+</script>
+
+<template>
+  <div class="flex">
+    <EditorProvider :extensions="extensions" :content="content">
+      <Inspector.Root class="w-60 shrink-0 border-l p-4">
+        <Inspector.Document />
+        <Inspector.Node />
+        <Inspector.Text />
+      </Inspector.Root>
+    </EditorProvider>
+  </div>
+</template>
+```
+
+<Tip>
+  If you use the standalone `EmailEditor` component, pass the inspector as a
+  child. No `EditorProvider` is needed. See the
+  [Inspector feature guide](/editor/features/inspector#using-with-emaileditor).
+</Tip>
+
+<Tip>
+  `Inspector.Root` already wraps itself in
+  [EditorFocusScope](/editor/api-reference/ui/editor-focus-scope) by default,
+  so the Inspector handles the editor's focus idiomatically and reliably. Add
+  `EditorFocusScope` yourself only when custom inspector controls render
+  additional portaled content.
+</Tip>
+
+<ResponseField name="as-child" type="boolean" default="false">
+  Render without the default `aside` wrapper and pass its attributes to the child element,
+  like reka-ui's [`asChild`](https://reka-ui.com/docs/guides/composition).
+</ResponseField>
+
+All standard attributes of `aside` are also supported if `as-child` is `false`.
+
+### Inspector.Document
+
+This is meant for inspecting and changing properties related to the entire editor's content. That is, [EmailTheming](/editor/api-reference/theming-api), page-level settings, and other document-wide concerns.
+
+It shows up when the editor is not focused on a specific node or text selection, or when the editor is unfocused.
+
+```vue
+<Inspector.Document />
+```
+
+<ResponseField name="default slot" type="(context: InspectorDocumentContext) => VNode[]">
+  Optional scoped slot. When provided, it receives the document inspector
+  context instead of rendering the default UI.
+</ResponseField>
+
+#### InspectorDocumentContext
+
+<ResponseField name="styles" type="PanelGroup[]">
+  Theme-backed document style groups after merging defaults.
+</ResponseField>
+
+<ResponseField name="setGlobalStyle" type="(classReference, property, value) => void">
+  Updates a single document-level style.
+</ResponseField>
+
+<ResponseField name="batchSetGlobalStyle" type="(changes) => void">
+  Applies multiple document style changes at once.
+</ResponseField>
+
+<ResponseField name="findStyleValue" type="(classReference, property) => string | number">
+  Reads the current or default value for a document style.
+</ResponseField>
+
+### Inspector.Node
+
+Renders when a node is focused or selected. Without a default slot, it shows the
+default node-specific sections for the active node type.
+
+```vue
+<Inspector.Node />
+```
+
+<ResponseField name="default slot" type="(context: InspectorNodeContext) => VNode[]">
+  Optional scoped slot. When provided, it receives the node inspector context
+  instead of rendering the default UI.
+</ResponseField>
+
+#### InspectorNodeContext
+
+<ResponseField name="nodeType" type="string">
+  Active node type, such as `image`, `button`, or `section`.
+</ResponseField>
+
+<ResponseField name="nodePos" type="{ pos: number; inside: number }">
+  ProseMirror position information for the focused node.
+</ResponseField>
+
+<ResponseField name="getStyle" type="(prop) => string | number | undefined">
+  Reads a resolved style value for the node.
+</ResponseField>
+
+<ResponseField name="setStyle" type="(prop, value) => void">
+  Updates one inline style on the focused node.
+</ResponseField>
+
+<ResponseField name="batchSetStyle" type="(changes) => void">
+  Applies multiple inline style updates in one call.
+</ResponseField>
+
+<ResponseField name="getAttr" type="(name) => unknown">
+  Reads a node attribute.
+</ResponseField>
+
+<ResponseField name="setAttr" type="(name, value) => void">
+  Updates a node attribute.
+</ResponseField>
+
+<ResponseField name="themeDefaults" type="Record<string, string | number | undefined>">
+  Resolved theme defaults for the current node.
+</ResponseField>
+
+<ResponseField name="presetColors" type="string[]">
+  Colors collected from the current document.
+</ResponseField>
+
+### Inspector.Text
+
+Renders when text is selected. Without a default slot, it shows typography controls
+and link controls when a link mark is active.
+
+```vue
+<Inspector.Text />
+```
+
+<ResponseField name="default slot" type="(context: InspectorTextContext) => VNode[]">
+  Optional scoped slot. When provided, it receives the text inspector context
+  instead of rendering the default UI.
+</ResponseField>
+
+#### InspectorTextContext
+
+<ResponseField name="marks" type="Record<string, boolean>">
+  Active text marks like `bold`, `italic`, and `underline`.
+</ResponseField>
+
+<ResponseField name="toggleMark" type="(mark: string) => void">
+  Toggles a text mark on the current selection.
+</ResponseField>
+
+<ResponseField name="alignment" type="string">
+  Current block alignment.
+</ResponseField>
+
+<ResponseField name="setAlignment" type="(value: string) => void">
+  Updates the parent block alignment.
+</ResponseField>
+
+<ResponseField name="linkHref" type="string">
+  Current link URL when a link mark is active.
+</ResponseField>
+
+<ResponseField name="linkColor" type="string">
+  Resolved link color.
+</ResponseField>
+
+<ResponseField name="setLinkColor" type="(color: string) => void">
+  Updates the active link color.
+</ResponseField>
+
+<ResponseField name="isLinkActive" type="boolean">
+  Whether the current text selection is inside a link.
+</ResponseField>
+
+<ResponseField name="getStyle" type="(prop) => string | number | undefined">
+  Reads the resolved parent block style.
+</ResponseField>
+
+<ResponseField name="setStyle" type="(prop, value) => void">
+  Updates the parent block style.
+</ResponseField>
+
+<ResponseField name="presetColors" type="string[]">
+  Colors collected from the current document.
+</ResponseField>
+
+### Inspector.Breadcrumb
+
+Renders the current path from the document root to the focused node.
+
+```vue
+<Inspector.Breadcrumb />
+```
+
+<ResponseField name="default slot" type="({ segments }: { segments: InspectorBreadcrumbSegment[] }) => VNode[]">
+  Optional scoped slot for completely custom breadcrumb rendering.
+</ResponseField>
+
+Each segment includes:
+
+<ResponseField name="node" type="FocusedNode">
+  The node for this breadcrumb segment. The root segment is the `body` node.
+</ResponseField>
+
+<ResponseField name="focus" type="() => void">
+  Focuses the corresponding node.
+</ResponseField>
+
+<Tip>
+  Use `getNodeMeta(nodeType)` to get the label and icon the default breadcrumb
+  uses for a given node type:
+
+```vue
+<script setup lang="ts">
+import { getNodeMeta, Inspector } from '@vuemail/editor/ui';
+</script>
+
+<template>
+  <Inspector.Breadcrumb v-slot="{ segments }">
+    <button
+      v-for="(segment, i) in segments"
+      :key="i"
+      type="button"
+      @click="segment.focus()"
+    >
+      {{ getNodeMeta(segment.node.nodeType).label }}
+    </button>
+  </Inspector.Breadcrumb>
+</template>
+```
+</Tip>
+
+## Built-in sections
+
+Use these inside custom `Inspector.Node` or `Inspector.Text` slots to
+reuse the default section UIs in your own layout. They take the context of the slot as props.
+
+```vue
+<Inspector.Node v-slot="context">
+  <Inspector.Size v-bind="context" />
+  <Inspector.Padding v-bind="context" />
+  <Inspector.Border v-bind="context" />
+</Inspector.Node>
+```
+
+| Component | Context | Description |
+| -- | -- | -- |
+| `Inspector.Attributes` | Node | Editable attribute fields based on the local attribute schema |
+| `Inspector.Background` | Node | Background color editor |
+| `Inspector.Border` | Node | Border width, color, style, and radius controls |
+| `Inspector.Link` | Text | Read-only URL plus link color controls for active links |
+| `Inspector.Padding` | Node | Four-sided padding editor |
+| `Inspector.Size` | Node | Width and height controls |
+| `Inspector.Typography` | Node or Text | Typography, formatting, and alignment controls |
+
+## CSS import
+
+```ts
+import '@vuemail/editor/styles/inspector.css';
+```
+
+<Tip>
+  `@vuemail/editor/themes/default.css` bundles all UI component styles.
+  Unless you need to cherry-pick, use this single import:
+
+```ts
+import '@vuemail/editor/themes/default.css';
+```
+
+</Tip>

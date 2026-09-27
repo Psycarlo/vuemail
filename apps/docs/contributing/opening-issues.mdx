@@ -1,0 +1,59 @@
+---
+title: 'Opening issues'
+sidebarTitle: 'Opening issues'
+icon: 'scroll'
+---
+
+Opening issues is a crucial step in open-source, as issues keep projects stable and help maintainers understand the needs of the community.
+
+To help us maintain a stable project, please observe the following guidelines and general rules:
+
+## Open issues for bugs only
+
+We ask that **issues are only opened for bugs**, and not for questions or feature requests. Questions and feature requests should be asked in [Discussions](https://github.com/vuemail/vuemail/discussions).
+
+## Include a proper reproduction
+
+To ensure your issue can be addressed, please **include a proper reproduction**.
+
+Please avoid:
+- Setting the link to the reproduction pointing to our repository
+- Providing a code snippet that does not sufficiently reproduce the issue
+
+Failing to include a proper reproduction may require extra back-and-forth between you and us, slow the process of fixing the issue for you and others, and make it harder to check if the issue has been fixed on a new release.
+
+## Test the latest versions before opening an issue
+
+Before opening an issue regarding a bug, please test with both:
+1. the latest version published on npm
+2. the latest code on the `main` branch
+
+If the bug is fixed on `main` but not released yet, you can still open an issue, so others will know it has been fixed.
+
+If you do find that the bug was introduced in a specific version, and an older
+version didn't have the issue then you should mention that this is a regression
+and in what versions it was introduced.
+
+Vuemail is a port of [React Email](https://react.email), so if the bug also happens with React Email,
+please mention it, as the fix might need to happen there too.
+
+## Conclusion
+
+Now that you are ready, click below to open an issue! Thank you so much for contributing.
+
+<a
+  href="https://github.com/vuemail/vuemail/issues/new?template=1.bug_report.yml"
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    height: '2.5rem',
+    padding: '0 0.75rem',
+    borderRadius: '0.375rem',
+    border: 'none',
+    color: '#ffffff',
+    backgroundColor: '#238636',
+    textDecoration: 'none',
+  }}
+>
+  Open new issue
+</a>

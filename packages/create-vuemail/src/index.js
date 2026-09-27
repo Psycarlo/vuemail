@@ -1,0 +1,124 @@
+#!/usr/bin/env node
+
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Command } from 'commander';
+import fse from 'fs-extra';
+import logSymbols from 'log-symbols';
+import ora from 'ora';
+import { tree } from './tree.js';
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+
+const packageJson = JSON.parse(
+  fse.readFileSync(path.resolve(dirname, '../package.json'), 'utf8'),
+);
+
+const getLatestVersionOfTag = async (packageName, tag) => {
+  const response = await fetch(
+    `https://registry.npmjs.org/${packageName}/${tag}`,
+  );
+
+  if (response.status === 404) {
+    console.error(`Tag ${tag} does not exist for ${packageName}.`);
+    process.exit(1);
+  }
+
+  if (!response.ok) {
+    console.error(
+      `Failed to fetch tag ${tag} for ${packageName}: HTTP ${response.status}`,
+    );
+    process.exit(1);
+  }
+
+  const { version } = await response.json();
+
+  if (!version || !/^\d+\.\d+\.\d+.*$/.test(version)) {
+    console.error('Invalid version received, something has gone very wrong.');
+    process.exit(1);
+  }
+
+  return version;
+};
+
+const init = async (name, { tag }) => {
+  let projectPath = name;
+
+  if (!projectPath) {
+    projectPath = path.join(process.cwd(), 'vuemail-starter');
+  }
+
+  if (typeof projectPath === 'string') {
+    projectPath = projectPath.trim();
+  }
+
+  const templatePath = path.resolve(dirname, '../template');
+  const resolvedProjectPath = path.resolve(projectPath);
+
+  if (fse.existsSync(resolvedProjectPath)) {
+    console.error(`Project called ${projectPath} already exists!`);
+    process.exit(1);
+  }
+
+  const spinner = ora({
+    text: 'Preparing files...\n',
+  }).start();
+
+  fse.copySync(templatePath, resolvedProjectPath, {
+    recursive: true,
+  });
+  // npm leaves .gitignore files out of published packages, so the template
+  // ships it without the dot
+  fse.moveSync(
+    path.resolve(resolvedProjectPath, 'gitignore'),
+    path.resolve(resolvedProjectPath, '.gitignore'),
+  );
+  const templatePackageJsonPath = path.resolve(
+    resolvedProjectPath,
+    './package.json',
+  );
+  const templatePackageJson = fse.readFileSync(templatePackageJsonPath, 'utf8');
+  fse.writeFileSync(
+    templatePackageJsonPath,
+    templatePackageJson.replaceAll(
+      'INSERT_VUEMAIL_VERSION',
+      await getLatestVersionOfTag('vuemail', tag),
+    ),
+    'utf8',
+  );
+
+  spinner.stopAndPersist({
+    symbol: logSymbols.success,
+    text: 'Vuemail Starter files ready',
+  });
+
+  console.info(
+    await tree(resolvedProjectPath, 4, (dirent) => {
+      return !path
+        .join(dirent.parentPath, dirent.name)
+        .includes('node_modules');
+    }),
+  );
+
+  console.info(
+    [
+      '',
+      'To get started, run:',
+      '',
+      `  cd ${path.relative(process.cwd(), resolvedProjectPath)}`,
+      '  npm install',
+      '  npm run dev',
+      '',
+    ].join('\n'),
+  );
+};
+
+new Command()
+  .name(packageJson.name)
+  .version(packageJson.version)
+  .description('The easiest way to get started with Vuemail')
+  .arguments('[dir]', 'Path to initialize the project')
+  .option('-t, --tag <tag>', 'Tag of Vuemail versions to use', 'latest')
+  .action(init)
+  .parse(process.argv);

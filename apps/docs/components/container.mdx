@@ -1,0 +1,55 @@
+---
+title: "Container"
+sidebarTitle: "Container"
+description: "A layout component that centers your content horizontally on a breaking point."
+icon: "grid"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. Include styles where needed.
+
+```vue
+<script setup lang="ts">
+import { Button, Container } from 'vuemail';
+</script>
+
+<template>
+  <Container>
+    <Button href="https://example.com" :style="{ color: '#42b883' }">
+      Click me
+    </Button>
+  </Container>
+</template>
+```
+
+## Props
+
+<ResponseField name="td-class" type="string">
+  Classes for the inner cell of the container. Padding, from `style` or from Tailwind classes,
+  is applied to that cell instead of the table, for better compatibility with Outlook.
+</ResponseField>
+
+<Support/>

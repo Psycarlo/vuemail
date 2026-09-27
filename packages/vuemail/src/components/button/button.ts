@@ -1,0 +1,117 @@
+import { type AnchorHTMLAttributes, defineComponent } from 'vue';
+import { useTailwind } from '../element';
+import { h } from '../utils/h';
+import { styleToString } from '../utils/style';
+import { parsePadding } from './utils/parse-padding';
+import { pxToPt } from './utils/px-to-pt';
+
+export type ButtonProps = AnchorHTMLAttributes;
+
+const maxFontWidth = 5;
+
+/**
+ * Computes a msoFontWidth \<= 5 and a count of space characters that,
+ * when applied, end up being as close to `expectedWidth` as possible.
+ */
+function computeFontWidthAndSpaceCount(expectedWidth: number) {
+  if (expectedWidth === 0) return [0, 0] as const;
+
+  let smallestSpaceCount = 0;
+
+  const computeRequiredFontWidth = () => {
+    if (smallestSpaceCount > 0) {
+      return expectedWidth / smallestSpaceCount / 2;
+    }
+
+    return Number.POSITIVE_INFINITY;
+  };
+
+  while (computeRequiredFontWidth() > maxFontWidth) {
+    smallestSpaceCount++;
+  }
+
+  return [computeRequiredFontWidth(), smallestSpaceCount] as const;
+}
+
+export const Button = defineComponent(
+  (_props: ButtonProps, { attrs, slots }) => {
+    const resolveTailwind = useTailwind();
+
+    return () => {
+      const { class: _class, style: _style, target, ...rest } = attrs;
+      const { style, class: className } = resolveTailwind(
+        attrs.class,
+        attrs.style,
+      );
+
+      const { paddingTop, paddingRight, paddingBottom, paddingLeft } =
+        parsePadding(style);
+
+      const y = (paddingTop ?? 0) + (paddingBottom ?? 0);
+      const textRaise = pxToPt(y);
+
+      const [plFontWidth, plSpaceCount] = computeFontWidthAndSpaceCount(
+        paddingLeft ?? 0,
+      );
+      const [prFontWidth, prSpaceCount] = computeFontWidthAndSpaceCount(
+        paddingRight ?? 0,
+      );
+
+      return h(
+        'a',
+        {
+          ...rest,
+          class: className,
+          style: styleToString({
+            lineHeight: '100%',
+            textDecoration: 'none',
+            display: 'inline-block',
+            maxWidth: '100%',
+            msoPaddingAlt: '0px',
+            ...style,
+            paddingTop,
+            paddingRight,
+            paddingBottom,
+            paddingLeft,
+          }),
+          target: target ?? '_blank',
+        },
+        [
+          h('span', {
+            // The `&#8202;` is as close to `1px` of an empty character as we can get, then, we use the `mso-font-width`
+            // to scale it according to what padding the developer wants. `mso-font-width` also does not allow for percentages
+            // >= 500% so we need to add extra spaces accordingly.
+            //
+            // See https://github.com/resend/react-email/issues/1512 for why we do not use letter-spacing instead.
+            innerHTML: `<!--[if mso]><i style="mso-font-width:${
+              plFontWidth * 100
+            }%;mso-text-raise:${textRaise}px" hidden>${'&#8202;'.repeat(
+              plSpaceCount,
+            )}</i><![endif]-->`,
+          }),
+          h(
+            'span',
+            {
+              style: styleToString({
+                maxWidth: '100%',
+                display: 'inline-block',
+                lineHeight: '120%',
+                msoPaddingAlt: '0px',
+                msoTextRaise: pxToPt(paddingBottom),
+              }),
+            },
+            slots.default?.(),
+          ),
+          h('span', {
+            innerHTML: `<!--[if mso]><i style="mso-font-width:${
+              prFontWidth * 100
+            }%" hidden>${'&#8202;'.repeat(
+              prSpaceCount,
+            )}&#8203;</i><![endif]-->`,
+          }),
+        ],
+      );
+    };
+  },
+  { name: 'Button', inheritAttrs: false },
+);

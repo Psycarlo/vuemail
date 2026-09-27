@@ -1,0 +1,70 @@
+{
+  "name": "@vuemail/render",
+  "version": "0.1.0",
+  "description": "Transform Vue components into HTML email templates",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuemail/vuemail.git",
+    "directory": "packages/render"
+  },
+  "bugs": {
+    "url": "https://github.com/vuemail/vuemail/issues"
+  },
+  "homepage": "https://vuemail.dev",
+  "keywords": [
+    "vue",
+    "email"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "entities": "^7.0.1",
+    "html-to-text": "^9.0.5",
+    "html5parser": "^3.0.0",
+    "prettier": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/html-to-text": "9.0.4",
+    "@vitejs/plugin-vue": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "rebaseWhen": "never",
+  "ignorePaths": ["benchmarks"],
+  "vulnerabilityAlerts": {
+    "groupName": "security updates"
+  },
+  "packageRules": [
+    {
+      "description": "Group routine non-major dev-only updates to reduce PR noise.",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "dev dependency updates"
+    },
+    {
+      "description": "Keep Vue ecosystem updates together.",
+      "matchPackageNames": [
+        "vue",
+        "@vue/**",
+        "vue-tsc",
+        "vue-router",
+        "@vitejs/plugin-vue",
+        "unplugin-vue",
+        "nuxt",
+        "@nuxt/**"
+      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "vue ecosystem updates"
+    },
+    {
+      "description": "Keep TipTap updates together, its packages are released in lockstep.",
+      "matchPackageNames": ["@tiptap/**"],
+      "groupName": "tiptap updates"
+    },
+    {
+      "description": "Keep build, test, and release tooling together.",
+      "matchPackageNames": [
+        "@biomejs/**",
+        "@changesets/**",
+        "tsdown",
+        "tsx",
+        "turbo",
+        "typescript",
+        "vite",
+        "vitest"
+      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "tooling updates"
+    }
+  ]
+}

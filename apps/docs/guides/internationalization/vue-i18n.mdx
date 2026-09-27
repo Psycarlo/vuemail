@@ -1,0 +1,290 @@
+---
+title: 'vue-i18n'
+sidebarTitle: 'vue-i18n'
+description: 'Integrating Vuemail with vue-i18n'
+---
+
+Vuemail supports [vue-i18n](https://vue-i18n.intlify.dev) for internationalization.
+
+This guide shows how to convert an English Vuemail template to support multiple locales.
+
+## Prerequisites
+
+To get the most out of this guide, you’ll need to:
+
+- [Set up Vuemail](/getting-started/automatic-setup)
+- [Install vue-i18n](https://vue-i18n.intlify.dev/guide/installation.html)
+
+<CodeGroup>
+
+  ```bash npm
+  npm i -S vue-i18n
+  ```
+
+  ```bash bun
+  bun add vue-i18n
+  ```
+
+  ```bash yarn
+  yarn add vue-i18n
+  ```
+
+  ```bash pnpm
+  pnpm add vue-i18n
+  ```
+
+</CodeGroup>
+
+This guide will use the following email template as a base.
+
+```vue emails/welcome.vue expandable
+<script setup lang="ts">
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from 'vuemail';
+
+const { name } = defineProps<{ name: string }>();
+
+defineOptions({
+  PreviewProps: {
+    name: 'John Lennon',
+  },
+});
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Preview>Welcome to Acme</Preview>
+    <Tailwind>
+      <Body class="bg-gray-100 font-sans">
+        <Container class="mx-auto py-10 px-5">
+          <Section class="bg-white rounded-lg p-8">
+            <Heading class="text-2xl font-bold text-gray-900 m-0 mb-6">
+              Welcome to Acme
+            </Heading>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              Hi {{ name }}
+            </Text>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              Thanks for signing up! We're excited to have you on board.
+            </Text>
+            <Button
+              href="https://example.com/dashboard"
+              class="bg-indigo-600 rounded-md text-white text-base font-semibold no-underline text-center block py-3 px-6 my-6"
+            >
+              Get Started
+            </Button>
+            <Hr class="border-gray-200 my-6" />
+            <Text class="text-sm text-gray-400 m-0">
+              If you have any questions, reply to this email. We're here to help!
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+## Internationalization with vue-i18n
+
+vue-i18n is the internationalization plugin for Vue, which provides a way to format messages in different languages.
+
+### 1. Create messages for each locale
+
+For each locale, create a new JSON file containing the content of the email in that locale.
+
+<CodeGroup>
+
+```json messages/en.json
+{
+  "welcomeEmail": {
+    "header": "Welcome to Acme",
+    "hi": "Hi {name}",
+    "thanks": "Thanks for signing up! We're excited to have you on board.",
+    "getStarted": "Get Started",
+    "questions": "If you have any questions, reply to this email. We're here to help!"
+  }
+}
+```
+
+```json messages/es.json
+{
+  "welcomeEmail": {
+    "header": "Bienvenido a Acme",
+    "hi": "Hola {name}",
+    "thanks": "Gracias por registrarte! Estamos emocionados de tenerte en la plataforma.",
+    "getStarted": "Comenzar",
+    "questions": "Si tienes alguna pregunta, responde a este correo electrónico. Estamos aquí para ayudarte!"
+  }
+}
+```
+
+```json messages/pt.json
+{
+  "welcomeEmail": {
+    "header": "Bem-vindo ao Acme",
+    "hi": "Olá {name}",
+    "thanks": "Obrigado por se inscrever! Estamos ansiosos para te receber na plataforma.",
+    "getStarted": "Começar",
+    "questions": "Se você tiver alguma dúvida, responda a este e-mail. Estamos aqui para ajudar!"
+  }
+}
+```
+
+</CodeGroup>
+
+### 2. Create the i18n instance
+
+Create a function that creates an i18n instance for a locale, with all the messages:
+
+```ts emails/i18n.ts
+import { createI18n } from 'vue-i18n';
+import en from '../messages/en.json';
+import es from '../messages/es.json';
+import pt from '../messages/pt.json';
+
+export const createEmailI18n = (locale: string) =>
+  createI18n({
+    legacy: false,
+    locale,
+    fallbackLocale: 'en',
+    messages: { en, es, pt },
+  });
+```
+
+### 3. Update the email template
+
+In the email template, remove the hardcoded content and use the `t` function of `useI18n()` to format the email message strings.
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from 'vuemail';
+
+const { name } = defineProps<{ name: string }>();
+
+defineOptions({
+  PreviewProps: {
+    name: 'John Lennon',
+  },
+});
+
+const { t } = useI18n();
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Preview>{{ t('welcomeEmail.header') }}</Preview>
+    <Tailwind>
+      <Body class="bg-gray-100 font-sans">
+        <Container class="mx-auto py-10 px-5">
+          <Section class="bg-white rounded-lg p-8">
+            <Heading class="text-2xl font-bold text-gray-900 m-0 mb-6">
+              {{ t('welcomeEmail.header') }}
+            </Heading>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              {{ t('welcomeEmail.hi', { name }) }}
+            </Text>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              {{ t('welcomeEmail.thanks') }}
+            </Text>
+            <Button
+              href="https://example.com/dashboard"
+              class="bg-indigo-600 rounded-md text-white text-base font-semibold no-underline text-center block py-3 px-6 my-6"
+            >
+              {{ t('welcomeEmail.getStarted') }}
+            </Button>
+            <Hr class="border-gray-200 my-6" />
+            <Text class="text-sm text-gray-400 m-0">
+              {{ t('welcomeEmail.questions') }}
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+### 4. Install vue-i18n when rendering
+
+`render` renders each email with a new Vue application, so install vue-i18n on it, for the locale of
+the email, with the [`setupApp`](/utilities/render#installing-vue-plugins) option:
+
+```ts
+import { render } from 'vuemail';
+import WelcomeEmail from './emails/welcome.vue';
+import { createEmailI18n } from './emails/i18n';
+
+const html = await render(
+  WelcomeEmail,
+  { name: 'John Lennon' },
+  { setupApp: (app) => app.use(createEmailI18n('es')) },
+);
+```
+
+Any component of your own that the email renders can call `useI18n()` too.
+
+## Previewing the emails
+
+`email dev` renders emails with their `PreviewProps`, without `setupApp`, so it can't install vue-i18n
+for emails that call `useI18n()`. To preview an email, have it create its own i18n instance for a
+`locale` prop instead, and use the `t` function of that instance:
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import { Html, Preview } from 'vuemail';
+import { createEmailI18n } from './i18n';
+
+const { name, locale } = defineProps<{ name: string; locale: string }>();
+
+defineOptions({
+  PreviewProps: {
+    name: 'John Lennon',
+    locale: 'en',
+  },
+});
+
+const { t } = createEmailI18n(locale).global;
+</script>
+
+<template>
+  <Html>
+    <Preview>{{ t('welcomeEmail.header') }}</Preview>
+    <!-- the same template as before -->
+  </Html>
+</template>
+```
+
+Then pass the `locale` prop whenever you render the email, with no need for `setupApp`:
+
+```ts
+const html = await render(WelcomeEmail, { name: 'John Lennon', locale: 'es' });
+```
+
+To keep emails away from vue-i18n altogether, see [passing messages as props](/guides/internationalization/messages-as-props).

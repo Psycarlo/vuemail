@@ -1,0 +1,247 @@
+---
+title: "Custom Extensions"
+sidebarTitle: "Custom Extensions"
+description: "Create custom email-compatible editor nodes and marks."
+icon: "wrench"
+---
+
+## Creating a custom node
+
+Custom extensions use `EmailNode`, which extends TipTap's `Node` with one extra required
+method: `renderToVueEmail()`. Use `parseHTML()` to recognize pasted or imported HTML,
+`renderHTML()` to control how the node appears in the editor, and `renderToVueEmail()` to
+control how it is exported by `composeVueEmail`.
+
+`renderToVueEmail()` is a plain function that returns VNodes, built with `h()` from Vue. It
+receives the node's content already rendered as `children`, which plain elements take as their
+children (`[children]`).
+
+Here's a complete example of a custom "Callout" node that renders as a highlighted block:
+
+```ts callout.ts
+import { EmailNode } from '@vuemail/editor/core';
+import { mergeAttributes } from '@tiptap/core';
+import { h } from 'vue';
+
+export const Callout = EmailNode.create({
+  name: 'callout',
+  group: 'block',
+  content: 'inline*',
+
+  parseHTML() {
+    return [{ tag: 'div[data-type="callout"]' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      'div',
+      mergeAttributes(HTMLAttributes, {
+        'data-type': 'callout',
+        style:
+          'padding: 12px 16px; background: #f4f4f5; border-left: 3px solid #1c1c1c; border-radius: 4px; margin: 8px 0;',
+      }),
+      0,
+    ];
+  },
+
+  renderToVueEmail({ children, style }) {
+    return h(
+      'div',
+      {
+        style: {
+          ...style,
+          padding: '12px 16px',
+          backgroundColor: '#f4f4f5',
+          borderLeft: '3px solid #1c1c1c',
+          borderRadius: '4px',
+          margin: '8px 0',
+        },
+      },
+      [children],
+    );
+  },
+});
+```
+
+<Note>
+  Numbers in the styles of plain elements, like the `div` above, don't get a `px` unit added, so
+  write sizes as strings with their units. Vuemail components, like `Section` or `Text`, add `px`
+  to numbers like React Email does. Pass the `children` of a Vuemail component as its default slot:
+  `h(Section, { style }, () => children)`.
+</Note>
+
+## Registering the extension
+
+Add your custom extension to the extensions array alongside `StarterKit`:
+
+```ts
+const extensions = [StarterKit, Callout];
+```
+
+## Inserting custom nodes
+
+Use the editor's `insertContent` command to programmatically insert your custom node:
+
+```vue toolbar.vue
+<script setup lang="ts">
+import { useCurrentEditor } from '@vuemail/editor/core';
+
+const { editor } = useCurrentEditor();
+
+function insertCallout() {
+  editor.value
+    ?.chain()
+    .focus()
+    .insertContent({
+      type: 'callout',
+      content: [{ type: 'text', text: 'New callout' }],
+    })
+    .run();
+}
+</script>
+
+<template>
+  <button v-if="editor" type="button" @click="insertCallout">
+    Insert Callout
+  </button>
+</template>
+```
+
+## Complete example
+
+Here's the full editor setup with the custom Callout extension, a toolbar, and a bubble menu:
+
+```vue toolbar.vue
+<script setup lang="ts">
+import { useCurrentEditor } from '@vuemail/editor/core';
+import { Info } from 'lucide-vue-next';
+
+const { editor } = useCurrentEditor();
+
+function insertCallout() {
+  editor.value
+    ?.chain()
+    .focus()
+    .insertContent({
+      type: 'callout',
+      content: [{ type: 'text', text: 'New callout' }],
+    })
+    .run();
+}
+</script>
+
+<template>
+  <button v-if="editor" type="button" @click="insertCallout">
+    <Info :size="16" />
+    Insert Callout
+  </button>
+</template>
+```
+
+```vue my-editor.vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { BubbleMenu } from '@vuemail/editor/ui';
+import { Callout } from './callout';
+import Toolbar from './toolbar.vue';
+
+const extensions = [StarterKit, Callout];
+
+const content = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'This editor includes a custom Callout node. Use the toolbar to insert one.',
+        },
+      ],
+    },
+    {
+      type: 'callout',
+      content: [
+        { type: 'text', text: 'This is a callout block — a custom extension!' },
+      ],
+    },
+  ],
+};
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <template #before>
+      <Toolbar />
+    </template>
+    <BubbleMenu />
+  </EditorProvider>
+</template>
+```
+
+## Wrapping existing TipTap extensions
+
+Both `EmailNode` and `EmailMark` provide a `.from()` method that wraps an existing TipTap
+extension with email serialization support. This is useful when you want to reuse a community
+TipTap extension and add email export support without rewriting it.
+
+```ts
+import { EmailNode } from '@vuemail/editor/core';
+import { Node } from '@tiptap/core';
+import { h } from 'vue';
+
+const MyTipTapNode = Node.create({ /* ... */ });
+
+const MyEmailNode = EmailNode.from(MyTipTapNode, ({ children, style }) => {
+  return h('div', { style }, [children]);
+});
+```
+
+```ts
+import { EmailMark } from '@vuemail/editor/core';
+import { Mark } from '@tiptap/core';
+import { h } from 'vue';
+
+const MyTipTapMark = Mark.create({ /* ... */ });
+
+const MyEmailMark = EmailMark.from(MyTipTapMark, ({ children, style }) => {
+  return h('mark', { style: { ...style, backgroundColor: '#fef08a' } }, [children]);
+});
+```
+
+<Info>
+  For full API details on all methods (`create`, `from`, `configure`, `extend`), see the
+  [`EmailNode`](/editor/api-reference/email-node) and [`EmailMark`](/editor/api-reference/email-mark)
+  reference pages.
+</Info>
+
+## Configure and extend
+
+Both `EmailNode` and `EmailMark` support TipTap's standard customization methods:
+
+```ts
+import { Heading, Paragraph } from '@vuemail/editor/extensions';
+
+// Configure options
+const CustomHeading = Heading.configure({ levels: [1, 2] });
+
+// Extend with additional behavior
+const CustomParagraph = Paragraph.extend({
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Shift-p': () => this.editor.commands.setParagraph(),
+    };
+  },
+});
+```
+
+## Examples
+
+See custom extensions in action with a runnable example:
+
+<CardGroup cols={2}>
+  <Card title="Custom Extensions" icon="code" href="https://vuemail.dev/editor/custom-extensions">
+    Custom Callout node with EmailNode.create, toolbar insertion, and bubble menu.
+  </Card>
+</CardGroup>

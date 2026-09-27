@@ -1,0 +1,196 @@
+---
+title: "Tailwind"
+sidebarTitle: "Tailwind"
+description: "A Vue component to wrap emails with Tailwind CSS."
+icon: "wind"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+<Info>This component uses Tailwind CSS 4, which comes with `vuemail`.</Info>
+
+Add the component around your email body content.
+
+```vue
+<script setup lang="ts">
+import { Button, pixelBasedPreset, Tailwind, type TailwindConfig } from 'vuemail';
+
+const config: TailwindConfig = {
+  presets: [pixelBasedPreset],
+  theme: {
+    extend: {
+      colors: {
+        brand: '#42b883',
+      },
+    },
+  },
+};
+</script>
+
+<template>
+  <Tailwind :config="config">
+    <Button
+      href="https://example.com"
+      class="bg-brand px-3 py-2 font-medium leading-4 text-white"
+    >
+      Click me
+    </Button>
+  </Tailwind>
+</template>
+```
+
+## Props
+
+<ResponseField name="config" type="object">
+  Customize the default theme for your project with the available properties in
+  [Tailwind docs](https://v3.tailwindcss.com/docs/theme), as a JavaScript configuration
+  object.
+</ResponseField>
+
+<ResponseField name="theme" type="string">
+  CSS with a Tailwind `@theme` block, the same you would write in your stylesheet with
+  Tailwind CSS 4, like `@theme { --color-brand: #42b883; }`.
+</ResponseField>
+
+<ResponseField name="utility" type="string">
+  CSS for utility classes of your own, like `.custom-shadow { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }`,
+  which get inlined like any other utility.
+</ResponseField>
+
+<Info>
+    Most email clients are style-limited and some styles may not work.
+
+    One example of this is how Tailwind uses `rem` as its main unit for better accessibility. This
+    is not supported by [some email clients](https://www.caniemail.com/features/css-unit-rem/), and
+    the `pixelBasedPreset` changes it so that the styles are based on `16px` instead.
+</Info>
+
+## Configuring with CSS
+
+With Tailwind CSS 4, the theme can also be written in CSS. Pass it with the `theme` prop, and your
+own utilities with the `utility` prop:
+
+```vue
+<script setup lang="ts">
+import { Section, Tailwind, Text } from 'vuemail';
+
+const theme = `
+@theme {
+  --color-brand: #42b883;
+  --font-display: "Satoshi", sans-serif;
+}
+`;
+
+const utility = `
+.card-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+`;
+</script>
+
+<template>
+  <Tailwind :theme="theme" :utility="utility">
+    <Section class="card-shadow p-4">
+      <Text class="font-display text-brand">Welcome aboard</Text>
+    </Section>
+  </Tailwind>
+</template>
+```
+
+## Custom components
+
+Tailwind classes on plain elements are inlined once the email is rendered, including the elements
+rendered by components of your own, so these work inside `Tailwind` without any changes.
+
+When a component needs the resolved styles while it renders, like `Button` does to compute its
+Outlook fallbacks from the padding, use `useTailwind()`. Outside of `Tailwind`, it only normalizes
+`class` and `style`.
+
+```ts badge.ts
+import { defineComponent, h } from 'vue';
+import { styleToString, useTailwind } from 'vuemail';
+
+export const Badge = defineComponent((_, { attrs, slots }) => {
+  const resolveTailwind = useTailwind();
+
+  return () => {
+    const { style, class: className } = resolveTailwind(attrs.class, attrs.style);
+    return h(
+      'span',
+      { class: className, style: styleToString(style) },
+      slots.default?.(),
+    );
+  };
+});
+```
+
+## Live example
+
+<Card
+  title="Tailwind Demo"
+  icon="arrow-up-right-from-square"
+  iconType="duotone"
+  href="https://github.com/vuemail/vuemail/tree/main/apps/demo/emails"
+>
+  See the source code of the demo emails.
+</Card>
+
+<Support/>
+
+## Known limitations
+
+<AccordionGroup>
+  <Accordion title="Responsive and other non-inlinable classes need a <head>">
+    Styles that can't be inlined, like media queries (`sm:`, `md:`), pseudo-classes (`hover:`, `focus:`)
+    and `dark:`, are added to a `<style>` tag in the `<head>` of the email, and the classes are kept on
+    the elements with email-safe names (`sm:p-8` becomes `sm_p-8`).
+
+    That's why [`Head`](/components/head) needs to be inside of `Tailwind` when you use them. If it
+    isn't, rendering throws an error that lists the classes that need a `<head>`:
+
+    ```vue
+    <template>
+      <Html>
+        <Tailwind>
+          <Head />
+          <Body class="p-4 sm:p-8">
+            <!-- ... -->
+          </Body>
+        </Tailwind>
+      </Html>
+    </template>
+    ```
+
+    Those styles only apply on the email clients that [support `<style>` tags](https://www.caniemail.com/features/html-style/).
+  </Accordion>
+  <Accordion title="No inlining for selectors that match more than a class">
+    Only rules that look an element up by its classes get inlined. Utilities that resolve into
+    relatively complex selectors, like the [`space-*` utilities](https://tailwindcss.com/docs/margin#adding-space-between-children)
+    or `prose` from `@tailwindcss/typography`, use pseudo-classes such as `:where()` and `:not()`,
+    so they go into the `<head>` too, instead of being inlined, and don't work on email clients that
+    don't support `<style>` tags.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,54 @@
+---
+title: "Link"
+sidebarTitle: "Link"
+description: "A hyperlink to web pages, email addresses, or anything else a URL can address."
+icon: "link"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. Include styles where needed.
+
+```vue
+<script setup lang="ts">
+import { Link } from 'vuemail';
+</script>
+
+<template>
+  <Link href="https://example.com">Example</Link>
+</template>
+```
+
+## Props
+
+<ResponseField name="href" type="string" required>
+  Link to be triggered when the button is clicked
+</ResponseField>
+
+<ResponseField name="target" type="string" default="_blank">
+  Specify the target attribute for the button link
+</ResponseField>
+
+<Support/>

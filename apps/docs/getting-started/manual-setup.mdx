@@ -1,0 +1,111 @@
+---
+title: "Manual Setup"
+sidebarTitle: "Manual Setup"
+description: "Create a brand-new folder with packages powered by Vuemail."
+icon: "hammer"
+---
+
+import NextSteps from '/snippets/next-steps.mdx'
+
+<Note>Are you using monorepos? Then we recommend you follow our [monorepos setup](/getting-started/monorepo-setup/choose-package-manager).</Note>
+
+## 1. Install dependencies
+
+Install the Vuemail packages locally.
+
+<CodeGroup>
+
+```sh npm
+npm install @vuemail/ui -D -E
+npm install vuemail vue -E
+```
+
+```sh yarn
+yarn add @vuemail/ui -D -E
+yarn add vuemail vue -E
+```
+
+```sh pnpm
+pnpm add @vuemail/ui -D -E
+pnpm add vuemail vue -E
+```
+
+```sh bun
+bun add @vuemail/ui -D -E
+bun add vuemail vue -E
+```
+
+</CodeGroup>
+
+<Info>
+  Vuemail requires Node.js 20.19 or higher and Vue 3.4 or higher. `@vuemail/ui` is the preview app,
+  and it needs to be installed in the same version as `vuemail`.
+</Info>
+
+## 2. Add scripts
+
+Include the following script in your `package.json` file.
+
+```json package.json
+{
+  "scripts": {
+    "email:dev": "email dev"
+  }
+}
+```
+
+## 3. Write an email template
+
+Create a new folder called `emails`, create a file inside called `email.vue`, and add the following code:
+
+```vue emails/email.vue
+<script setup lang="ts">
+import { Body, Button, Head, Html } from 'vuemail';
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Body>
+      <Button
+        href="https://example.com"
+        :style="{ background: '#000', color: '#fff', padding: '12px 20px' }"
+      >
+        Click me
+      </Button>
+    </Body>
+  </Html>
+</template>
+```
+
+## 4. Run locally
+
+Start the development server.
+
+<CodeGroup>
+
+```sh npm
+npm run email:dev
+```
+
+```sh yarn
+yarn email:dev
+```
+
+```sh pnpm
+pnpm email:dev
+```
+
+```sh bun
+bun email:dev
+```
+
+</CodeGroup>
+
+## 5. See changes live
+
+Visit [localhost:3000](http://localhost:3000) and edit `email.vue` file to see the changes.
+
+## 6. Next steps
+
+<NextSteps/>

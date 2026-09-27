@@ -1,0 +1,144 @@
+---
+title: 'Codebase overview'
+sidebarTitle: 'Codebase overview'
+description: 'An overview of the Vuemail codebase'
+icon: 'folder-tree'
+---
+
+We've created this guide to help new contributors understand and navigate the Vuemail codebase.
+
+## Top-level directories
+
+After cloning the [Vuemail repository](https://github.com/vuemail/vuemail) you will see a few root-level directories. Here's a brief overview of each:
+
+<table>
+  <thead>
+    <tr>
+      <th>Directory</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+[apps](https://github.com/vuemail/vuemail/tree/main/apps)
+      </td>
+      <td>
+        Here you can find all of the apps related to our online presence, like:
+        - this documentation (under [apps/docs](https://github.com/vuemail/vuemail/tree/main/apps/docs)),
+        - the demo emails, previewed with `email dev` (under [apps/demo](https://github.com/vuemail/vuemail/tree/main/apps/demo))
+        - the Nuxt app we have for our landing page on [vuemail.dev](https://vuemail.dev) (under [apps/web](https://github.com/vuemail/vuemail/tree/main/apps/web))
+      </td>
+    </tr>
+    <tr>
+      <td>
+        [packages](https://github.com/vuemail/vuemail/tree/main/packages)
+      </td>
+      <td>
+        Most contributions will be made to the packages in this directory.
+
+        This directory contains all our published [NPM](https://www.npmjs.com/) packages: the components,
+        the CLI, the render utility, the preview app, the editor and the Nuxt module, alongside shared configuration.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<Note>
+  Feel free to [open a discussion](https://github.com/vuemail/vuemail/discussions) if you have suggestions on how to better structure these packages to make them more manageable and approachable.
+</Note>
+
+## Multiple packages
+
+The Vuemail repository is a [pnpm monorepo](https://pnpm.io/workspaces), which means it contains
+multiple packages.
+
+Because we use pnpm, you will need to use [pnpm](https://pnpm.io/) to install and run each package. If you do not have pnpm installed, follow the [pnpm installation guide](https://pnpm.io/installation):
+
+```bash
+npm install -g pnpm
+```
+
+Currently, we have the following packages:
+
+- [vuemail](https://github.com/vuemail/vuemail/tree/main/packages/vuemail)
+    - The package for our [email CLI](/cli), and for all of our components
+- [@vuemail/render](https://github.com/vuemail/vuemail/tree/main/packages/render)
+    - The [render](/utilities/render) utility. Can also be imported from `vuemail`.
+- [@vuemail/ui](https://github.com/vuemail/vuemail/tree/main/packages/ui)
+    - The preview app the CLI runs
+- [@vuemail/editor](https://github.com/vuemail/vuemail/tree/main/packages/editor)
+    - The embeddable [visual editor](/editor/overview) for composing emails
+- [@vuemail/nuxt](https://github.com/vuemail/vuemail/tree/main/packages/nuxt)
+    - The [Nuxt module](/getting-started/nuxt) that lets server routes render emails
+- [create-vuemail](https://github.com/vuemail/vuemail/tree/main/packages/create-vuemail)
+    - Used for our [automatic setup](/getting-started/automatic-setup)
+
+### Turborepo
+
+We encourage using [turborepo](https://turbo.build/repo) to manage the packages.
+
+It's often helpful to [install Turborepo globally](https://turbo.build/repo/docs/installing) to make it easier to run commands in any of the repositories. With a global installation, running `turbo build` in any of the packages will build both the package
+you are on as well as the dependent packages. The global installation handles [version mismatching as well](https://turbo.build/repo/docs/installing#install-per-repository).
+
+### The Vuemail CLI
+
+The CLI is built using [commander](https://www.npmjs.com/package/commander), a CLI builder for node. It handles
+parsing of command line arguments and ensuring that the syntax for the command is as expected.
+
+The `dev`, `build`, `start` and `export` commands all depend on the user first installing `@vuemail/ui`,
+in the same version as `vuemail`. The CLI loads it from the user's project, and when it's missing or its
+version doesn't match, it asks to install it, using [nypm](https://www.npmjs.com/package/nypm) to add it
+with the user's package manager.
+
+### The Preview Server
+
+The Preview Server, `@vuemail/ui`, has two sides:
+
+- `src/node` is the server the CLI starts. It compiles the user's emails with [Vite](https://vite.dev) and
+  `@vitejs/plugin-vue`, loading them with Vite's server-side module loader, and renders them with the
+  [render](/utilities/render) utility from the user's own `vuemail`. Vite's file watcher detects changes to
+  the files the emails depend on, which the server sends to the browser as server-sent events.
+- `src/client` is the preview app itself, a Vue 3 single page app built with Vite, [vue-router](https://router.vuejs.org),
+  [reka-ui](https://reka-ui.com) and Tailwind CSS 4.
+
+As changes are sent to the preview app, the preview updates automatically. `email build` renders every
+email ahead of time instead, into a static website.
+
+## Testing
+
+For testing, we use [vitest](https://vitest.dev/). We prefer to define globals, and run tests under the `happy-dom`
+environment for the code that runs in the browser, like the preview app and the editor, and under `node` for the rest.
+
+We do not strictly enforce testing coverage, but encourage it.
+
+For help testing, see our [Development workflow guide](/contributing/development-workflow/2-running-tests).
+
+<Note>
+The tests of `@vuemail/nuxt` build and start real Nuxt apps, so they take longer than the others.
+</Note>
+
+## Linting
+
+We use [biomejs](https://biomejs.dev/) for linting and formatting. Both the linting and formatting are ensured by our GitHub CI so make sure you lint and format your code (`pnpm lint:fix`) before opening a PR or asking for a review on it.
+
+For help linting and formatting, see our [Development workflow guide on linting](/contributing/development-workflow/3-linting).
+
+## Building
+
+We use [tsdown](https://tsdown.dev) to build the packages. The preview app of `@vuemail/ui` is built with
+[Vite](https://vite.dev). For help building packages, see our [Development workflow guide](/contributing/development-workflow/4-building).
+
+<Note>
+Building each package runs `tsdown` with the settings in its `tsdown.config.ts`. `vuemail` and `@vuemail/render` are built as both ESM and CJS,
+along with the type definitions exported from the entry point, `src/index.ts`, without bundling `vue`, which can cause issues.
+</Note>
+
+### Why build before publishing?
+
+We build the packages before publishing for a few reasons:
+
+1. All the exported types can be imported from the same place the JavaScript is imported
+2. We have proper [CommonJS](https://nodejs.org/docs/latest/api/modules.html#modules-commonjs-modules)
+and [ES Modules](https://nodejs.org/api/esm.html#modules-ecmascript-modules) support
+3. Code that isn't exported is not published or downloaded

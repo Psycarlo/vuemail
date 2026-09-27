@@ -1,0 +1,48 @@
+---
+title: "Deployment"
+sidebarTitle: "Deployment"
+description: "How to deploy the preview of your emails as a static website"
+icon: "rocket"
+---
+
+`email build` turns the preview app into a static website, with every email rendered ahead of time,
+so it can be deployed to any static hosting. Here's how to deploy it to Vercel.
+
+<Steps>
+  <Step title="Add 'build' script to ./package.json">
+    ```diff
+     {
+       "scripts": {
+    +    "build": "email build"
+       }
+     }
+    ```
+
+    Make sure `@vuemail/ui` is in your `devDependencies`, in the same version as `vuemail`,
+    since `email build` runs on it.
+  </Step>
+  <Step title="Change 'Framework Preset' on Vercel's project settings to Other">
+    The build is a plain static website, so no framework is needed.
+  </Step>
+  <Step title="Change 'Output Directory' to .vuemail">
+    In the end, your settings should look like this:
+
+    | Setting | Value |
+    | -- | -- |
+    | Framework Preset | Other |
+    | Build Command | `npm run build` |
+    | Output Directory | `.vuemail` |
+  </Step>
+</Steps>
+
+<Info>
+  The same works on other static hostings, like Netlify or Cloudflare Pages: run `email build`
+  and publish the `.vuemail` directory. The preview has to be served from the root of its domain,
+  not from a sub path.
+</Info>
+
+To try the build locally, run [`email start`](/cli#email-start), which serves `.vuemail` on
+[localhost:3000](http://localhost:3000).
+
+A deployed preview is read-only: props can't be edited and there is no hot reloading, since every
+email was rendered with its `PreviewProps` when it was built.

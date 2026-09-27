@@ -1,0 +1,41 @@
+packages:
+  - apps/*
+  - benchmarks/*
+  - packages/*
+  - playground
+
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - '@parcel/watcher'
+  - vue-demi
+
+autoInstallPeers: true
+
+catalog:
+  '@tailwindcss/vite': ^4.3.3
+  '@tiptap/core': ^3.31.3
+  '@tiptap/pm': ^3.31.3
+  '@tiptap/vue-3': ^3.31.3
+  '@types/css-tree': 2.3.11
+  '@types/node': 22.19.18
+  '@vitejs/plugin-vue': ^6.0.9
+  '@vue/test-utils': ^2.4.6
+  commander: ^13.0.0
+  esbuild: ^0.28.2
+  happy-dom: ^20.14.5
+  nuxt: ^4.5.2
+  prettier: ^3.5.3
+  reka-ui: ^2.10.5
+  tailwindcss: ^4.3.3
+  tinybench: ^6.2.0
+  tsdown: ^0.23.0
+  tsx: ^4.21.0
+  typescript: 5.9.3
+  vite: ^8.3.1
+  '@vitest/browser-playwright': ^5.0.2
+  playwright: ^1.63.0
+  vitest: ^5.0.2
+  vitest-browser-vue: ^3.1.0
+  vue: ^3.5.43
+  vue-tsc: ^3.3.11

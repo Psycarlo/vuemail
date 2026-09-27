@@ -1,0 +1,25 @@
+{
+  "name": "@benchmarks/tailwind",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "with-vs-without": "vitest bench --run --reporter=verbose"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuemail/vuemail.git",
+    "directory": "benchmarks/tailwind"
+  },
+  "dependencies": {
+    "vue": "catalog:",
+    "vuemail": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

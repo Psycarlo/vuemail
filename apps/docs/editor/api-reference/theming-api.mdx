@@ -1,0 +1,335 @@
+---
+title: "Theming API"
+sidebarTitle: "Theming API"
+description: "Types and utilities for the email theming system."
+icon: "swatchbook"
+---
+
+## EmailTheming extension
+
+The `EmailTheming` extension from `@vuemail/editor/plugins` adds theme-aware styling
+to the editor and provides a `SerializerPlugin` for theme-aware HTML export.
+
+```ts
+import { EmailTheming } from '@vuemail/editor/plugins';
+
+const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
+```
+
+<ResponseField name="theme" type="EditorThemeInput" default="'basic'">
+  The active theme. Accepts a built-in preset (`'basic'` or `'minimal'`) or a `ThemeConfig`
+  object for custom themes.
+</ResponseField>
+
+## Types
+
+### EditorTheme
+
+```ts
+type EditorTheme = 'basic' | 'minimal';
+```
+
+---
+
+### EditorThemeInput
+
+The widened theme type accepted by the `theme` prop and `EmailTheming.configure()`:
+
+```ts
+type EditorThemeInput = EditorTheme | ThemeConfig;
+```
+
+---
+
+### ThemeableComponent
+
+The subset of `KnownThemeComponents` that can be customized via `ThemeComponentStyles`:
+
+```ts
+type ThemeableComponent =
+  | 'body'
+  | 'container'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'link'
+  | 'image'
+  | 'button'
+  | 'codeBlock'
+  | 'inlineCode'
+  | 'listItem'
+  | 'list'
+  | 'nestedList'
+  | 'paragraph';
+```
+
+---
+
+### ThemeComponentStyles
+
+CSS-in-JS styles keyed by themeable component name, using Vue's `CSSProperties`:
+
+```ts
+type ThemeComponentStyles = {
+  [K in ThemeableComponent]?: CSSProperties & {
+    align?: 'center' | 'left' | 'right';
+  };
+};
+```
+
+---
+
+### ThemeConfig
+
+A custom theme configuration object:
+
+```ts
+interface ThemeConfig {
+  extends?: EditorTheme;
+  styles: ThemeComponentStyles;
+}
+```
+
+<ResponseField name="extends" type="EditorTheme">
+  The built-in theme to inherit from. If omitted, uses `'minimal'` reset styles as a base.
+</ResponseField>
+
+<ResponseField name="styles" type="ThemeComponentStyles" required>
+  CSS-in-JS styles keyed by component name. Values are merged on top of the base theme.
+</ResponseField>
+
+---
+
+### KnownThemeComponents
+
+All component keys that a theme can style:
+
+```ts
+type KnownThemeComponents =
+  | 'reset'
+  | 'body'
+  | 'container'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'paragraph'
+  | 'nestedList'
+  | 'list'
+  | 'bulletList'
+  | 'orderedList'
+  | 'listItem'
+  | 'listParagraph'
+  | 'blockquote'
+  | 'codeBlock'
+  | 'inlineCode'
+  | 'codeTag'
+  | 'link'
+  | 'footer'
+  | 'hr'
+  | 'image'
+  | 'button'
+  | 'section';
+```
+
+---
+
+### KnownCssProperties
+
+CSS properties that can be customized per theme component:
+
+**Layout:** `align`, `width`, `height`, `margin`, `padding`, `paddingTop`, `paddingRight`,
+`paddingBottom`, `paddingLeft`
+
+**Appearance:** `backgroundColor`, `borderRadius`, `borderTopLeftRadius`, `borderTopRightRadius`,
+`borderBottomLeftRadius`, `borderBottomRightRadius`, `borderWidth`, `borderStyle` and `borderColor`,
+and the `Top`, `Right`, `Bottom` and `Left` variants of the last three, like `borderTopWidth`
+
+**Typography:** `color`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`, `textDecoration`
+
+---
+
+### CssJs
+
+A mapping of theme component keys to CSS properties:
+
+```ts
+type CssJs = {
+  [K in KnownThemeComponents]: CSSProperties & {
+    align?: 'center' | 'left' | 'right';
+  };
+};
+```
+
+---
+
+### PanelGroup
+
+Represents a group of configurable theme properties for a component:
+
+```ts
+interface PanelGroup {
+  id?: PanelSectionId;
+  title: string;
+  category?: string;
+  headerSlot?: VNodeChild;
+  classReference?: KnownThemeComponents;
+  inputs: Omit<PanelInputProperty, 'category'>[];
+}
+```
+
+---
+
+### PanelInputProperty
+
+An individual configurable CSS property within a panel:
+
+```ts
+interface PanelInputProperty {
+  label: string;
+  type: 'color' | 'number' | 'select' | 'text' | 'textarea';
+  value?: string | number;
+  prop: KnownCssProperties;
+  classReference?: KnownThemeComponents;
+  unit?: 'px' | '%';
+  options?: Record<string, string>;
+  placeholder?: string;
+  category: 'layout' | 'appearance' | 'typography';
+}
+```
+
+## Theme helpers
+
+### createTheme
+
+Creates a custom theme from scratch (uses `minimal` reset as base):
+
+```ts
+import { createTheme } from '@vuemail/editor/plugins';
+
+const theme = createTheme({
+  body: { backgroundColor: '#1a1a2e', color: '#e2e8f0' },
+  button: { backgroundColor: '#3b82f6', color: '#fff' },
+});
+```
+
+<ResponseField name="styles" type="ThemeComponentStyles" required>
+  CSS-in-JS styles keyed by component name.
+</ResponseField>
+
+Returns a `ThemeConfig` object.
+
+---
+
+### extendTheme
+
+Extends a built-in theme with style overrides:
+
+```ts
+import { extendTheme } from '@vuemail/editor/plugins';
+
+const theme = extendTheme('basic', {
+  body: { backgroundColor: '#eff6ff' },
+  button: { backgroundColor: '#2563eb', borderRadius: '6px' },
+});
+```
+
+<ResponseField name="base" type="EditorTheme" required>
+  The built-in theme to extend (`'basic'` or `'minimal'`).
+</ResponseField>
+
+<ResponseField name="overrides" type="ThemeComponentStyles" required>
+  CSS-in-JS styles to merge on top of the base theme.
+</ResponseField>
+
+Returns a `ThemeConfig` object.
+
+---
+
+## Utility functions
+
+### getMergedCssJs
+
+Merges the base theme styles with custom panel overrides:
+
+```ts
+import { getMergedCssJs } from '@vuemail/editor/plugins';
+
+const mergedStyles = getMergedCssJs(theme, panelStyles);
+```
+
+<ResponseField name="theme" type="EditorTheme" required>
+  The active theme to use as a base.
+</ResponseField>
+
+<ResponseField name="panelStyles" type="PanelGroup[]">
+  Custom style overrides from the theme panel UI.
+</ResponseField>
+
+---
+
+### getResolvedNodeStyles
+
+Resolves the final CSS styles for a specific node based on theme and document depth:
+
+```ts
+import { getResolvedNodeStyles } from '@vuemail/editor/plugins';
+
+const styles = getResolvedNodeStyles(node, depth, mergedCssJs);
+```
+
+<ResponseField name="node" type="JSONContent" required>
+  The TipTap node to resolve styles for.
+</ResponseField>
+
+<ResponseField name="depth" type="number" required>
+  The node's depth in the document tree. Affects styles for nested elements (e.g., nested lists).
+</ResponseField>
+
+<ResponseField name="mergedCssJs" type="CssJs" required>
+  The merged theme styles from `getMergedCssJs`.
+</ResponseField>
+
+---
+
+### getThemeComponentKey
+
+Maps a node type and depth to a theme component key:
+
+```ts
+import { getThemeComponentKey } from '@vuemail/editor/plugins';
+
+const paragraphKey = getThemeComponentKey('paragraph', 0); // 'paragraph'
+const nestedListKey = getThemeComponentKey('bulletList', 2); // 'nestedList'
+```
+
+---
+
+### stylesToCss
+
+Converts a theme's style definitions to a CSS object:
+
+```ts
+import { stylesToCss } from '@vuemail/editor/plugins';
+
+const css = stylesToCss(styles, theme);
+```
+
+---
+
+### useEmailTheming
+
+Composable that provides access to the current theme state from within the editor. It takes the
+editor, or a ref or getter of it, and returns a ref that updates as the document changes:
+
+```vue
+<script setup lang="ts">
+import { useCurrentEditor } from '@vuemail/editor/core';
+import { useEmailTheming } from '@vuemail/editor/plugins';
+
+const { editor } = useCurrentEditor();
+const theming = useEmailTheming(editor);
+// Access theming.value?.styles, theming.value?.theme, theming.value?.css
+</script>
+```
+
+`theming.value` is `null` until the editor is created.

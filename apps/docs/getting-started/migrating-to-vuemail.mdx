@@ -1,0 +1,111 @@
+---
+title: 'Migrating to Vuemail'
+sidebarTitle: 'Migrating to Vuemail'
+description: 'Migrate from another email rendering framework to Vuemail'
+icon: 'paper-plane'
+---
+
+import NextSteps from '/snippets/next-steps.mdx';
+
+## From MJML
+
+1. Remove the `mjml` npm package and install `vuemail`
+2. Find all MJML templates ending with the `.mjml` extension and convert these to Vue single file components with the `.vue` extension.
+3. Replace MJML standard component tags with Vuemail component tags where possible, including `<Text>`, `<Img>`, `<Button>` etc.
+4. Convert custom MJML components with the `.js` extension to Vue components with the `.vue` extension.
+
+## From React Email
+
+Vuemail is a port of React Email, so its components take the same props and render the same HTML.
+What changes is how emails are written: as Vue single file components instead of React components.
+
+1. Replace the React Email packages with the Vuemail ones, and React with Vue:
+
+   <CodeGroup>
+
+   ```sh npm
+   npm uninstall react-email @react-email/ui react react-dom
+   npm install vuemail vue
+   npm install @vuemail/ui -D
+   ```
+
+   ```sh yarn
+   yarn remove react-email @react-email/ui react react-dom
+   yarn add vuemail vue
+   yarn add @vuemail/ui -D
+   ```
+
+   ```sh pnpm
+   pnpm remove react-email @react-email/ui react react-dom
+   pnpm add vuemail vue
+   pnpm add @vuemail/ui -D
+   ```
+
+   ```sh bun
+   bun remove react-email @react-email/ui react react-dom
+   bun add vuemail vue
+   bun add @vuemail/ui -D
+   ```
+
+   </CodeGroup>
+
+2. Rewrite each email as a `.vue` file in your `emails` directory. Most of it maps one to one:
+
+   | React Email | Vuemail |
+   | -- | -- |
+   | `import { Button } from 'react-email'` | `import { Button } from 'vuemail'` |
+   | `Email.PreviewProps = { ... }` | `defineOptions({ PreviewProps: { ... } })` |
+   | Props of the component function | `defineProps<Props>()` |
+   | `className="..."` | `class="..."` |
+   | `tdClassName` on `Container` and `Section` | `td-class` |
+   | `href={url}` | `:href="url"` |
+   | `{name}` in text | `{{ name }}` |
+   | `{condition && <Text />}` and `.map()` | `v-if` and `v-for` |
+   | `<Markdown>{markdown}</Markdown>` | `<Markdown :source="markdown" />` |
+   | `dangerouslySetInnerHTML` | `v-html` |
+   | `render(<Email {...props} />)` | `render(Email, props)` |
+   | `react: <Email {...props} />` when sending with Resend | `html: await render(Email, props)` |
+
+   Here's an email written with Vuemail:
+
+   ```vue emails/welcome.vue
+   <script setup lang="ts">
+   import { Body, Button, Head, Html, Preview, Text } from 'vuemail';
+
+   interface WelcomeEmailProps {
+     name: string;
+     url: string;
+   }
+
+   const { name, url } = defineProps<WelcomeEmailProps>();
+
+   defineOptions({
+     PreviewProps: {
+       name: 'Ana',
+       url: 'https://vuemail.dev',
+     } satisfies WelcomeEmailProps,
+   });
+   </script>
+
+   <template>
+     <Html>
+       <Head />
+       <Preview>Welcome, {{ name }}</Preview>
+       <Body>
+         <Text>Hi {{ name }}, thanks for signing up!</Text>
+         <Button :href="url" :style="{ padding: '12px 20px' }">Get started</Button>
+       </Body>
+     </Html>
+   </template>
+   ```
+
+3. Keep a few differences in mind:
+
+   - `<style>` tags can't be written in Vue templates. Render them from `<script setup>` instead, with a small
+     functional component: `const Styles = () => h('style', { innerHTML: css })`.
+   - Numbers in style objects get `px` added on Vuemail components, like in React, but not on plain elements
+     like `<td>` or `<p>`. Prefer strings with units, like `'20px'`.
+   - `defineOptions` is hoisted out of `<script setup>`, so `PreviewProps` has to be written inline.
+   - Importing `.vue` files needs a bundler that compiles them. See [compiling emails](/guides/vite).
+
+<NextSteps/>

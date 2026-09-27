@@ -1,0 +1,24 @@
+name: Pull Request Title Check
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+permissions:
+  pull-requests: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pull-request-title-check:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check pull request title
+        run: node ./scripts/pull-request-title-check.mjs

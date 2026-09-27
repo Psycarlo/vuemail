@@ -1,0 +1,126 @@
+---
+title: "Column Layouts"
+sidebarTitle: "Column Layouts"
+description: "Insert responsive multi-column layouts."
+icon: "columns-3"
+---
+
+## Quick start
+
+Column extensions are included in `StarterKit` by default; no extra imports are needed.
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+
+const extensions = [StarterKit];
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content" />
+</template>
+```
+
+## Inserting columns programmatically
+
+Use the `insertColumns` command to add a column layout.
+
+```ts
+// Insert a 2-column layout
+editor.chain().focus().insertColumns(2).run();
+
+// Insert a 3-column layout
+editor.chain().focus().insertColumns(3).run();
+
+// Insert a 4-column layout
+editor.chain().focus().insertColumns(4).run();
+```
+
+## Building a toolbar
+
+Here's a complete example with a toolbar for inserting column layouts. It uses the `before` slot
+of `EditorProvider` to position the toolbar above the editor.
+
+```vue toolbar.vue
+<script setup lang="ts">
+import { useCurrentEditor } from '@vuemail/editor/core';
+import { Columns2, Columns3, Columns4 } from 'lucide-vue-next';
+
+const { editor } = useCurrentEditor();
+</script>
+
+<template>
+  <div v-if="editor" :style="{ display: 'flex', gap: '8px', marginBottom: '16px' }">
+    <button type="button" @click="editor.chain().focus().insertColumns(2).run()">
+      <Columns2 :size="16" />
+      2 columns
+    </button>
+    <button type="button" @click="editor.chain().focus().insertColumns(3).run()">
+      <Columns3 :size="16" />
+      3 columns
+    </button>
+    <button type="button" @click="editor.chain().focus().insertColumns(4).run()">
+      <Columns4 :size="16" />
+      4 columns
+    </button>
+  </div>
+</template>
+```
+
+```vue my-editor.vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import Toolbar from './toolbar.vue';
+
+const extensions = [StarterKit];
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <template #before>
+      <Toolbar />
+    </template>
+  </EditorProvider>
+</template>
+```
+
+<Tip>
+  Use the `before` slot to render custom UI above the editor, and `useCurrentEditor()` to access
+  the editor instance from child components.
+</Tip>
+
+## Column spacing
+
+Column layouts render as email-safe tables. Space between columns is stored as the
+`cellspacing` attribute on the column layout and exported as the `cellspacing`
+attribute of the underlying `Row`.
+
+Select a 2, 3, or 4 column layout in the editor and use **Column spacing** in
+the inspector to adjust the gap between columns.
+
+<Tip>
+  Column spacing controls the gap between columns. Padding on an individual
+  column controls the space inside that column.
+</Tip>
+
+## Slash commands
+
+The default slash commands include column layouts. Type `/` and search for "columns":
+
+- **Two Columns**: `TWO_COLUMNS`
+- **Three Columns**: `THREE_COLUMNS`
+- **Four Columns**: `FOUR_COLUMNS`
+
+See [Slash Commands](/editor/features/slash-commands) for setup details.
+
+## Examples
+
+See column layouts in action with a runnable example:
+
+<CardGroup cols={2}>
+  <Card title="Column Layouts" icon="code" href="https://vuemail.dev/editor/column-layouts">
+    Toolbar-driven 2/3/4 column insertion.
+  </Card>
+</CardGroup>

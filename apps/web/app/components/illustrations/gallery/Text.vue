@@ -1,0 +1,11 @@
+<template>
+  <div
+    class="group-hover:-skew-x-6 relative flex w-[40%] translate-y-3 flex-col gap-2 rounded-md bg-[#0F0F10] bg-linear-to-b from-transparent via-black/20 to-black/20 p-2 shadow-xs transition-transform duration-150 ease-[cubic-bezier(.42,0,.58,1.8)]"
+  >
+    <div class="h-1 w-[84%] rounded-xs bg-slate-5" />
+    <div class="flex w-full gap-1">
+      <div class="h-1 shrink grow basis-0 rounded-xs bg-slate-5" />
+      <div class="h-1 shrink grow basis-0 rounded-xs bg-slate-8" />
+    </div>
+  </div>
+</template>

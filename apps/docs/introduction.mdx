@@ -1,0 +1,80 @@
+---
+title: 'Vuemail'
+sidebarTitle: 'Introduction'
+description: 'Build and send emails using Vue and TypeScript.'
+icon: 'hand-wave'
+---
+
+import Support from '/snippets/support.mdx'
+import Integrations from '/snippets/integrations.mdx'
+
+## Why
+
+We believe that email is an extremely important medium for people to communicate. However, we need to stop developing emails like 2010, and rethink how email can be done in {new Date().getFullYear()} and beyond. Email development needs a revamp. A renovation. Modernized for the way we build web apps today.
+
+Vuemail brings this to Vue: a 1:1 port of [React Email](https://react.email), with the same components and tools, written for Vue single file components.
+
+## Getting Started
+
+Vuemail is designed to be incrementally adopted, so you can add it to most codebases in a few minutes.
+
+<CardGroup cols={3}>
+  <Card
+    title="Automatic Setup"
+    icon='download'
+    href="/getting-started/automatic-setup"
+  >
+    Add Vuemail to any JavaScript or TypeScript project in minutes.
+  </Card>
+  <Card
+    title="Manual Setup"
+    icon='hammer'
+    href="/getting-started/manual-setup"
+  >
+    Create a brand-new folder with packages powered by Vuemail.
+  </Card>
+  <Card
+    title="Nuxt"
+    icon='mountain'
+    href="/getting-started/nuxt"
+  >
+    Render and send emails from the server routes of a Nuxt app.
+  </Card>
+</CardGroup>
+
+## Components
+
+This is a set of standard components to help you build amazing emails without having to deal with the mess of creating table-based layouts and maintaining archaic markup.
+
+<CardGroup>
+  <Card title="HTML" icon='file-code' href="/components/html">
+    A Vue html component to wrap emails.
+  </Card>
+  <Card
+    title="Container"
+    icon='grid'
+    href="/components/container"
+  >
+    The main wrapper that hold your content.
+  </Card>
+  <Card
+    title="Button"
+    icon='b'
+    href="/components/button"
+  >
+    A Vue button component to help build emails.
+  </Card>
+  <Card title="Text" icon='text-size' href="/components/text">
+    A block of text separated by blank spaces.
+  </Card>
+</CardGroup>
+
+## Integrations
+
+In order to use Vuemail with any email service provider, you'll need to convert the components made with Vue into a HTML string. This is done using the [render](/utilities/render) utility.
+
+<Integrations />
+
+<Support />
+
+A Vue port of [React Email](https://react.email), MIT License.

@@ -1,0 +1,29 @@
+---
+title: "Building"
+sidebarTitle: "4. Building"
+description: "How we build each package before publishing"
+---
+
+We use [tsdown](https://tsdown.dev) to build the packages. The preview app of `@vuemail/ui` is built with [Vite](https://vite.dev),
+and `@vuemail/editor` compiles its `.vue` files with `unplugin-vue`.
+
+To build a package run:
+
+```bash package/* (ex: packages/render)
+pnpm build
+```
+
+Running `pnpm build` on the root of the workspace builds every package with [turborepo](/contributing/codebase-overview#turborepo),
+in the order they depend on each other.
+
+Building each package runs `tsdown` with the settings in its `tsdown.config.ts`. `vuemail` and `@vuemail/render` are built as both [ESM](https://nodejs.org/api/esm.html) and
+[CJS](https://nodejs.org/docs/latest/api/modules.html), along with the type definitions exported from the entry point, `src/index.ts`, without bundling `vue`, which can cause issues.
+
+### Why build before publishing?
+
+We build the packages before publishing for a few reasons:
+
+1. All the exported types can be imported from the same place the JavaScript is imported
+2. We have proper [CommonJS](https://nodejs.org/docs/latest/api/modules.html#modules-commonjs-modules)
+and [ES Modules](https://nodejs.org/api/esm.html#modules-ecmascript-modules) support
+3. Code that isn't exported is not published or downloaded

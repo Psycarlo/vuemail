@@ -1,0 +1,61 @@
+{
+  "name": "@vuemail/nuxt",
+  "version": "0.1.0",
+  "description": "Render Vuemail emails in your Nuxt server routes",
+  "type": "module",
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.mts",
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.mts",
+      "default": "./dist/module.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuemail/vuemail.git",
+    "directory": "packages/nuxt"
+  },
+  "homepage": "https://vuemail.dev",
+  "keywords": [
+    "vue",
+    "nuxt",
+    "nuxt-module",
+    "email"
+  ],
+  "peerDependencies": {
+    "nuxt": "^3.13.0 || ^4.0.0",
+    "vuemail": "workspace:^"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.5.2",
+    "unplugin-vue": "^8.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/nitro-server": "^4.5.2",
+    "@nuxt/schema": "^4.5.2",
+    "@nuxt/test-utils": "^4.3.2",
+    "@tailwindcss/vite": "catalog:",
+    "nuxt": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vuemail": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

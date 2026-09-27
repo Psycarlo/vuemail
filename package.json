@@ -1,0 +1,35 @@
+{
+  "name": "vuemail-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --filter=./packages/*",
+    "lint": "biome check",
+    "lint:fix": "biome check --write .",
+    "release": "pnpm release:build && changeset publish",
+    "release:build": "turbo run build --filter=./packages/*",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "typecheck": "turbo run typecheck",
+    "version-packages": "changeset version && pnpm install --no-frozen-lockfile && pnpm lint:fix"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@changesets/cli": "2.31.0",
+    "@types/node": "catalog:",
+    "happy-dom": "catalog:",
+    "tsconfig": "workspace:*",
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "turbo": "2.11.4",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

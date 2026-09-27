@@ -1,0 +1,168 @@
+---
+title: "Editor composables"
+sidebarTitle: "Editor composables"
+description: "Composables for creating an editor and using it from your components."
+icon: "code"
+hidden: true
+---
+
+## useCurrentEditor
+
+Gives your components the editor of the `EmailEditor` or `EditorProvider` they are rendered in.
+
+### Import
+
+```ts
+import { useCurrentEditor } from '@vuemail/editor/core';
+```
+
+### Return value
+
+<ResponseField name="editor" type="ShallowRef<Editor | undefined>">
+  The TipTap editor instance. `undefined` until the editor is created, which happens once the
+  component that creates it is mounted, in the browser.
+</ResponseField>
+
+### Example
+
+```vue toolbar.vue
+<script setup lang="ts">
+import { useCurrentEditor } from '@vuemail/editor/core';
+
+const { editor } = useCurrentEditor();
+</script>
+
+<template>
+  <div v-if="editor">
+    <button type="button" @click="editor.chain().focus().toggleBold().run()">
+      Bold
+    </button>
+  </div>
+</template>
+```
+
+## useEditorState
+
+Selects a piece of the editor's state and updates it after every change to the editor, like
+`useEditorState` from `@tiptap/react`. The editor's state isn't reactive, so a `computed` that reads it
+directly would never update.
+
+### Import
+
+```ts
+import { useEditorState } from '@vuemail/editor/core';
+```
+
+### Parameters
+
+<ParamField body="editor" type="MaybeRefOrGetter<Editor | null | undefined>" required>
+  The editor to select from, like the `editor` of `useCurrentEditor()`.
+</ParamField>
+
+<ParamField body="selector" type="(snapshot: { editor: Editor | null; transactionNumber: number }) => T" required>
+  Selects the state your component needs. Reactive values it reads, like props, are tracked too.
+</ParamField>
+
+<ParamField body="equalityFn" type="(a: T, b: T | null) => boolean">
+  Decides whether a new selection is the same as the previous one, which keeps what depends on it from
+  updating. Deep equality by default.
+</ParamField>
+
+### Return value
+
+A `ComputedRef<T>` with the latest selection.
+
+### Example
+
+```vue toolbar.vue
+<script setup lang="ts">
+import { useCurrentEditor, useEditorState } from '@vuemail/editor/core';
+
+const { editor } = useCurrentEditor();
+
+const state = useEditorState({
+  editor,
+  selector: ({ editor }) => ({
+    isBold: editor?.isActive('bold') ?? false,
+    isItalic: editor?.isActive('italic') ?? false,
+  }),
+});
+</script>
+
+<template>
+  <div v-if="editor">
+    <button
+      type="button"
+      :aria-pressed="state.isBold"
+      @click="editor.chain().focus().toggleBold().run()"
+    >
+      Bold
+    </button>
+    <button
+      type="button"
+      :aria-pressed="state.isItalic"
+      @click="editor.chain().focus().toggleItalic().run()"
+    >
+      Italic
+    </button>
+  </div>
+</template>
+```
+
+## Creating the editor yourself
+
+When you need the editor instance in the same component that creates it, create it with `useEditor`
+from `@tiptap/vue-3`, and make it available to the UI components of `@vuemail/editor` with
+`provideCurrentEditor`:
+
+```vue
+<script setup lang="ts">
+import {
+  isDocumentVisuallyEmpty,
+  provideCurrentEditor,
+  useEditorState,
+} from '@vuemail/editor/core';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { BubbleMenu } from '@vuemail/editor/ui';
+import { EditorContent, useEditor } from '@tiptap/vue-3';
+
+const editor = useEditor({
+  extensions: [StarterKit],
+  content: { type: 'doc', content: [] },
+  onUpdate: ({ editor }) => {
+    console.log('Content changed:', editor.getJSON());
+  },
+});
+
+provideCurrentEditor(editor);
+
+const isEditorEmpty = useEditorState({
+  editor,
+  selector: ({ editor }) => !editor || isDocumentVisuallyEmpty(editor.state.doc),
+});
+</script>
+
+<template>
+  <EditorContent :editor="editor" />
+  <p v-if="isEditorEmpty">Start typing...</p>
+  <BubbleMenu />
+</template>
+```
+
+`useEditor` creates the editor when the component mounts and destroys it when it unmounts. It takes
+any of [TipTap's editor options](https://tiptap.dev/docs/editor/api/editor#settings).
+
+<ResponseField name="provideCurrentEditor" type="(editor: ShallowRef<Editor | undefined>) => void">
+  Makes the editor available to `useCurrentEditor()`, and so to the bubble menus, slash commands and
+  inspector, in the components rendered inside the one that calls it.
+</ResponseField>
+
+<ResponseField name="isDocumentVisuallyEmpty" type="(doc: Node) => boolean">
+  Whether the document is visually empty (only contains an empty paragraph).
+  Excludes `globalContent` nodes from the calculation.
+</ResponseField>
+
+<Tip>
+  For most use cases, [`EditorProvider`](/editor/getting-started#lower-level-setup) is simpler: it
+  creates the editor, renders its content and provides it in one component.
+</Tip>

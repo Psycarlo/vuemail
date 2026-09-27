@@ -1,0 +1,103 @@
+---
+title: 'Compiling emails with Vite'
+sidebarTitle: 'Vite'
+description: 'How Vuemail compiles your emails, and how to compile them in your own code'
+icon: 'bolt'
+---
+
+To preview, build, and export your emails, the Vuemail CLI compiles them with [Vite](https://vite.dev) and
+[`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue), loading every email through Vite's
+server-side module loader. There's nothing to configure: it works with the files you already have.
+
+## What's supported
+
+- **Single file components**, including `<script setup lang="ts">`
+- **TypeScript**, in `.vue` files and in the modules they import
+- **Path aliases** from the `paths` of your `tsconfig.json`, like `"@/*": ["./*"]`
+- **JSON imports**, like `import messages from '../messages/en.json'`
+- **Raw imports**, with the `?raw` suffix, like `import theme from './theme.css?raw'`, which is how you
+  can keep the CSS for the `theme` prop of [`Tailwind`](/components/tailwind) in a `.css` file. Not every
+  bundler supports `?raw` though: for emails your Nuxt server routes import too, keep that CSS in a string
+  exported from a `.ts` file instead, as in the [Nuxt guide](/getting-started/nuxt#tailwind-css-4)
+- **Dependencies**, from `node_modules` or from other packages of your workspace
+- **Static files**: image URLs in templates, like `<Img src="/static/logo.png" />`, stay URLs instead of
+  becoming module imports, so the preview can serve them from `emails/static`
+
+Every render uses the latest code of the email and of the files it imports, so changes to any of them
+show up in `email dev` right away.
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import { Body, Html, Tailwind, Text } from 'vuemail';
+import Footer from '@/emails/_components/footer.vue';
+import messages from '../messages/en.json';
+import theme from './theme.css?raw';
+</script>
+
+<template>
+  <Html>
+    <Tailwind :theme="theme">
+      <Body>
+        <Text class="text-brand">{{ messages.welcome }}</Text>
+        <Footer />
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+## What's not supported
+
+- **Your Vite configuration**: the CLI doesn't load `vite.config.ts`, so plugins you add there don't
+  apply to your emails, and there's no option to add Vite plugins to it.
+- **`.env` files**: they aren't loaded either. `process.env` has the environment variables of the
+  process running the CLI, set by your shell or your tooling.
+
+## Compiling emails in your own code
+
+Node.js can't import `.vue` files on its own, so the code that renders your emails with [`render`](/utilities/render)
+has to be compiled with a Vue plugin too. Keep the URLs of images as they are, like the CLI does, by
+turning off `transformAssetUrls`.
+
+<Tabs>
+  <Tab title="Nuxt">
+    Add the `@vuemail/nuxt` module, and import emails from your server routes. See [Nuxt](/getting-started/nuxt).
+
+    ```ts nuxt.config.ts
+    export default defineNuxtConfig({
+      modules: ['@vuemail/nuxt'],
+    });
+    ```
+  </Tab>
+  <Tab title="Vite">
+    Build the code that sends your emails for the server with Vite and `@vitejs/plugin-vue`:
+
+    ```ts vite.config.ts
+    import vue from '@vitejs/plugin-vue';
+    import { defineConfig } from 'vite';
+
+    export default defineConfig({
+      plugins: [vue({ template: { transformAssetUrls: false } })],
+      build: {
+        ssr: 'src/send-welcome-email.ts',
+      },
+    });
+    ```
+
+    `vite build` outputs `dist/send-welcome-email.js`, which runs with Node.js.
+  </Tab>
+  <Tab title="tsdown">
+    Bundle the code that sends your emails with [tsdown](https://tsdown.dev) and `unplugin-vue`:
+
+    ```ts tsdown.config.ts
+    import { defineConfig } from 'tsdown';
+    import vue from 'unplugin-vue/rolldown';
+
+    export default defineConfig({
+      entry: ['src/send-welcome-email.ts'],
+      platform: 'node',
+      plugins: [vue({ template: { transformAssetUrls: false } })],
+    });
+    ```
+  </Tab>
+</Tabs>

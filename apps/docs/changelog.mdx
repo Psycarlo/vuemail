@@ -1,0 +1,22 @@
+---
+title: "Changelog"
+sidebarTitle: "Changelog"
+description: "New features, bug fixes, and improvements made to each package."
+icon: "list-check"
+---
+
+## 0.1.0
+
+**Vuemail 0.1.0**
+
+The first release of Vuemail, a Vue port of [React Email](https://react.email) 6.11. Every package starts at `0.1.0`.
+
+- **Components**: `Html`, `Head`, `Body`, `Button`, `Container`, `CodeBlock`, `CodeInline`, `Column`, `Row`, `Font`, `Heading`, `Hr`, `Img`, `Link`, `Markdown`, `Preview`, `Section`, `Tailwind` and `Text`, with the same props as React Email's, exported from the `vuemail` package. Emails are Vue single file components, and `defineOptions({ PreviewProps })` sets the props they are previewed with
+- **Render**: `render(Email, props, options)` turns an email into HTML or plain text, with `pretty` and `toPlainText` helpers and a `setupApp` option to install Vue plugins like `vue-i18n`. Exported from `vuemail`, and standalone as `@vuemail/render`
+- **Tailwind CSS 4**: the `Tailwind` component inlines Tailwind CSS 4 classes into email-compatible styles, and takes a `config`, a `theme` and utilities of your own
+- **CLI and preview**: `email dev` previews your emails in the browser with hot reloading, compatibility checks, linting, spam scoring and uploads to Resend; `email build` turns the preview into a static website and `email start` serves it; `email export` renders every email to HTML or plain text. The preview app is `@vuemail/ui`
+- **Editor**: `@vuemail/editor`, an embeddable visual editor for composing emails, built on [TipTap](https://tiptap.dev/) for Vue, with bubble menus, slash commands, an inspector, multi-column layouts, theming and HTML export
+
+  See [the documentation](/editor/overview)
+- **Nuxt module**: `@vuemail/nuxt` lets the server routes of a Nuxt app import and render emails. See [Nuxt](/getting-started/nuxt)
+- **create-vuemail**: `npx create-vuemail@latest` creates a starter project with four example emails

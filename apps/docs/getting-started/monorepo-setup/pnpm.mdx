@@ -1,0 +1,75 @@
+---
+title: 'Setting up for pnpm workspaces'
+sidebarTitle: 'pnpm'
+description: 'Configure Vuemail on a pnpm monorepo'
+---
+
+## 1. Create workspace
+
+Create a new folder called `transactional` inside of where you keep workspace packages (generally `./packages/*`) and
+in there setup a new `package.json` and do not forget to add this to your `pnpm-workspace.yaml`.
+
+## 2. Install dependencies
+
+Install Vuemail in the `transactional` workspace.
+
+```sh packages/transactional
+pnpm add @vuemail/ui -D -E
+pnpm add vuemail vue -E
+```
+
+## 3. Add scripts
+
+Include the following script in your `package.json` file.
+
+```json packages/transactional/package.json
+{
+  // ...
+  "scripts": {
+    "dev": "email dev"
+  }
+  // ...
+}
+```
+
+## 4. Write your emails
+
+Create a new folder called `emails`, create a file inside called `email.vue` and add the following example code:
+
+```vue packages/transactional/emails/email.vue
+<script setup lang="ts">
+import { Body, Button, Head, Html } from 'vuemail';
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Body>
+      <Button
+        href="https://example.com"
+        :style="{ background: '#000', color: '#fff', padding: '12px 20px' }"
+      >
+        Click me
+      </Button>
+    </Body>
+  </Html>
+</template>
+```
+
+## 5. Run preview server
+
+Start the email previews development server:
+
+```sh packages/transactional
+pnpm dev
+```
+
+## 6. See changes live
+
+Visit [localhost:3000](http://localhost:3000) and edit the `emails/email.vue` file to see the changes.
+
+## 7. Use the emails in your apps
+
+Other workspaces can depend on `transactional` and import its emails to render them. Importing
+`.vue` files takes a bundler that compiles them, like [Nuxt](/getting-started/nuxt) with the
+`@vuemail/nuxt` module. See [compiling emails](/guides/vite) for the options.

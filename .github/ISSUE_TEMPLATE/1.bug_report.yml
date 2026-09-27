@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a bug in one of Vuemail's packages
+labels: ['Type: Bug']
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: What package is this bug report for?
+      options:
+        - vuemail (components and render)
+        - vuemail (CLI) / @vuemail/ui (preview)
+        - '@vuemail/render'
+        - '@vuemail/editor'
+        - '@vuemail/nuxt'
+        - create-vuemail
+        - Website or docs
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What is affected (leave empty if unsure)
+      description: Steps or a minimal repository to reproduce the behavior.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: input
+    id: versions
+    attributes:
+      label: What versions are you using?
+      placeholder: vuemail@0.1.0, vue@3.5.x, node@22
+    validations:
+      required: true

@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/inter/inter.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Commit Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/commit-mono/commit-mono-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Commit Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/commit-mono/commit-mono-italic.ttf") format("truetype");
+}
+
+@theme {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "Commit Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --background-image-gradient: linear-gradient(
+    145.37deg,
+    rgba(255, 255, 255, 0.09) -8.75%,
+    rgba(255, 255, 255, 0.027) 83.95%
+  );
+  --background-image-gradientHover: linear-gradient(
+    145.37deg,
+    rgba(255, 255, 255, 0.1) -8.75%,
+    rgba(255, 255, 255, 0.057) 83.95%
+  );
+  --background-image-shine: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  @keyframes shine {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 110%;
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes shineTranslate {
+    0% {
+      transform: translate(-198%);
+    }
+    50% {
+      transform: translate(198%);
+    }
+    100% {
+      transform: translate(198%);
+    }
+  }
+
+  /* Radix Colors, dark and alpha. Vuemail's accent is green, where React
+     Email's is cyan. */
+  --color-amber-1: #e63c0006;
+  --color-amber-2: #fd9b000d;
+  --color-amber-3: #fa820022;
+  --color-amber-4: #fc820032;
+  --color-amber-5: #fd8b0041;
+  --color-amber-6: #fd9b0051;
+  --color-amber-7: #ffab2567;
+  --color-amber-8: #ffae3587;
+  --color-amber-9: #ffc53d;
+  --color-amber-10: #ffd60a;
+  --color-amber-11: #ffca16;
+  --color-amber-12: #ffe7b3;
+  --color-cyan-1: #0091f70a;
+  --color-cyan-2: #02a7f211;
+  --color-cyan-3: #00befd28;
+  --color-cyan-4: #00baff3b;
+  --color-cyan-5: #00befd4d;
+  --color-cyan-6: #00c7fd5e;
+  --color-cyan-7: #14cdff75;
+  --color-cyan-8: #11cfff95;
+  --color-cyan-9: #00cfffc3;
+  --color-cyan-10: #28d6ffcd;
+  --color-cyan-11: #52e1fee5;
+  --color-cyan-12: #bbf3fef7;
+  --color-green-1: #00de4505;
+  --color-green-2: #29f99d0b;
+  --color-green-3: #22ff991e;
+  --color-green-4: #11ff992d;
+  --color-green-5: #2bffa23c;
+  --color-green-6: #44ffaa4b;
+  --color-green-7: #50fdac5e;
+  --color-green-8: #54ffad73;
+  --color-green-9: #44ffa49e;
+  --color-green-10: #43fea4ab;
+  --color-green-11: #46fea5d4;
+  --color-green-12: #bbffd7f0;
+  --color-purple-1: #b412f90b;
+  --color-purple-2: #b744f714;
+  --color-purple-3: #c150ff2d;
+  --color-purple-4: #bb53fd42;
+  --color-purple-5: #be5cfd51;
+  --color-purple-6: #c16dfd61;
+  --color-purple-7: #c378fd7a;
+  --color-purple-8: #c47effa4;
+  --color-purple-9: #b661ffc2;
+  --color-purple-10: #bc6fffcd;
+  --color-purple-11: #d19dff;
+  --color-purple-12: #f1ddfffa;
+  --color-slate-1: #00000000;
+  --color-slate-2: #d8f4f609;
+  --color-slate-3: #ddeaf814;
+  --color-slate-4: #d3edf81d;
+  --color-slate-5: #d9edfe25;
+  --color-slate-6: #d6ebfd30;
+  --color-slate-7: #d9edff40;
+  --color-slate-8: #d9edff5d;
+  --color-slate-9: #dfebfd6d;
+  --color-slate-10: #e5edfd7b;
+  --color-slate-11: #f1f7feb5;
+  --color-slate-12: #fcfdffef;
+}
+
+@utility h-screen-ios {
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
+}
+
+@utility min-h-screen-ios {
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so these compatibility styles make sure everything still looks the same
+  as it did with Tailwind CSS v3.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+[color-scheme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+#__nuxt {
+  isolation: isolate;
+}
+
+.text-gradient {
+  background: linear-gradient(
+    to right bottom,
+    #fff 30%,
+    color-mix(in srgb, #fff 50%, transparent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: unset;
+}

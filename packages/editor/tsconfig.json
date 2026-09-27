@@ -1,0 +1,8 @@
+{
+  "extends": "tsconfig/vue-library.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "scripts/*.ts", "*.config.ts"],
+  "exclude": ["dist", "node_modules"]
+}

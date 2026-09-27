@@ -1,0 +1,111 @@
+---
+title: "Editor"
+sidebarTitle: "Overview"
+description: "An embeddable visual editor for building Vuemail templates."
+icon: "pen-nib"
+---
+
+The Vuemail Editor is a visual editor that you can embed in your Vue app. It's made specifically for composing Vuemail templates.
+
+Using the power of Vuemail, it produces email-ready HTML, and is built on top of [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/).
+
+## Key features
+
+- **Rich text editing** — Paragraphs, headings, lists, code blocks, tables, and more
+- **Bubble menus** — Floating formatting toolbars that appear on text selection
+- **Slash commands** — Insert content blocks by typing `/`
+- **Multi-column layouts** — Two, three, and four-column email layouts
+- **Email theming** — Built-in themes with customizable CSS properties
+- **HTML export** — Convert editor content to email-ready HTML and plain text
+- **Custom extensions** — Create your own email-compatible nodes and marks
+
+## Architecture
+
+The editor is organized into five entry points, next to the main one, `@vuemail/editor`, which exports
+the `EmailEditor` and `EditorProvider` components:
+
+| Import | Purpose |
+|--------|---------|
+| `@vuemail/editor/core` | `composeVueEmail` serialization, `useCurrentEditor`, event bus, types |
+| `@vuemail/editor/extensions` | `StarterKit` and 35+ email-aware extensions |
+| `@vuemail/editor/ui` | Bubble menus, slash commands, inspector |
+| `@vuemail/editor/plugins` | Email theming and image upload plugins |
+| `@vuemail/editor/utils` | Attribute helpers, style utilities |
+
+<Info>
+  The editor uses [TipTap](https://tiptap.dev/) for Vue under the hood, so [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/) concepts apply.
+  Extensions are email-aware versions of TipTap nodes and marks that know how to serialize to Vuemail components.
+</Info>
+
+## Quick links
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/editor/getting-started">
+    Set up the editor in under 5 minutes.
+  </Card>
+  <Card title="Bubble Menu" icon="message-lines" href="/editor/features/bubble-menu">
+    Add floating formatting toolbars.
+  </Card>
+  <Card title="Slash Commands" icon="slash-forward" href="/editor/features/slash-commands">
+    Insert content blocks with a command menu.
+  </Card>
+  <Card title="Email Theming" icon="palette" href="/editor/features/theming">
+    Apply visual themes to your email output.
+  </Card>
+  <Card title="Image Upload" icon="image" href="/editor/features/image-upload">
+    Upload images via paste, drop, or slash command.
+  </Card>
+  <Card title="Styling" icon="paintbrush" href="/editor/features/styling">
+    Customize the editor's appearance with CSS.
+  </Card>
+  <Card title="Email Export" icon="file-export" href="/editor/features/email-export">
+    Convert editor content to email-ready HTML.
+  </Card>
+  <Card title="Custom Extensions" icon="wrench" href="/editor/advanced/custom-extensions">
+    Create your own email-compatible nodes.
+  </Card>
+</CardGroup>
+
+## Examples
+
+Runnable examples are available at [vuemail.dev/editor](https://vuemail.dev/editor). Each example demonstrates a specific feature in isolation:
+
+<CardGroup cols={2}>
+  <Card title="Full Email Builder" icon="code" href="https://vuemail.dev/editor/full-email-builder">
+    All features combined — theming, bubble menus, slash commands, and HTML export.
+  </Card>
+  <Card title="All Examples" icon="folder-open" href="https://vuemail.dev/editor">
+    Browse the complete set of interactive examples.
+  </Card>
+</CardGroup>
+
+## Known limitations
+
+<AccordionGroup>
+  <Accordion title="Prism.js grammars add weight to your bundle">
+    The editor's code block extension is built on top of Vuemail's
+    [`CodeBlock`](/components/code-block) component, which ships every Prism.js
+    language grammar in a single module. Bundlers can't tree shake grammars
+    that register themselves, so all of them end up in your app's bundle
+    whenever the editor is in the module graph.
+
+    The current escape hatch is to patch your installed copy of `vuemail`,
+    with [`pnpm patch`](https://pnpm.io/cli/patch) or
+    [`patch-package`](https://www.npmjs.com/package/patch-package), stripping the
+    grammars you don't use out of `dist/components/code-block/prism.mjs` (and
+    `prism.cjs` if you consume the CJS build) while keeping the top of the file
+    that imports and re-exports Prism itself:
+
+    ```js
+    import * as PrismImport from "prismjs";
+    const Prism = PrismImport.default ?? PrismImport;
+    export { Prism };
+    ```
+
+    Prism.js still registers `markup`, `css`, `clike` and `javascript` by
+    default, and the editor lazily loads any other grammar it needs while
+    editing, so the editing experience is unaffected. Keep the grammars for
+    every language you render into emails though, since `CodeBlock` throws when
+    it is given a language that is not registered.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,22 @@
+{
+  "name": "vuemail-with-brevo",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "start": "node dist/index.mjs",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "6.0.2",
+    "vue": "3.5.43",
+    "vuemail": "0.1.0"
+  },
+  "devDependencies": {
+    "tsdown": "0.23.0",
+    "typescript": "5.9.3",
+    "unplugin-vue": "8.0.0"
+  }
+}

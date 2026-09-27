@@ -1,0 +1,11 @@
+{
+  "extends": "tsconfig/vue-library.json",
+  "compilerOptions": {
+    // Renders the components from their source, so that changes to them show
+    // up in the preview right away
+    "paths": {
+      "vuemail": ["../packages/vuemail/src/index.ts"]
+    }
+  },
+  "include": ["emails/**/*.ts", "emails/**/*.vue"]
+}

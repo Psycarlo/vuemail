@@ -1,0 +1,66 @@
+---
+title: "Section"
+sidebarTitle: "Section"
+description: "Display a section that can also be formatted using rows and columns."
+icon: "rectangles-mixed"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. Include styles where needed.
+
+```vue
+<script setup lang="ts">
+import { Column, Row, Section, Text } from 'vuemail';
+</script>
+
+<template>
+  <!-- A simple `section` -->
+  <Section>
+    <Text>Hello World</Text>
+  </Section>
+
+  <!-- Formatted with `rows` and `columns` -->
+  <Section>
+    <Row>
+      <Column>Column 1, Row 1</Column>
+      <Column>Column 2, Row 1</Column>
+    </Row>
+    <Row>
+      <Column>Column 1, Row 2</Column>
+      <Column>Column 2, Row 2</Column>
+    </Row>
+  </Section>
+</template>
+```
+
+## Props
+
+<ResponseField name="td-class" type="string">
+  Classes for the inner cell of the section. Padding, from `style` or from Tailwind classes,
+  is applied to that cell instead of the table, for better compatibility with Outlook.
+</ResponseField>
+
+<Support/>

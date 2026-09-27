@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --background-image-gradient: linear-gradient(
+    145.37deg,
+    rgba(255, 255, 255, 0.09) -8.75%,
+    rgba(255, 255, 255, 0.027) 83.95%
+  );
+  --background-image-gradient-hover: linear-gradient(
+    145.37deg,
+    rgba(255, 255, 255, 0.1) -8.75%,
+    rgba(255, 255, 255, 0.057) 83.95%
+  );
+  --background-image-shine: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  /* Radix Colors' green, dark and alpha */
+  --color-green-1: #00de4505;
+  --color-green-2: #29f99d0b;
+  --color-green-3: #22ff991e;
+  --color-green-4: #11ff992d;
+  --color-green-5: #2bffa23c;
+  --color-green-6: #44ffaa4b;
+  --color-green-7: #50fdac5e;
+  --color-green-8: #54ffad73;
+  --color-green-9: #44ffa49e;
+  --color-green-10: #43fea4ab;
+  --color-green-11: #46fea5d4;
+  --color-green-12: #bbffd7f0;
+
+  --color-slate-1: #00000000;
+  --color-slate-2: #d8f4f609;
+  --color-slate-3: #ddeaf814;
+  --color-slate-4: #d3edf81d;
+  --color-slate-5: #d9edfe25;
+  --color-slate-6: #d6ebfd30;
+  --color-slate-7: #d9edff40;
+  --color-slate-8: #d9edff5d;
+  --color-slate-9: #dfebfd6d;
+  --color-slate-10: #e5edfd7b;
+  --color-slate-11: #f1f7feb5;
+  --color-slate-12: #fcfdffef;
+
+  --font-sans:
+    "Inter Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-spin-fast: spin 1.5s linear infinite;
+
+  @keyframes shine {
+    0% {
+      background-position: -100%;
+    }
+
+    100% {
+      background-position: 100%;
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+    }
+
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(360deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+@utility arrow-hide {
+  appearance: textfield;
+
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0px;
+  }
+
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0px;
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+html {
+  color-scheme: dark;
+}
+
+.popup-open iframe {
+  pointer-events: none;
+}
+
+nav > div > div > .line {
+  display: none;
+}

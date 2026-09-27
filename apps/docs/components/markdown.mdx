@@ -1,0 +1,87 @@
+---
+title: "Markdown"
+sidebarTitle: "Markdown"
+description: "A Markdown component that converts markdown to valid Vuemail template code"
+icon: "file-code"
+---
+
+import Support from '/snippets/support.mdx'
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail -E
+```
+
+```sh yarn
+yarn add vuemail -E
+```
+
+```sh pnpm
+pnpm add vuemail -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+Add the component to your email template. Include styles where needed.
+
+```vue
+<script setup lang="ts">
+import { Html, Markdown } from 'vuemail';
+
+const markdown = `# Hello, World!
+
+This is a ~~strikethrough~~`;
+</script>
+
+<template>
+  <Html lang="en" dir="ltr">
+    <Markdown
+      :markdown-custom-styles="{
+        h1: { color: 'red' },
+        h2: { color: 'blue' },
+        codeInline: { background: 'grey' },
+      }"
+      :markdown-container-styles="{
+        padding: '12px',
+        border: 'solid 1px black',
+      }"
+      :source="markdown"
+    />
+
+    <!-- OR -->
+
+    <Markdown>{{ markdown }}</Markdown>
+  </Html>
+</template>
+```
+
+<Warning>
+  Don't write markdown straight into the template, as in `<Markdown># Hello</Markdown>`: Vue collapses
+  the whitespace and line breaks of templates, which markdown depends on. Pass it with the `source` prop,
+  or interpolate a string into the default slot.
+</Warning>
+
+## Props
+
+<ResponseField name="source" type="string">
+  Contains the markdown content that will be rendered in the email template. When it's not given,
+  the text of the default slot is used instead.
+</ResponseField>
+<ResponseField name="markdown-container-styles" type="object" default="{}">
+  Provide custom styles for the containing div that wraps the markdown content
+</ResponseField>
+<ResponseField name="markdown-custom-styles" type="object" default="{}">
+  Provide custom styles for the corresponding html element (p, h1, h2, etc.)
+  <Info>
+    Note: Passing a custom style for an element overrides the default styles.
+  </Info>
+</ResponseField>
+
+<Support/>

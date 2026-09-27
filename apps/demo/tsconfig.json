@@ -1,0 +1,5 @@
+{
+  "extends": "tsconfig/vue-library.json",
+  "include": ["emails/**/*.ts", "emails/**/*.vue", "*.ts"],
+  "exclude": ["node_modules", ".vuemail"]
+}

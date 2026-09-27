@@ -1,0 +1,285 @@
+---
+title: 'Nuxt'
+sidebarTitle: 'Nuxt'
+description: 'Render and send emails from the server routes of a Nuxt app.'
+icon: 'mountain'
+---
+
+import NextSteps from '/snippets/next-steps.mdx'
+
+The `@vuemail/nuxt` module lets Nitro, the server of Nuxt, import emails written as single file components,
+so your server routes can render them with [`render`](/utilities/render) and send them with any email provider.
+It works with Nuxt 4 (and Nuxt 3.13 or later).
+
+## 1. Install dependencies
+
+Install Vuemail and its Nuxt module, and the preview app as a dev dependency.
+
+<CodeGroup>
+
+```sh npm
+npm install vuemail @vuemail/nuxt -E
+npm install @vuemail/ui -D -E
+```
+
+```sh yarn
+yarn add vuemail @vuemail/nuxt -E
+yarn add @vuemail/ui -D -E
+```
+
+```sh pnpm
+pnpm add vuemail @vuemail/nuxt -E
+pnpm add @vuemail/ui -D -E
+```
+
+```sh bun
+bun add vuemail @vuemail/nuxt -E
+bun add @vuemail/ui -D -E
+```
+
+</CodeGroup>
+
+## 2. Add the module
+
+Add `@vuemail/nuxt` to the `modules` of your `nuxt.config.ts`:
+
+```ts nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@vuemail/nuxt'],
+});
+```
+
+That's all the configuration it needs. It takes one option, under the `vuemail` key:
+
+<ResponseField name="compilerOptions" type="object">
+  Options for the compiler of the single file components Nitro bundles, the emails your server
+  routes import. They are the options of [unplugin-vue](https://github.com/unplugin/unplugin-vue).
+</ResponseField>
+
+## 3. Write your emails
+
+Create an `emails` folder at the root of your project, next to `app` and `server`. It's where
+`email dev` looks for emails by default, so the preview and your server routes use the same files.
+
+```bash
+my-nuxt-app
+├── app
+├── emails
+│   ├── static
+│   └── welcome.vue
+├── server
+│   └── api
+│       └── send.post.ts
+├── nuxt.config.ts
+└── package.json
+```
+
+Then, write your first email in `emails/welcome.vue`:
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Html,
+  Preview,
+  Tailwind,
+  Text,
+} from 'vuemail';
+
+const { name } = defineProps<{ name: string }>();
+
+defineOptions({
+  PreviewProps: { name: 'Ana' },
+});
+</script>
+
+<template>
+  <Html>
+    <Tailwind>
+      <Head />
+      <Preview>Welcome, {{ name }}</Preview>
+      <Body class="bg-white font-sans">
+        <Container class="mx-auto p-4 sm:p-8">
+          <Text class="text-lg text-green-700">Welcome, {{ name }}!</Text>
+          <Button
+            href="https://vuemail.dev"
+            class="rounded bg-green-600 px-4 py-2 text-white"
+          >
+            Get started
+          </Button>
+        </Container>
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+## 4. Render and send it from a server route
+
+Import the email in a server route, render it into HTML and plain text, and send it.
+This example uses [Resend](/integrations/resend), but any of the [integrations](/integrations/overview) works the same way.
+
+<CodeGroup>
+
+```sh npm
+npm install resend
+```
+
+```sh yarn
+yarn add resend
+```
+
+```sh pnpm
+pnpm add resend
+```
+
+```sh bun
+bun add resend
+```
+
+</CodeGroup>
+
+Keep the API key in the runtime config, so it can be set with the `NUXT_RESEND_API_KEY` environment variable:
+
+```ts nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@vuemail/nuxt'],
+  runtimeConfig: {
+    resendApiKey: '',
+  },
+});
+```
+
+```ts server/api/send.post.ts
+import { Resend } from 'resend';
+import { render } from 'vuemail';
+import WelcomeEmail from '~~/emails/welcome.vue';
+
+export default defineEventHandler(async (event) => {
+  const { name, email } = await readBody<{ name: string; email: string }>(event);
+  const resend = new Resend(useRuntimeConfig(event).resendApiKey);
+
+  const html = await render(WelcomeEmail, { name });
+  const text = await render(WelcomeEmail, { name }, { plainText: true });
+
+  const { data, error } = await resend.emails.send({
+    from: 'Acme <onboarding@resend.dev>',
+    to: [email],
+    subject: `Welcome, ${name}`,
+    html,
+    text,
+  });
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message });
+  }
+
+  return data;
+});
+```
+
+<Info>
+  `~~` is the root of your project in Nuxt, so `~~/emails/welcome.vue` points to the `emails` folder
+  whether the route is in `server/api` or deeper.
+</Info>
+
+## 5. Preview your emails
+
+Add a script for the preview. Nuxt's development server runs on port 3000, which is the default of
+`email dev` too, so give the preview another one:
+
+```json package.json
+{
+  "scripts": {
+    "email:dev": "email dev --port 3001"
+  }
+}
+```
+
+Run it next to `nuxt dev` and visit [localhost:3001](http://localhost:3001) to see your emails
+change as you edit them.
+
+<CodeGroup>
+
+```sh npm
+npm run email:dev
+```
+
+```sh yarn
+yarn email:dev
+```
+
+```sh pnpm
+pnpm email:dev
+```
+
+```sh bun
+bun email:dev
+```
+
+</CodeGroup>
+
+<Tip>
+  The files in `emails/static` are only served by the preview. For the images of the emails you send,
+  use absolute URLs to files you host, like the ones in the `public` folder of your Nuxt app.
+</Tip>
+
+## Tailwind CSS 4
+
+If your app uses Tailwind CSS 4, with `@tailwindcss/vite`, keep it as it is:
+
+```ts nuxt.config.ts
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineNuxtConfig({
+  modules: ['@vuemail/nuxt'],
+  css: ['~/assets/css/main.css'],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+});
+```
+
+The [`Tailwind`](/components/tailwind) component of your emails works on its own: it compiles the
+classes an email uses, with Tailwind CSS 4, and inlines them while the email renders. It doesn't read
+the stylesheet of your app, so to use your design tokens in emails too, pass them to its `theme` prop:
+
+```ts emails/theme.ts
+export const theme = `
+@theme {
+  --color-brand: #42b883;
+}
+`;
+```
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import { Body, Button, Html, Tailwind } from 'vuemail';
+import { theme } from './theme';
+</script>
+
+<template>
+  <Html>
+    <Tailwind :theme="theme">
+      <Body>
+        <Button href="https://vuemail.dev" class="bg-brand px-4 py-2 text-white">
+          Get started
+        </Button>
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+<Tip>
+  Tailwind CSS detects the classes of your whole project, including the `emails` folder, for the
+  stylesheet of your app. To leave the emails out of it, add `@source not "../../../emails";` to
+  `app/assets/css/main.css`.
+</Tip>
+
+## Next steps
+
+<NextSteps/>

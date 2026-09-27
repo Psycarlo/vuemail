@@ -1,0 +1,182 @@
+---
+title: 'Messages as props'
+sidebarTitle: 'Messages as props'
+description: 'Localize Vuemail emails by passing their messages as props'
+---
+
+The simplest way to localize an email needs no library at all: load the messages for the recipient's
+locale where you send the email, and pass them to it as a prop. The email only renders the strings
+it's given, so it works the same with `render`, in `email dev`, and with any i18n library your app
+already uses to pick the messages.
+
+This guide shows how to convert an English Vuemail template to support multiple locales.
+
+## Prerequisites
+
+To get the most out of this guide, you’ll need to:
+
+- [Set up Vuemail](/getting-started/automatic-setup)
+
+This guide will use the same email template as a base as the [vue-i18n guide](/guides/internationalization/vue-i18n).
+
+## Passing messages as props
+
+### 1. Create messages for each locale
+
+For each locale, create a new JSON file containing the content of the email in that locale.
+
+<CodeGroup>
+
+```json messages/en/welcome-email.json
+{
+  "header": "Welcome to Acme",
+  "hi": "Hi",
+  "thanks": "Thanks for signing up! We're excited to have you on board.",
+  "getStarted": "Get Started",
+  "questions": "If you have any questions, reply to this email. We're here to help!"
+}
+```
+
+```json messages/es/welcome-email.json
+{
+  "header": "Bienvenido a Acme",
+  "hi": "Hola",
+  "thanks": "Gracias por registrarte! Estamos emocionados de tenerte en la plataforma.",
+  "getStarted": "Comenzar",
+  "questions": "Si tienes alguna pregunta, responde a este correo electrónico. Estamos aquí para ayudarte!"
+}
+```
+
+```json messages/pt/welcome-email.json
+{
+  "header": "Bem-vindo ao Acme",
+  "hi": "Olá",
+  "thanks": "Obrigado por se inscrever! Estamos ansiosos para te receber na plataforma.",
+  "getStarted": "Começar",
+  "questions": "Se você tiver alguma dúvida, responda a este e-mail. Estamos aqui para ajudar!"
+}
+```
+
+</CodeGroup>
+
+### 2. Update the email props
+
+Add a `messages` prop to the email template, with a type for its messages, and use the English
+messages for the preview. `defineOptions` can reference imports, so the preview uses the same file:
+
+```vue emails/welcome.vue
+<script setup lang="ts">
+import en from '../messages/en/welcome-email.json';
+
+interface WelcomeEmailMessages {
+  header: string;
+  hi: string;
+  thanks: string;
+  getStarted: string;
+  questions: string;
+}
+
+const { name, messages } = defineProps<{
+  name: string;
+  messages: WelcomeEmailMessages;
+}>();
+
+defineOptions({
+  PreviewProps: {
+    name: 'John Lennon',
+    messages: en,
+  },
+});
+</script>
+```
+
+### 3. Update the email template
+
+In the email template, remove the hardcoded content and render the messages instead.
+
+```vue emails/welcome.vue expandable
+<script setup lang="ts">
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from 'vuemail';
+import en from '../messages/en/welcome-email.json';
+
+interface WelcomeEmailMessages {
+  header: string;
+  hi: string;
+  thanks: string;
+  getStarted: string;
+  questions: string;
+}
+
+const { name, messages } = defineProps<{
+  name: string;
+  messages: WelcomeEmailMessages;
+}>();
+
+defineOptions({
+  PreviewProps: {
+    name: 'John Lennon',
+    messages: en,
+  },
+});
+</script>
+
+<template>
+  <Html>
+    <Head />
+    <Preview>{{ messages.header }}</Preview>
+    <Tailwind>
+      <Body class="bg-gray-100 font-sans">
+        <Container class="mx-auto py-10 px-5">
+          <Section class="bg-white rounded-lg p-8">
+            <Heading class="text-2xl font-bold text-gray-900 m-0 mb-6">
+              {{ messages.header }}
+            </Heading>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              {{ messages.hi }} {{ name }}
+            </Text>
+            <Text class="text-base leading-6 text-gray-600 m-0 mb-4">
+              {{ messages.thanks }}
+            </Text>
+            <Button
+              href="https://example.com/dashboard"
+              class="bg-indigo-600 rounded-md text-white text-base font-semibold no-underline text-center block py-3 px-6 my-6"
+            >
+              {{ messages.getStarted }}
+            </Button>
+            <Hr class="border-gray-200 my-6" />
+            <Text class="text-sm text-gray-400 m-0">
+              {{ messages.questions }}
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Tailwind>
+  </Html>
+</template>
+```
+
+### 4. Update any email calls
+
+When calling the email template, load the messages for the recipient's locale and pass them to the email.
+
+```ts
+import { render } from 'vuemail';
+import WelcomeEmail from './emails/welcome.vue';
+
+const locale = 'es';
+const { default: messages } = await import(`./messages/${locale}/welcome-email.json`);
+
+const html = await render(WelcomeEmail, { name: 'John Lennon', messages });
+```

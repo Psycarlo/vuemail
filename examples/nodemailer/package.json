@@ -1,0 +1,23 @@
+{
+  "name": "vuemail-with-nodemailer",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "start": "node dist/index.mjs",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "nodemailer": "9.0.1",
+    "vue": "3.5.43",
+    "vuemail": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "8.0.0",
+    "tsdown": "0.23.0",
+    "typescript": "5.9.3",
+    "unplugin-vue": "8.0.0"
+  }
+}

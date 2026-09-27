@@ -1,0 +1,251 @@
+---
+title: "composeVueEmail"
+sidebarTitle: "composeVueEmail"
+description: "Convert editor content to email-ready HTML and plain text."
+icon: "file-export"
+---
+
+The `composeVueEmail` function is the core of the editor's email export system. It takes
+the editor's document tree, walks every node and mark, calls each extension's
+`renderToVueEmail()` method, applies theme styles, wraps everything in an email-ready
+template, and produces both HTML and plain text output.
+
+## Import
+
+```ts
+import { composeVueEmail } from '@vuemail/editor/core';
+```
+
+## Signature
+
+```ts
+async function composeVueEmail(params: {
+  editor: Editor;
+  preview?: string;
+  previewMode?: boolean;
+}): Promise<{ html: string; text: string; unformattedHtml: string }>;
+```
+
+## Parameters
+
+<ResponseField name="editor" type="Editor" required>
+  The TipTap editor instance. The function reads the editor's JSON document and walks through
+  each registered extension to serialize nodes and marks.
+</ResponseField>
+
+<ResponseField name="preview" type="string">
+  Preview text shown in inbox list views before the email is opened. Leave it out to omit it.
+</ResponseField>
+
+<ResponseField name="previewMode" type="boolean" default="false">
+  Renders the email for previewing it in your app instead of sending it, which leaves out the
+  `<style>` that keeps some content readable in dark-mode email clients.
+</ResponseField>
+
+## Return value
+
+Returns a `Promise` that resolves to an object with:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `html` | `string` | Full HTML email string, formatted for reading |
+| `text` | `string` | Plain text version for email clients that don't support HTML |
+| `unformattedHtml` | `string` | The same HTML without formatting, better for storing or sending |
+
+The formatted HTML and the plain text are generated in parallel for performance.
+
+<Tip>
+  Formatting can make the HTML of deeply nested table layouts several times larger, without
+  changing how it looks. Store and send `unformattedHtml`, and keep `html` for displaying the code.
+</Tip>
+
+---
+
+## The serialization pipeline
+
+Understanding how `composeVueEmail` works helps you write better custom extensions and
+debug rendering issues.
+
+### 1. Extract document and extensions
+
+The function reads the editor's JSON document (via `editor.getJSON()`) and collects all
+registered extensions into a name-to-extension map for fast lookup.
+
+### 2. Find the SerializerPlugin
+
+It searches extensions for one that provides a `SerializerPlugin` — an interface with two
+methods:
+
+- **`getNodeStyles(node, depth, editor)`** — returns the `CSSProperties` for a given node
+- **`BaseTemplate({ previewText, children, editor, previewMode })`** — wraps the serialized content in an email structure, returning VNodes
+
+The [`EmailTheming`](/editor/features/theming) extension implements this interface. If no
+plugin is found, styles default to `{}` and the built-in `DefaultBaseTemplate` is used.
+
+### 3. Traverse the document tree
+
+It recursively walks the ProseMirror document. For each node it:
+
+1. **Resolves styles** — calls `serializerPlugin.getNodeStyles(node, depth, editor)` to get
+   theme styles, then merges any inline styles from the node's attributes
+2. **Renders unknown nodes as `null`** — if the node type isn't registered or isn't an
+   [`EmailNode`](/editor/api-reference/email-node), it returns `null`
+3. **Renders the node** — calls the extension's `renderToVueEmail()` function, passing
+   `children` (from recursing into child nodes), `style`, `node`, and `extension`
+4. **Wraps with marks** — iterates through the node's marks (bold, italic, link, etc.) and
+   wraps the rendered output with each mark's `renderToVueEmail()`
+
+
+### 4. Depth tracking
+
+Depth starts at `0` and only increments inside list nodes (`bulletList`, `orderedList`).
+This enables different styling for nested vs. top-level elements — for example, paragraphs
+inside list items use the `listParagraph` theme key instead of `paragraph`.
+
+### 5. Style resolution order
+
+Styles are resolved in this priority (highest wins):
+
+1. **Inline styles** — styles set directly on a node via the editor (e.g., text alignment)
+2. **Theme styles** — styles from the active theme via `getNodeStyles()`
+3. **Extension defaults** — hardcoded styles in each extension's `renderToVueEmail()`
+
+Inside each extension's renderer, these are typically merged:
+
+```ts
+renderToVueEmail({ children, style, node }) {
+  return h(
+    'p',
+    {
+      style: {
+        ...style,                            // theme styles
+        ...inlineCssToJs(node.attrs?.style), // inline overrides
+      },
+    },
+    [children],
+  );
+}
+```
+
+### 6. Wrap in BaseTemplate
+
+The serialized content is wrapped in a `BaseTemplate` that provides the email's
+outer structure.
+
+The **default template** renders:
+
+```ts
+h(Html, null, () => [
+  h(Head, null, () => [
+    h('meta', { content: 'width=device-width', name: 'viewport' }),
+    h('meta', { content: 'IE=edge', 'http-equiv': 'X-UA-Compatible' }),
+    h('meta', { name: 'x-apple-disable-message-reformatting' }),
+    h('meta', {
+      content: 'telephone=no,address=no,email=no,date=no,url=no',
+      name: 'format-detection',
+    }),
+    // Keeps list markers visible in dark-mode email clients, unless previewMode is set
+    previewMode ? null : h('style', { innerHTML: DARK_MODE_CSS }),
+  ]),
+  previewText ? h(Preview, null, () => previewText) : null,
+  h(Body, null, () => children),
+]);
+```
+
+When [`EmailTheming`](/editor/features/theming) is active, its `BaseTemplate` replaces the
+default — it adds theme-specific body/container styles and can inject global CSS via a
+`<style>` tag in the `<Head>`.
+
+### 7. Render to HTML and plain text
+
+The VNodes are rendered to an HTML string using the [`render()`](/utilities/render) function
+of `vuemail`. Both the formatted HTML and a plain text version (tags stripped, text preserved)
+are then produced in parallel from that HTML.
+
+---
+
+## Usage
+
+### Basic export
+
+```ts
+import { composeVueEmail } from '@vuemail/editor/core';
+
+const { html, text } = await composeVueEmail({ editor });
+```
+
+### With preview text
+
+The `preview` parameter sets the inbox preview snippet — the text shown before the email
+is opened:
+
+```ts
+const { html, text } = await composeVueEmail({
+  editor,
+  preview: 'Check out our latest updates!',
+});
+```
+
+Leave `preview` out to omit preview text entirely.
+
+### With theming
+
+When the [`EmailTheming`](/editor/features/theming) extension is in your extensions array,
+theme styles are automatically inlined into every node during export:
+
+```ts
+import { StarterKit } from '@vuemail/editor/extensions';
+import { EmailTheming } from '@vuemail/editor/plugins';
+
+const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
+
+// Theme styles are injected automatically — no extra config needed
+const { html } = await composeVueEmail({ editor });
+```
+
+### Full example with export panel
+
+```vue export-panel.vue
+<script setup lang="ts">
+import { composeVueEmail, useCurrentEditor } from '@vuemail/editor/core';
+import { ref } from 'vue';
+
+const { editor } = useCurrentEditor();
+const html = ref('');
+const exporting = ref(false);
+
+async function handleExport() {
+  if (!editor.value) return;
+  exporting.value = true;
+  const result = await composeVueEmail({ editor: editor.value });
+  html.value = result.html;
+  exporting.value = false;
+}
+</script>
+
+<template>
+  <div>
+    <button type="button" :disabled="exporting" @click="handleExport">
+      {{ exporting ? 'Exporting...' : 'Export HTML' }}
+    </button>
+    <textarea
+      v-if="html"
+      readonly
+      :value="html"
+      rows="16"
+      :style="{ width: '100%', fontFamily: 'monospace' }"
+    />
+  </div>
+</template>
+```
+
+Render it inside `EditorProvider` or `EmailEditor`, so that `useCurrentEditor()` finds the editor.
+
+---
+
+## See also
+
+- [`EmailNode`](/editor/api-reference/email-node) — defines how nodes serialize via `renderToVueEmail()`
+- [`EmailMark`](/editor/api-reference/email-mark) — defines how marks serialize via `renderToVueEmail()`
+- [Email Export](/editor/features/email-export) — guide with full editor + export examples
+- [Theming](/editor/features/theming) — how `EmailTheming` provides styles and templates to the serializer

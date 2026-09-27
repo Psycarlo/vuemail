@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": false,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "strictNullChecks": true,
+    "types": ["node"]
+  },
+  "include": ["emails/**/*.ts", "emails/**/*.vue"],
+  "exclude": ["node_modules", ".vuemail"]
+}

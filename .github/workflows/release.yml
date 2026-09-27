@@ -1,0 +1,41 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      # npm trusted publishing (OIDC) and provenance
+      id-token: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: pnpm setup
+        uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+      # Opens a "Version Packages" pull request while there are changesets,
+      # and publishes to npm once that pull request is merged
+      - name: Create release pull request or publish
+        uses: changesets/action@v1
+        with:
+          version: pnpm run version-packages
+          publish: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,55 @@
+---
+title: 'Editing the components'
+sidebarTitle: '6. Editing the components'
+---
+
+To facilitate developing components, use the [demo app](https://github.com/vuemail/vuemail/tree/main/apps/demo), which previews its emails with `email dev`, running on the packages of the workspace.
+
+## 1. Create an email template
+
+Create a new file at `apps/demo/emails/testing.vue`
+
+```vue apps/demo/emails/testing.vue
+<script setup lang="ts">
+import { Body, Head, Html, Tailwind, Text } from 'vuemail';
+</script>
+
+<template>
+  <Tailwind>
+    <Html>
+      <Head />
+
+      <Body class="bg-black text-white">
+        <Text class="m-0 my-4 bg-green-200 text-slate-800">
+          This is a testing email template.
+        </Text>
+      </Body>
+    </Html>
+  </Tailwind>
+</template>
+```
+
+<Tip>
+The emails in [apps/demo/emails](https://github.com/vuemail/vuemail/tree/main/apps/demo/emails) are the demo emails, so remember not to commit your testing template.
+</Tip>
+
+## 2. Rebuild the components as you change them
+
+```sh packages/vuemail
+pnpm build:watch
+```
+
+## 3. Run the preview server
+
+```sh apps/demo
+pnpm dev
+```
+
+## 4. Open in your browser
+
+Go to http://localhost:3000
+
+<Info>
+  `pnpm test` in `apps/demo` renders every demo email, which is a quick way of checking that your changes
+  didn't break any of them.
+</Info>

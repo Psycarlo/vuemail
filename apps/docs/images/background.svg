@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="988" height="834" viewBox="0 0 988 834" fill="none">
+  <defs>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+  </defs>
+  <g filter="url(#blur)">
+    <ellipse cx="470" cy="230" rx="330" ry="120" transform="rotate(52 470 230)" fill="#42D392" fill-opacity=".22"/>
+    <ellipse cx="610" cy="330" rx="260" ry="110" transform="rotate(52 610 330)" fill="#42B883" fill-opacity=".18"/>
+    <ellipse cx="720" cy="520" rx="220" ry="90" transform="rotate(52 720 520)" fill="#0B6E4F" fill-opacity=".08"/>
+  </g>
+</svg>

@@ -1,0 +1,126 @@
+---
+title: "EmailMark"
+sidebarTitle: "EmailMark"
+description: "Base class for creating editor marks with email serialization."
+icon: "paintbrush-fine"
+---
+
+`EmailMark` extends TipTap's `Mark` class with an additional `renderToVueEmail()` method
+that controls how the mark is serialized when exporting to email HTML via
+[`composeVueEmail`](/editor/api-reference/compose-vue-email).
+
+Marks are used for inline formatting like bold, italic, links, and custom text annotations.
+
+## Import
+
+```ts
+import { EmailMark } from '@vuemail/editor/core';
+```
+
+## EmailMark.create
+
+Create a new email-compatible mark from scratch.
+
+```ts
+import { EmailMark } from '@vuemail/editor/core';
+import { h } from 'vue';
+
+const Highlight = EmailMark.create({
+  name: 'highlight',
+
+  parseHTML() {
+    return [{ tag: 'mark' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['mark', HTMLAttributes, 0];
+  },
+
+  renderToVueEmail({ children, style }) {
+    return h('mark', { style: { ...style, backgroundColor: '#fef08a' } }, [children]);
+  },
+});
+```
+
+The config object accepts all standard [TipTap Mark options](https://tiptap.dev/docs/editor/api/mark)
+plus the `renderToVueEmail` method, a function that returns VNodes built with `h()`.
+
+### renderToVueEmail props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `VNodeChild` | The content wrapped by this mark, already rendered |
+| `style` | `CSSProperties` | Resolved theme styles for this mark (empty object if no theme) |
+| `mark` | `{ type, attrs }` | The mark, as JSON |
+| `node` | `JSONContent` | The node that contains this mark, as JSON |
+| `extension` | `EmailMark` | The extension instance, useful for accessing `options` |
+
+## EmailMark.from
+
+Wrap an existing TipTap mark with email serialization support. This is useful when you want to
+reuse a community TipTap extension and add email export support without rewriting it.
+
+```ts
+import { EmailMark } from '@vuemail/editor/core';
+import Strike from '@tiptap/extension-strike';
+import { h } from 'vue';
+
+const EmailStrike = EmailMark.from(Strike, ({ children, style }) => {
+  return h('s', { style }, [children]);
+});
+```
+
+The second argument is the `renderToVueEmail` renderer function. It receives the same props
+as described above.
+
+## .configure
+
+Configure options on an `EmailMark` (same as TipTap's `.configure()`):
+
+```ts
+import { Bold } from '@vuemail/editor/extensions';
+
+const CustomBold = Bold.configure({ HTMLAttributes: { class: 'custom-bold' } });
+```
+
+## .extend
+
+Extend an `EmailMark` with additional behavior:
+
+```ts
+import { Link } from '@vuemail/editor/extensions';
+
+const CustomLink = Link.extend({
+  addKeyboardShortcuts() {
+    return {
+      'Mod-k': () => this.editor.commands.toggleLink({ href: '' }),
+    };
+  },
+});
+```
+
+You can also override `renderToVueEmail` when extending:
+
+```ts
+import { Link } from '@vuemail/editor/extensions';
+import { h } from 'vue';
+
+const CustomLink = Link.extend({
+  renderToVueEmail({ children, style, mark }) {
+    return h(
+      'a',
+      {
+        href: mark.attrs?.href,
+        style: { ...style, color: '#0066cc', textDecoration: 'underline' },
+      },
+      [children],
+    );
+  },
+});
+```
+
+## See also
+
+- [Custom Extensions](/editor/advanced/custom-extensions) — tutorial on building custom extensions
+- [`EmailNode`](/editor/api-reference/email-node) — the equivalent class for block nodes
+- [`composeVueEmail`](/editor/api-reference/compose-vue-email) — the function that calls `renderToVueEmail`

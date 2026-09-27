@@ -1,0 +1,182 @@
+---
+title: "Slash Commands"
+sidebarTitle: "Slash Commands"
+description: "Add a command menu for inserting content blocks."
+icon: "slash-forward"
+---
+
+## Quick start
+
+Add `SlashCommand` with the default command set:
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
+import '@vuemail/editor/themes/default.css';
+
+const extensions = [StarterKit];
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <SlashCommand :items="defaultSlashCommands" />
+  </EditorProvider>
+</template>
+```
+
+Type `/` in the editor to open the command menu. Use arrow keys to navigate and Enter to select.
+
+<Tip>
+  Even though you can [add custom commands](#adding-custom-commands) and style
+  them that way, the default can also be styled using <br/> [CSS variables and `data-re-*` selectors](/editor/features/styling#slash-command).
+</Tip>
+
+## Default commands
+
+The `defaultSlashCommands` array includes these built-in commands:
+
+| Command | Category | Description |
+|---------|----------|-------------|
+| `TEXT` | Text | Plain text block |
+| `H1` | Text | Large heading |
+| `H2` | Text | Medium heading |
+| `H3` | Text | Small heading |
+| `BULLET_LIST` | Text | Unordered list |
+| `NUMBERED_LIST` | Text | Ordered list |
+| `QUOTE` | Text | Block quote |
+| `CODE` | Text | Code snippet |
+| `BUTTON` | Layout | Clickable button |
+| `DIVIDER` | Layout | Horizontal separator |
+| `SECTION` | Layout | Content section |
+| `TWO_COLUMNS` | Layout | Two column layout |
+| `THREE_COLUMNS` | Layout | Three column layout |
+| `FOUR_COLUMNS` | Layout | Four column layout |
+
+Each command is also exported individually, so you can cherry-pick:
+
+```vue
+<script setup lang="ts">
+import { BUTTON, H1, H2, SlashCommand, TEXT } from '@vuemail/editor/ui';
+</script>
+
+<template>
+  <SlashCommand :items="[TEXT, H1, H2, BUTTON]" />
+</template>
+```
+
+## Adding custom commands
+
+Create a `SlashCommandItem` and include it in the items array. Its `icon` is an element, created with `h()`, or a component:
+
+```vue
+<script setup lang="ts">
+import { EditorProvider } from '@vuemail/editor';
+import { StarterKit } from '@vuemail/editor/extensions';
+import {
+  defaultSlashCommands,
+  SlashCommand,
+  type SlashCommandItem,
+} from '@vuemail/editor/ui';
+import { Star } from 'lucide-vue-next';
+import { h } from 'vue';
+
+const extensions = [StarterKit];
+
+const GREETING: SlashCommandItem = {
+  title: 'Greeting',
+  description: 'Insert a greeting block',
+  icon: h(Star, { size: 20 }),
+  category: 'Custom',
+  searchTerms: ['hello', 'greeting', 'welcome'],
+  command: ({ editor, range }) => {
+    editor
+      .chain()
+      .focus()
+      .deleteRange(range)
+      .insertContent({
+        type: 'paragraph',
+        content: [{ type: 'text', text: 'Hello! Welcome to our newsletter.' }],
+      })
+      .run();
+  },
+};
+</script>
+
+<template>
+  <EditorProvider :extensions="extensions" :content="content">
+    <SlashCommand :items="[...defaultSlashCommands, GREETING]" />
+  </EditorProvider>
+</template>
+```
+
+The `SlashCommandItem` interface:
+
+<ResponseField name="title" type="string" required>
+  Display name shown in the command list.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Help text shown below the title.
+</ResponseField>
+
+<ResponseField name="icon" type="VNodeChild | Component" required>
+  Icon displayed next to the command, like `h(Star, { size: 20 })`, or a component.
+</ResponseField>
+
+<ResponseField name="category" type="string" required>
+  Category for grouping commands in the list.
+</ResponseField>
+
+<ResponseField name="searchTerms" type="string[]">
+  Additional terms for fuzzy search matching.
+</ResponseField>
+
+<ResponseField name="command" type="(props: { editor, range }) => void" required>
+  Function called when the command is selected. Receives the editor instance and the range to replace.
+</ResponseField>
+
+## Using individual commands
+
+You can cherry-pick from the default commands to show only specific options:
+
+```vue
+<script setup lang="ts">
+import { BUTTON, SlashCommand } from '@vuemail/editor/ui';
+</script>
+
+<template>
+  <SlashCommand :items="[BUTTON]" />
+</template>
+```
+
+This is useful when you want a minimal command palette. For example, only allowing button insertion.
+
+## Controlling visibility
+
+<ResponseField name="char" type="string" default="/">
+  Character that triggers the command menu.
+</ResponseField>
+
+<ResponseField name="allow" type="(props: { editor }) => boolean">
+  Function to control when the command menu can appear. Return `false` to prevent it.
+</ResponseField>
+
+```vue
+<SlashCommand
+  :items="defaultSlashCommands"
+  char="/"
+  :allow="({ editor }) => !editor.isActive('codeBlock')"
+/>
+```
+
+## Examples
+
+See slash commands in action with a runnable example:
+
+<CardGroup cols={2}>
+  <Card title="Slash Commands" icon="code" href="https://vuemail.dev/editor/slash-commands">
+    Default commands plus a custom Greeting command.
+  </Card>
+</CardGroup>

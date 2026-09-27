@@ -1,0 +1,175 @@
+---
+title: "SlashCommand"
+sidebarTitle: "SlashCommand"
+description: "Command menu triggered by typing a character."
+icon: "terminal"
+---
+
+Command menu triggered by typing a character (default: `/`).
+
+## SlashCommand
+
+```vue
+<script setup lang="ts">
+import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
+</script>
+
+<template>
+  <SlashCommand :items="defaultSlashCommands" />
+</template>
+```
+
+<ResponseField name="items" type="SlashCommandItem[]" default="defaultSlashCommands">
+  Array of commands to display. Falls back to `defaultSlashCommands` when not provided.
+</ResponseField>
+
+<ResponseField name="filter-items" type="(items, query, editor) => SlashCommandItem[]">
+  Custom filter function. By default, uses fuzzy matching on title, description, and search terms.
+</ResponseField>
+
+<ResponseField name="char" type="string" default="/">
+  Character that triggers the command menu.
+</ResponseField>
+
+<ResponseField name="allow" type="(props: { editor }) => boolean">
+  Controls when the menu can appear. Return `false` to prevent it.
+</ResponseField>
+
+<ResponseField name="default slot" type="(props: SlashCommandRenderProps) => VNode[]">
+  Custom rendering for the command list. Receives `items`, `query`, `selectedIndex`, and `onSelect`.
+</ResponseField>
+
+### Custom rendering
+
+Use the default slot to fully customize how the command list looks.
+The slot receives the filtered items, current query, selected index,
+and a callback to select an item:
+
+```vue
+<script setup lang="ts">
+import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
+</script>
+
+<template>
+  <SlashCommand
+    v-slot="{ items, query, selectedIndex, onSelect }"
+    :items="defaultSlashCommands"
+  >
+    <div class="my-command-list">
+      <button
+        v-for="(item, index) in items"
+        :key="item.title"
+        type="button"
+        class="my-command-item"
+        :data-selected="index === selectedIndex"
+        @click="onSelect(index)"
+      >
+        <!-- the icons of the default commands are elements, made with h() -->
+        <component :is="() => item.icon" />
+        <div>
+          <span>{{ item.title }}</span>
+          <span>{{ item.description }}</span>
+        </div>
+      </button>
+      <div v-if="items.length === 0" class="my-command-empty">
+        No results for "{{ query }}"
+      </div>
+    </div>
+  </SlashCommand>
+</template>
+```
+
+### Custom commands
+
+Pass your own items to add domain-specific commands alongside (or instead of) the defaults:
+
+```vue
+<script setup lang="ts">
+import {
+  defaultSlashCommands,
+  SlashCommand,
+  type SlashCommandItem,
+} from '@vuemail/editor/ui';
+import { ImageIcon } from 'lucide-vue-next';
+import { h } from 'vue';
+
+const customCommands: SlashCommandItem[] = [
+  ...defaultSlashCommands,
+  {
+    title: 'Image',
+    description: 'Insert an image',
+    searchTerms: ['photo', 'picture', 'img'],
+    icon: h(ImageIcon, { size: 18 }),
+    category: 'Media',
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setImage({ src: '' }).run();
+    },
+  },
+];
+</script>
+
+<template>
+  <SlashCommand :items="customCommands" />
+</template>
+```
+
+---
+
+## SlashCommandItem
+
+```ts
+interface SlashCommandItem {
+  title: string;
+  description: string;
+  searchTerms?: string[];
+  icon: VNodeChild | Component;
+  category: string;
+  command: (props: { editor: Editor; range: Range }) => void;
+}
+```
+
+The `icon` is what renders next to the command: an element, like `h(ImageIcon, { size: 18 })`, or a component.
+
+---
+
+## SlashCommandRenderProps
+
+```ts
+interface SlashCommandRenderProps {
+  items: SlashCommandItem[];
+  query: string;
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+}
+```
+
+---
+
+## Default commands
+
+The `defaultSlashCommands` export includes these built-in commands:
+
+| Command | Category | Description |
+|---------|----------|-------------|
+| Text | Basic | Plain text paragraph |
+| Heading 1 | Headings | Level 1 heading |
+| Heading 2 | Headings | Level 2 heading |
+| Heading 3 | Headings | Level 3 heading |
+| Numbered List | Lists | Ordered list |
+| Bullet List | Lists | Unordered list |
+| Quote | Basic | Block quote |
+| Section | Layout | Content section |
+| 2 Columns | Layout | Two-column layout |
+| 3 Columns | Layout | Three-column layout |
+| 4 Columns | Layout | Four-column layout |
+| Divider | Basic | Horizontal rule |
+| Code | Basic | Code block |
+| Button | Basic | Email button |
+
+---
+
+## CSS import
+
+```ts
+import '@vuemail/editor/styles/slash-command.css';
+```

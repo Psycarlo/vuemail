@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "vuemail",
+      "type": "skill-md",
+      "description": "Create HTML email templates with Vue components: welcome emails, password resets, notifications, order confirmations, newsletters, or transactional emails.",
+      "url": "https://raw.githubusercontent.com/vuemail/vuemail/main/skills/vuemail/SKILL.md"
+    }
+  ]
+}

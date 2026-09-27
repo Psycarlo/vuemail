@@ -1,0 +1,11 @@
+<template>
+  <div
+    class="relative flex w-[40%] flex-col items-center gap-4 rounded-xs bg-[#0F0F10] bg-linear-to-b from-transparent via-black/20 to-black/20 p-3 shadow-xs transition-transform duration-150 ease-[cubic-bezier(.42,0,.58,1.8)] group-hover:skew-x-3"
+  >
+    <div class="h-3 w-[66%] rounded-xs bg-slate-5" />
+    <div
+      class="mr-1 flex h-0.5 w-full items-center justify-center gap-1 rounded-xs border border-[#42D392] bg-[#42B883] shadow-[0px_0px_9px_4px_rgba(66,184,131,0.10)] transition-all group-hover:scale-x-105"
+    />
+    <div class="h-3 w-[66%] rounded-xs bg-slate-5" />
+  </div>
+</template>

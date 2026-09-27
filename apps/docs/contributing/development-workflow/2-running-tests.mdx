@@ -1,0 +1,35 @@
+---
+title: 'Running tests'
+sidebarTitle: '2. Running tests'
+description: 'Everything you need to know about our testing setup and strategy'
+---
+
+For testing, we use [vitest](https://vitest.dev/). We prefer to define globals, and run tests under the `happy-dom`
+environment for the code that runs in the browser, like the preview app and the editor, and under `node` for the rest.
+
+<Note>
+The tests of `@vuemail/nuxt` build and start real Nuxt apps, so they take longer than the others.
+</Note>
+
+The specs of `@vuemail/editor` that type into the editor (`*.browser.spec.ts`) run in a real Chromium, through
+Vitest's browser mode and Playwright. Install that browser once before running them:
+
+```bash
+pnpm --filter @vuemail/editor exec playwright install chromium
+```
+
+In `packages/editor`, `pnpm test:unit` and `pnpm test:browser` run each kind on its own.
+
+We do not strictly enforce testing coverage, but encourage it. A good rule of thumb is that if you need to simulate use
+cases to check whether a specific portion of code works, you should split it into a function with a matching unit test.
+
+After you have gone through the [setup](/contributing/development-workflow/1-setup) run
+`pnpm test` inside any package. This will run the tests only once. We have two
+scripts defined on our packages for testing:
+
+- `pnpm test`: Runs all the tests once. If you run it on the root, it will run the
+  tests for all packages using
+  [turborepo](/contributing/codebase-overview#turborepo), after building the packages they depend on
+- `pnpm test:watch`: Runs all the tests and watches for changes. Vitest
+  automatically only runs the tests that are affected by the code you've
+  changed.

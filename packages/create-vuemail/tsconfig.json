@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/base.json",
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "build", "node_modules", ".test", "template"],
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"]
+  }
+}

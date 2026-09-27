@@ -1,0 +1,241 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "Vuemail",
+  "colors": {
+    "primary": "#42B883",
+    "light": "#42D392",
+    "dark": "#0B6E4F"
+  },
+  "styling": {
+    "codeblocks": {
+      "theme": {
+        "light": "github-light",
+        "dark": "vesper"
+      }
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      {
+        "title": "llms-full.txt",
+        "description": "View all docs as Markdown for LLMs",
+        "icon": "markdown",
+        "href": "https://vuemail.dev/docs/llms-full.txt"
+      },
+      "chatgpt",
+      "claude"
+    ]
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Primitives",
+        "icon": "cubes",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "changelog",
+              "roadmap",
+              "cli",
+              "deployment"
+            ]
+          },
+          {
+            "group": "Getting Started",
+            "pages": [
+              "getting-started/automatic-setup",
+              "getting-started/manual-setup",
+              "getting-started/nuxt",
+              {
+                "group": "Monorepo Setup",
+                "icon": "diagram-project",
+                "pages": [
+                  "getting-started/monorepo-setup/npm",
+                  "getting-started/monorepo-setup/pnpm",
+                  "getting-started/monorepo-setup/yarn",
+                  "getting-started/monorepo-setup/bun"
+                ]
+              },
+              "getting-started/migrating-to-vuemail",
+              "getting-started/updating-vuemail"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              {
+                "group": "Internationalization",
+                "icon": "earth-americas",
+                "pages": [
+                  "guides/internationalization/vue-i18n",
+                  "guides/internationalization/messages-as-props"
+                ]
+              },
+              "guides/vite"
+            ]
+          },
+          {
+            "group": "Components",
+            "pages": [
+              "components/html",
+              "components/head",
+              "components/body",
+              "components/button",
+              "components/container",
+              "components/code-block",
+              "components/code-inline",
+              "components/column",
+              "components/row",
+              "components/font",
+              "components/heading",
+              "components/hr",
+              "components/image",
+              "components/link",
+              "components/markdown",
+              "components/preview",
+              "components/section",
+              "components/tailwind",
+              "components/text"
+            ]
+          },
+          {
+            "group": "Utilities",
+            "pages": ["utilities/render"]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview",
+              "integrations/resend",
+              "integrations/inbound",
+              "integrations/nodemailer",
+              "integrations/mailgun",
+              "integrations/sendgrid",
+              "integrations/postmark",
+              "integrations/aws-ses",
+              "integrations/azure-communication-email",
+              "integrations/mailersend",
+              "integrations/scaleway",
+              "integrations/plunk",
+              "integrations/lettermint",
+              "integrations/eusend",
+              "integrations/brevo"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/introduction",
+              "contributing/opening-issues",
+              "contributing/opening-pull-requests",
+              "contributing/codebase-overview",
+              {
+                "group": "Development workflow",
+                "icon": "arrow-progress",
+                "pages": [
+                  "contributing/development-workflow/1-setup",
+                  "contributing/development-workflow/2-running-tests",
+                  "contributing/development-workflow/3-linting",
+                  "contributing/development-workflow/4-building",
+                  "contributing/development-workflow/5-writing-docs",
+                  "contributing/development-workflow/6-editing-the-components"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Editor",
+        "icon": "pen-to-square",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["editor/overview", "editor/getting-started"]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "editor/features/bubble-menu",
+              "editor/features/inspector",
+              "editor/features/slash-commands",
+              "editor/features/theming",
+              "editor/features/styling",
+              "editor/features/buttons",
+              "editor/features/column-layouts",
+              "editor/features/link-editing",
+              "editor/features/email-export",
+              "editor/features/image-upload"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "editor/advanced/extensions",
+              "editor/advanced/event-bus",
+              "editor/advanced/custom-extensions"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "editor/api-reference/email-editor",
+              "editor/api-reference/compose-vue-email",
+              "editor/api-reference/email-node",
+              "editor/api-reference/email-mark",
+              "editor/api-reference/extensions-list",
+              "editor/api-reference/theming-api",
+              "editor/api-reference/image-upload-api",
+              {
+                "group": "UI Components",
+                "icon": "window",
+                "pages": [
+                  "editor/api-reference/ui/bubble-menu",
+                  "editor/api-reference/ui/editor-focus-scope",
+                  "editor/api-reference/ui/inspector",
+                  "editor/api-reference/ui/slash-command"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Components",
+          "href": "https://vuemail.dev/components",
+          "icon": "grid-2-plus"
+        },
+        {
+          "anchor": "Templates",
+          "href": "https://vuemail.dev/templates",
+          "icon": "arrow-pointer"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "background": {
+    "image": "/images/background.svg",
+    "color": {
+      "light": "#FFFFFF",
+      "dark": "#111111"
+    }
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/vuemail/vuemail"
+    }
+  }
+}
