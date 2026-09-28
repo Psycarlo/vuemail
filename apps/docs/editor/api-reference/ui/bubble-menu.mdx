@@ -8,7 +8,7 @@ icon: "message-lines"
 Everything is accessed through a single import:
 
 ```ts
-import { BubbleMenu, bubbleMenuTriggers, useBubbleMenuContext } from '@vuemail/editor/ui';
+import { BubbleMenu, bubbleMenuTriggers, useBubbleMenuContext } from 'vuemail-editor/ui';
 ```
 
 ## Pre-built menus
@@ -129,7 +129,7 @@ When rendered without children, it automatically renders the default text format
 
 ```vue
 <script setup lang="ts">
-import { BubbleMenu, bubbleMenuTriggers } from '@vuemail/editor/ui';
+import { BubbleMenu, bubbleMenuTriggers } from 'vuemail-editor/ui';
 import { PluginKey } from '@tiptap/pm/state';
 
 const myPluginKey = new PluginKey('myCustomMenu');
@@ -238,7 +238,7 @@ Here's a complete custom link bubble menu built from compound components:
 
 ```vue my-link-menu.vue
 <script setup lang="ts">
-import { BubbleMenu, bubbleMenuTriggers } from '@vuemail/editor/ui';
+import { BubbleMenu, bubbleMenuTriggers } from 'vuemail-editor/ui';
 import { PluginKey } from '@tiptap/pm/state';
 
 const linkKey = new PluginKey('myLinkMenu');
@@ -268,7 +268,7 @@ Use `useBubbleMenuContext()` inside any child of `BubbleMenu` to access the edit
 
 ```vue custom-toolbar-item.vue
 <script setup lang="ts">
-import { useBubbleMenuContext } from '@vuemail/editor/ui';
+import { useBubbleMenuContext } from 'vuemail-editor/ui';
 
 const menu = useBubbleMenuContext();
 </script>
@@ -296,15 +296,15 @@ const menu = useBubbleMenuContext();
 ## CSS import
 
 ```ts
-import '@vuemail/editor/styles/bubble-menu.css';
+import 'vuemail-editor/styles/bubble-menu.css';
 ```
 
 <Tip>
-  `@vuemail/editor/themes/default.css` bundles all UI component styles.
+  `vuemail-editor/themes/default.css` bundles all UI component styles.
   Unless you need to cherry-pick, use this single import:
 
 ```ts
-import '@vuemail/editor/themes/default.css';
+import 'vuemail-editor/themes/default.css';
 ```
 
 </Tip>

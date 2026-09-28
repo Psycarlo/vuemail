@@ -34,7 +34,7 @@ const toArray = <Item>(value: Item | Item[] | undefined | null): Item[] => {
  */
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@vuemail/nuxt',
+    name: 'vuemail-nuxt',
     configKey: 'vuemail',
     compatibility: { nuxt: '>=3.13.0' },
   },
@@ -64,7 +64,7 @@ export default defineNuxtModule<ModuleOptions>({
       nitroConfig.externals.external = [
         ...toArray(nitroConfig.externals.external),
         'vuemail',
-        '@vuemail/render',
+        'vuemail-render',
       ];
     });
   },

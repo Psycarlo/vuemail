@@ -1,6 +1,6 @@
 /* Minimal functional styles for SlashCommand components.
  * Layout and positioning only - no visual design.
- * Import optionally: import '@vuemail/editor/styles/slash-command.css';
+ * Import optionally: import 'vuemail-editor/styles/slash-command.css';
  */
 
 [data-re-slash-command] {

@@ -882,7 +882,7 @@ Send this welcome email from an API route of my Nuxt app.
 ```
 
 **Expected Behavior:**
-- Add the `@vuemail/nuxt` module to `nuxt.config.ts`
+- Add the `vuemail-nuxt` module to `nuxt.config.ts`
 - Import the email in `server/api/*.ts` (from `~~/emails/...`) and render it with `render` from `vuemail`
 - Keep the emails in `emails/` at the root, so `email dev` previews them too
 
@@ -890,7 +890,7 @@ Send this welcome email from an API route of my Nuxt app.
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
 });
 
 // server/api/send.post.ts

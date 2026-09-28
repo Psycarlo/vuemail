@@ -81,7 +81,7 @@ describe('create-vuemail', () => {
       dependencies: { ...templatePackageJson.dependencies, vuemail: '1.2.3' },
       devDependencies: {
         ...templatePackageJson.devDependencies,
-        '@vuemail/ui': '1.2.3',
+        'vuemail-ui': '1.2.3',
       },
     });
   });

@@ -55,7 +55,7 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@vuemail/render": "workspace:*",
+    "vuemail-render": "workspace:*",
     "commander": "catalog:",
     "conf": "^15.0.2",
     "css-tree": "3.2.1",

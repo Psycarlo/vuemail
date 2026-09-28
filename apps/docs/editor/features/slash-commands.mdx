@@ -11,10 +11,10 @@ Add `SlashCommand` with the default command set:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { defaultSlashCommands, SlashCommand } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 </script>
@@ -58,7 +58,7 @@ Each command is also exported individually, so you can cherry-pick:
 
 ```vue
 <script setup lang="ts">
-import { BUTTON, H1, H2, SlashCommand, TEXT } from '@vuemail/editor/ui';
+import { BUTTON, H1, H2, SlashCommand, TEXT } from 'vuemail-editor/ui';
 </script>
 
 <template>
@@ -72,13 +72,13 @@ Create a `SlashCommandItem` and include it in the items array. Its `icon` is an 
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import {
   defaultSlashCommands,
   SlashCommand,
   type SlashCommandItem,
-} from '@vuemail/editor/ui';
+} from 'vuemail-editor/ui';
 import { Star } from 'lucide-vue-next';
 import { h } from 'vue';
 
@@ -143,7 +143,7 @@ You can cherry-pick from the default commands to show only specific options:
 
 ```vue
 <script setup lang="ts">
-import { BUTTON, SlashCommand } from '@vuemail/editor/ui';
+import { BUTTON, SlashCommand } from 'vuemail-editor/ui';
 </script>
 
 <template>

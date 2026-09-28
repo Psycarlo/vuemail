@@ -21,16 +21,16 @@ Using the power of Vuemail, it produces email-ready HTML, and is built on top of
 
 ## Architecture
 
-The editor is organized into five entry points, next to the main one, `@vuemail/editor`, which exports
+The editor is organized into five entry points, next to the main one, `vuemail-editor`, which exports
 the `EmailEditor` and `EditorProvider` components:
 
 | Import | Purpose |
 |--------|---------|
-| `@vuemail/editor/core` | `composeVueEmail` serialization, `useCurrentEditor`, event bus, types |
-| `@vuemail/editor/extensions` | `StarterKit` and 35+ email-aware extensions |
-| `@vuemail/editor/ui` | Bubble menus, slash commands, inspector |
-| `@vuemail/editor/plugins` | Email theming and image upload plugins |
-| `@vuemail/editor/utils` | Attribute helpers, style utilities |
+| `vuemail-editor/core` | `composeVueEmail` serialization, `useCurrentEditor`, event bus, types |
+| `vuemail-editor/extensions` | `StarterKit` and 35+ email-aware extensions |
+| `vuemail-editor/ui` | Bubble menus, slash commands, inspector |
+| `vuemail-editor/plugins` | Email theming and image upload plugins |
+| `vuemail-editor/utils` | Attribute helpers, style utilities |
 
 <Info>
   The editor uses [TipTap](https://tiptap.dev/) for Vue under the hood, so [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/) concepts apply.

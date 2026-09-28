@@ -1,4 +1,4 @@
-<div align="center"><strong>@vuemail/nuxt</strong></div>
+<div align="center"><strong>vuemail-nuxt</strong></div>
 <div align="center">Render Vuemail emails in your Nuxt server routes.</div>
 <br />
 <div align="center">
@@ -17,7 +17,7 @@ It works with Nuxt 4 and Nuxt 3.13 or later, and with Tailwind CSS 4 in both you
 ## Install
 
 ```sh
-npm i vuemail @vuemail/nuxt
+npm i vuemail vuemail-nuxt
 ```
 
 ## Getting started
@@ -27,7 +27,7 @@ Add the module to your Nuxt config:
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
 });
 ```
 
@@ -74,10 +74,10 @@ export default defineEventHandler(async (event) => {
 });
 ```
 
-Kept in `emails`, the same emails can be previewed with the `email dev` command of `vuemail`, which runs the preview app from `@vuemail/ui`:
+Kept in `emails`, the same emails can be previewed with the `email dev` command of `vuemail`, which runs the preview app from `vuemail-ui`:
 
 ```sh
-npm i -D @vuemail/ui
+npm i -D vuemail-ui
 npx vuemail dev
 ```
 
@@ -94,7 +94,7 @@ Options for [unplugin-vue](https://github.com/unplugin/unplugin-vue), the compil
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
   vuemail: {
     compilerOptions: {
       // any option of unplugin-vue, like `include`, `exclude`, `script` or `template`
@@ -109,7 +109,7 @@ export default defineNuxtConfig({
 
 The module adds the compiler to Nitro's Rollup plugins, so that `.vue` files imported from server code are compiled for the server.
 
-In production builds, Nuxt inlines into the server bundle the packages whose names start with `vue`, which is meant for Vue itself but also matches `vuemail`. The module takes care of it by keeping `vuemail` and `@vuemail/render` as external dependencies of the server, so that they load their own dependencies, like Tailwind CSS, instead of the versions your app hoists.
+In production builds, Nuxt inlines into the server bundle the packages whose names start with `vue`, which is meant for Vue itself but also matches `vuemail`. The module takes care of it by keeping `vuemail` and `vuemail-render` as external dependencies of the server, so that they load their own dependencies, like Tailwind CSS, instead of the versions your app hoists.
 
 ## License
 

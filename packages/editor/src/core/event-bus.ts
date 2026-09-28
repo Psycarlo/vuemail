@@ -7,14 +7,14 @@ import {
   watch,
 } from 'vue';
 
-const EVENT_PREFIX = '@vuemail/editor:';
+const EVENT_PREFIX = 'vuemail-editor:';
 
 /**
  * Base event map interface for the editor event bus.
  *
  * Components extend this via TypeScript module augmentation:
  * ```ts
- * declare module '@vuemail/editor/core' {
+ * declare module 'vuemail-editor/core' {
  *   interface EditorEventMap {
  *     'my-component:custom-event': { data: string };
  *   }

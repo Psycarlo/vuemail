@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
 import { ref, useTemplateRef } from 'vue';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const content = {

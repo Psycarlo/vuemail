@@ -11,10 +11,10 @@ Add `BubbleMenu.ButtonDefault` and a slash command for inserting buttons.
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BUTTON, BubbleMenu, SlashCommand } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BUTTON, BubbleMenu, SlashCommand } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 
@@ -70,7 +70,7 @@ with `useCurrentEditor()`.
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor } from '@vuemail/editor/core';
+import { useCurrentEditor } from 'vuemail-editor/core';
 
 const { editor } = useCurrentEditor();
 </script>

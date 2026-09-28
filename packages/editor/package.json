@@ -1,5 +1,5 @@
 {
-  "name": "@vuemail/editor",
+  "name": "vuemail-editor",
   "version": "0.1.0",
   "description": "A rich text editor for editing and building email templates with Vue",
   "type": "module",

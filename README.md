@@ -76,16 +76,16 @@ A set of standard components to help you build amazing emails without having to 
 
 ## Nuxt
 
-Vuemail works with [Nuxt](https://nuxt.com) through the `@vuemail/nuxt` module, which lets your server routes import emails written as Vue single file components and render them.
+Vuemail works with [Nuxt](https://nuxt.com) through the `vuemail-nuxt` module, which lets your server routes import emails written as Vue single file components and render them.
 
 ```sh
-npm i vuemail @vuemail/nuxt
+npm i vuemail vuemail-nuxt
 ```
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
 });
 ```
 
@@ -104,7 +104,7 @@ See the [module's documentation](https://github.com/psycarlo/vuemail/tree/main/p
 
 ## Editor
 
-Vuemail also provides an Editor, `@vuemail/editor`, built on top of [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/). It serializes to Vuemail components, and exports email-ready HTML and plain text.
+Vuemail also provides an Editor, `vuemail-editor`, built on top of [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/). It serializes to Vuemail components, and exports email-ready HTML and plain text.
 
 See the [Editor documentation](https://vuemail.dev/docs/editor/overview) for more details.
 

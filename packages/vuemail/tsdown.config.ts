@@ -22,7 +22,7 @@ const selfContainedCssTreeEsm = {
   },
 };
 
-const neverBundle = [/^vue($|\/)/, /^@vuemail\/render$/];
+const neverBundle = [/^vue($|\/)/, /^vuemail-render$/];
 
 export default defineConfig([
   {

@@ -11,10 +11,10 @@ Add `BubbleMenu` as a child of `EditorProvider` to get a fully-featured formatti
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BubbleMenu } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BubbleMenu } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 </script>
@@ -51,7 +51,7 @@ This is useful when combining the text bubble menu with contextual menus for lin
 
 ```vue
 <script setup lang="ts">
-import { BubbleMenu, bubbleMenuTriggers } from '@vuemail/editor/ui';
+import { BubbleMenu, bubbleMenuTriggers } from 'vuemail-editor/ui';
 import { PluginKey } from '@tiptap/pm/state';
 
 const linkPluginKey = new PluginKey('linkBubbleMenu');
@@ -78,9 +78,9 @@ For full control, build a custom bubble menu using the compound component API.
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BubbleMenu } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BubbleMenu } from 'vuemail-editor/ui';
 
 const extensions = [StarterKit];
 </script>

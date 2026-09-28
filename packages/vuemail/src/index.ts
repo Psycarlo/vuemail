@@ -1,4 +1,4 @@
-export * from '@vuemail/render';
+export * from 'vuemail-render';
 export * from './components';
 
 declare module 'vue' {

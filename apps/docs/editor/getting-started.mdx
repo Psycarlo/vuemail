@@ -29,7 +29,7 @@ theming, and export helpers already wired up:
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor } from '@vuemail/editor';
+import { EmailEditor } from 'vuemail-editor';
 
 const content = `
   <h1>Welcome</h1>
@@ -49,7 +49,7 @@ This renders a functional editor, but it's unstyled. To style the editor,
 import the default theme:
 
 ```ts
-import '@vuemail/editor/themes/default.css';
+import 'vuemail-editor/themes/default.css';
 ```
 
 You can also build your own theme to style the editor to look and feel like
@@ -70,7 +70,7 @@ The editor accepts content in two formats:
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor } from '@vuemail/editor';
+import { EmailEditor } from 'vuemail-editor';
 
 const content = `
   <h1>Welcome</h1>
@@ -117,8 +117,8 @@ overlays:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 
 const extensions = [StarterKit];
 
@@ -141,7 +141,7 @@ components you put inside it, which is where UI overlays go.
 When you use the lower-level UI components directly, import the bundled theme:
 
 ```ts
-import '@vuemail/editor/themes/default.css';
+import 'vuemail-editor/themes/default.css';
 ```
 
 This single import includes the default color theme and the built-in UI styles
@@ -152,9 +152,9 @@ for bubble menus, slash commands, and the inspector.
   import the individual CSS files instead:
 
   ```ts
-  import '@vuemail/editor/styles/bubble-menu.css';
-  import '@vuemail/editor/styles/slash-command.css';
-  import '@vuemail/editor/styles/inspector.css';
+  import 'vuemail-editor/styles/bubble-menu.css';
+  import 'vuemail-editor/styles/slash-command.css';
+  import 'vuemail-editor/styles/inspector.css';
   ```
 </Tip>
 
@@ -165,10 +165,10 @@ as a child of `EditorProvider`:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BubbleMenu } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BubbleMenu } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 

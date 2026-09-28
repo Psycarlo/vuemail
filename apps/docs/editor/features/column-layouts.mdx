@@ -11,8 +11,8 @@ Column extensions are included in `StarterKit` by default; no extra imports are 
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 
 const extensions = [StarterKit];
 </script>
@@ -44,7 +44,7 @@ of `EditorProvider` to position the toolbar above the editor.
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor } from '@vuemail/editor/core';
+import { useCurrentEditor } from 'vuemail-editor/core';
 import { Columns2, Columns3, Columns4 } from 'lucide-vue-next';
 
 const { editor } = useCurrentEditor();
@@ -70,8 +70,8 @@ const { editor } = useCurrentEditor();
 
 ```vue my-editor.vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import Toolbar from './toolbar.vue';
 
 const extensions = [StarterKit];

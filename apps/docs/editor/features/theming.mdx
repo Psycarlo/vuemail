@@ -11,11 +11,11 @@ Import the `EmailTheming` plugin and add it to your extensions:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
-import { BubbleMenu } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
+import { BubbleMenu } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit, EmailTheming];
 </script>
@@ -63,10 +63,10 @@ Use a ref to toggle themes at runtime. Key the `EditorProvider` on the theme to 
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
-import { BubbleMenu } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
+import { BubbleMenu } from 'vuemail-editor/ui';
 import { computed, ref } from 'vue';
 
 type EditorTheme = 'basic' | 'minimal';
@@ -107,9 +107,9 @@ Use `extendTheme` to start from a built-in theme and override specific styles:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming, extendTheme } from '@vuemail/editor/plugins';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming, extendTheme } from 'vuemail-editor/plugins';
 
 const brandTheme = extendTheme('basic', {
   body: { backgroundColor: '#eff6ff' },
@@ -134,7 +134,7 @@ Use `createTheme` to build a theme without inheriting from a built-in preset.
 When no `extends` is set, the `minimal` reset is used as a base:
 
 ```ts
-import { createTheme } from '@vuemail/editor/plugins';
+import { createTheme } from 'vuemail-editor/plugins';
 
 const darkTheme = createTheme({
   body: { backgroundColor: '#1a1a2e', color: '#e2e8f0' },
@@ -200,7 +200,7 @@ When `EmailTheming` is in your extensions array, the `composeVueEmail` function 
 applies theme styles to the exported HTML. No extra configuration is needed.
 
 ```ts
-import { composeVueEmail } from '@vuemail/editor/core';
+import { composeVueEmail } from 'vuemail-editor/core';
 
 // Theme styles are automatically injected into the HTML output
 const { html, text } = await composeVueEmail({ editor });

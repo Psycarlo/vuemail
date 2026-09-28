@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { ref } from 'vue';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import {
   imageSlashCommand,
   type UploadImageResult,
   useEditorImage,
-} from '@vuemail/editor/plugins';
+} from 'vuemail-editor/plugins';
 import {
   BubbleMenu,
   defaultSlashCommands,
   SlashCommand,
-} from '@vuemail/editor/ui';
-import { ref } from 'vue';
+} from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const PLACEHOLDER_IMAGE =

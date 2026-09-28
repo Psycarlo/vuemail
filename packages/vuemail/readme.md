@@ -70,11 +70,11 @@ defineOptions({
 - [Tailwind](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/tailwind)
 - [Text](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/text)
 
-This package also exports `render`, from [`@vuemail/render`](https://github.com/psycarlo/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
+This package also exports `render`, from [`vuemail-render`](https://github.com/psycarlo/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
 
 ## Commands
 
-The package comes with the `email` command. It runs the preview app, `@vuemail/ui`, which it asks to install as a dev dependency, in the same version as `vuemail`, the first time you use it.
+The package comes with the `email` command. It runs the preview app, `vuemail-ui`, which it asks to install as a dev dependency, in the same version as `vuemail`, the first time you use it.
 
 ### `email dev`
 
@@ -159,7 +159,7 @@ npx vuemail resend reset
 
 When working in the CLI, a lot of friction can get introduced with rebuilding it for every change. To avoid that, you can keep it building in watch mode, and run it from the [playground](https://github.com/psycarlo/vuemail/tree/main/playground), which uses the `vuemail` package of this monorepo.
 
-This assumes the packages were built once, with `pnpm build` at the root of the monorepo, since the CLI runs the preview app from `@vuemail/ui`'s build.
+This assumes the packages were built once, with `pnpm build` at the root of the monorepo, since the CLI runs the preview app from `vuemail-ui`'s build.
 
 ### 1. Build `vuemail` in watch mode
 

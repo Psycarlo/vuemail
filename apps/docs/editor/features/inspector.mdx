@@ -18,11 +18,11 @@ selection.
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
-import { Inspector } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
+import { Inspector } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit, EmailTheming];
 </script>
@@ -60,8 +60,8 @@ If you use the standalone `EmailEditor` component, pass the inspector as a child
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor } from '@vuemail/editor';
-import { Inspector } from '@vuemail/editor/ui';
+import { EmailEditor } from 'vuemail-editor';
+import { Inspector } from 'vuemail-editor/ui';
 </script>
 
 <template>
@@ -96,8 +96,8 @@ extension. Without it, the inspector cannot resolve theme defaults or apply
 document-level style changes, and it will error.
 
 ```ts
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 
 const extensions = [StarterKit, EmailTheming];
 ```
@@ -322,7 +322,7 @@ inside the portal is still treated as part of the editor UI.
 
 ```vue
 <script setup lang="ts">
-import { EditorFocusScope, Inspector } from '@vuemail/editor/ui';
+import { EditorFocusScope, Inspector } from 'vuemail-editor/ui';
 import {
   SelectContent,
   SelectItem,

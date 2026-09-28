@@ -8,7 +8,7 @@ icon: 'mountain'
 
 import NextSteps from '/snippets/next-steps.mdx'
 
-The `@vuemail/nuxt` module lets Nitro, the server of Nuxt, import emails written as single file components,
+The `vuemail-nuxt` module lets Nitro, the server of Nuxt, import emails written as single file components,
 so your server routes can render them with [`render`](/utilities/render) and send them with any email provider.
 It works with Nuxt 4 (and Nuxt 3.13 or later).
 
@@ -19,34 +19,34 @@ Install Vuemail and its Nuxt module, and the preview app as a dev dependency.
 <CodeGroup>
 
 ```sh npm
-npm install vuemail @vuemail/nuxt -E
-npm install @vuemail/ui -D -E
+npm install vuemail vuemail-nuxt -E
+npm install vuemail-ui -D -E
 ```
 
 ```sh yarn
-yarn add vuemail @vuemail/nuxt -E
-yarn add @vuemail/ui -D -E
+yarn add vuemail vuemail-nuxt -E
+yarn add vuemail-ui -D -E
 ```
 
 ```sh pnpm
-pnpm add vuemail @vuemail/nuxt -E
-pnpm add @vuemail/ui -D -E
+pnpm add vuemail vuemail-nuxt -E
+pnpm add vuemail-ui -D -E
 ```
 
 ```sh bun
-bun add vuemail @vuemail/nuxt -E
-bun add @vuemail/ui -D -E
+bun add vuemail vuemail-nuxt -E
+bun add vuemail-ui -D -E
 ```
 
 </CodeGroup>
 
 ## 2. Add the module
 
-Add `@vuemail/nuxt` to the `modules` of your `nuxt.config.ts`:
+Add `vuemail-nuxt` to the `modules` of your `nuxt.config.ts`:
 
 ```ts nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
 });
 ```
 
@@ -147,7 +147,7 @@ Keep the API key in the runtime config, so it can be set with the `NUXT_RESEND_A
 
 ```ts nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
   runtimeConfig: {
     resendApiKey: '',
   },
@@ -236,7 +236,7 @@ If your app uses Tailwind CSS 4, with `@tailwindcss/vite`, keep it as it is:
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],

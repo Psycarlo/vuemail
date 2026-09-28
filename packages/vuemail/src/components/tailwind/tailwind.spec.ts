@@ -1,6 +1,6 @@
-import { pretty } from '@vuemail/render';
 import plugin from 'tailwindcss/plugin';
 import { defineComponent, h } from 'vue';
+import { pretty } from 'vuemail-render';
 import { Body } from '../body';
 import { Button } from '../button';
 import { Column } from '../column';

@@ -1,4 +1,4 @@
-# Benchmarks for the preview app (`@vuemail/ui`)
+# Benchmarks for the preview app (`vuemail-ui`)
 
 A collection of [`tinybench`](https://github.com/tinylibs/tinybench) benchmarks that start the
 `vuemail dev` preview server as a subprocess and measure how long it takes to render an email

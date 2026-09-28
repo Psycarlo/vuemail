@@ -19,7 +19,7 @@ children (`[children]`).
 Here's a complete example of a custom "Callout" node that renders as a highlighted block:
 
 ```ts callout.ts
-import { EmailNode } from '@vuemail/editor/core';
+import { EmailNode } from 'vuemail-editor/core';
 import { mergeAttributes } from '@tiptap/core';
 import { h } from 'vue';
 
@@ -84,7 +84,7 @@ Use the editor's `insertContent` command to programmatically insert your custom 
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor } from '@vuemail/editor/core';
+import { useCurrentEditor } from 'vuemail-editor/core';
 
 const { editor } = useCurrentEditor();
 
@@ -113,7 +113,7 @@ Here's the full editor setup with the custom Callout extension, a toolbar, and a
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor } from '@vuemail/editor/core';
+import { useCurrentEditor } from 'vuemail-editor/core';
 import { Info } from 'lucide-vue-next';
 
 const { editor } = useCurrentEditor();
@@ -140,9 +140,9 @@ function insertCallout() {
 
 ```vue my-editor.vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BubbleMenu } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BubbleMenu } from 'vuemail-editor/ui';
 import { Callout } from './callout';
 import Toolbar from './toolbar.vue';
 
@@ -187,7 +187,7 @@ extension with email serialization support. This is useful when you want to reus
 TipTap extension and add email export support without rewriting it.
 
 ```ts
-import { EmailNode } from '@vuemail/editor/core';
+import { EmailNode } from 'vuemail-editor/core';
 import { Node } from '@tiptap/core';
 import { h } from 'vue';
 
@@ -199,7 +199,7 @@ const MyEmailNode = EmailNode.from(MyTipTapNode, ({ children, style }) => {
 ```
 
 ```ts
-import { EmailMark } from '@vuemail/editor/core';
+import { EmailMark } from 'vuemail-editor/core';
 import { Mark } from '@tiptap/core';
 import { h } from 'vue';
 
@@ -221,7 +221,7 @@ const MyEmailMark = EmailMark.from(MyTipTapMark, ({ children, style }) => {
 Both `EmailNode` and `EmailMark` support TipTap's standard customization methods:
 
 ```ts
-import { Heading, Paragraph } from '@vuemail/editor/extensions';
+import { Heading, Paragraph } from 'vuemail-editor/extensions';
 
 // Configure options
 const CustomHeading = Heading.configure({ levels: [1, 2] });

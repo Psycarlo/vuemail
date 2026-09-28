@@ -57,16 +57,16 @@ The `react` option of the SDK only takes React elements, so Vuemail emails are a
 
 ## Send from Nuxt Server Routes
 
-Nitro, the server of Nuxt, needs the `@vuemail/nuxt` module to import emails written as Vue single file components:
+Nitro, the server of Nuxt, needs the `vuemail-nuxt` module to import emails written as Vue single file components:
 
 ```sh
-npm i vuemail @vuemail/nuxt resend
+npm i vuemail vuemail-nuxt resend
 ```
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vuemail/nuxt'],
+  modules: ['vuemail-nuxt'],
 });
 ```
 

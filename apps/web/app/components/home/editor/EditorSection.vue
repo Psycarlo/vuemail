@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
-import type { EditorThemeInput } from '@vuemail/editor/plugins';
 import { ArrowRightIcon, SendHorizontalIcon, XIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
+import type { EditorThemeInput } from 'vuemail-editor/plugins';
 import { homeEditorInitialContent } from '~/utils/home/editor';
-import '@vuemail/editor/themes/default.css';
+import 'vuemail-editor/themes/default.css';
 import './editor.css';
 
 // The email HTML of what's in the editor, which is sent and shown next to it

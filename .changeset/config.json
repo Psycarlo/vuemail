@@ -4,7 +4,7 @@
   "baseBranch": "main",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["vuemail", "@vuemail/ui"]],
+  "fixed": [["vuemail", "vuemail-ui"]],
   "ignore": [
     "@benchmarks/tailwind",
     "@benchmarks/ui",

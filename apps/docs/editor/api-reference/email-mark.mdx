@@ -14,7 +14,7 @@ Marks are used for inline formatting like bold, italic, links, and custom text a
 ## Import
 
 ```ts
-import { EmailMark } from '@vuemail/editor/core';
+import { EmailMark } from 'vuemail-editor/core';
 ```
 
 ## EmailMark.create
@@ -22,7 +22,7 @@ import { EmailMark } from '@vuemail/editor/core';
 Create a new email-compatible mark from scratch.
 
 ```ts
-import { EmailMark } from '@vuemail/editor/core';
+import { EmailMark } from 'vuemail-editor/core';
 import { h } from 'vue';
 
 const Highlight = EmailMark.create({
@@ -61,7 +61,7 @@ Wrap an existing TipTap mark with email serialization support. This is useful wh
 reuse a community TipTap extension and add email export support without rewriting it.
 
 ```ts
-import { EmailMark } from '@vuemail/editor/core';
+import { EmailMark } from 'vuemail-editor/core';
 import Strike from '@tiptap/extension-strike';
 import { h } from 'vue';
 
@@ -78,7 +78,7 @@ as described above.
 Configure options on an `EmailMark` (same as TipTap's `.configure()`):
 
 ```ts
-import { Bold } from '@vuemail/editor/extensions';
+import { Bold } from 'vuemail-editor/extensions';
 
 const CustomBold = Bold.configure({ HTMLAttributes: { class: 'custom-bold' } });
 ```
@@ -88,7 +88,7 @@ const CustomBold = Bold.configure({ HTMLAttributes: { class: 'custom-bold' } });
 Extend an `EmailMark` with additional behavior:
 
 ```ts
-import { Link } from '@vuemail/editor/extensions';
+import { Link } from 'vuemail-editor/extensions';
 
 const CustomLink = Link.extend({
   addKeyboardShortcuts() {
@@ -102,7 +102,7 @@ const CustomLink = Link.extend({
 You can also override `renderToVueEmail` when extending:
 
 ```ts
-import { Link } from '@vuemail/editor/extensions';
+import { Link } from 'vuemail-editor/extensions';
 import { h } from 'vue';
 
 const CustomLink = Link.extend({

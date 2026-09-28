@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { EmailEditor } from '@vuemail/editor';
-import { Inspector } from '@vuemail/editor/ui';
+import { EmailEditor } from 'vuemail-editor';
+import { Inspector } from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const content = `

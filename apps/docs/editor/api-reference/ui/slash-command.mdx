@@ -11,7 +11,7 @@ Command menu triggered by typing a character (default: `/`).
 
 ```vue
 <script setup lang="ts">
-import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
+import { defaultSlashCommands, SlashCommand } from 'vuemail-editor/ui';
 </script>
 
 <template>
@@ -47,7 +47,7 @@ and a callback to select an item:
 
 ```vue
 <script setup lang="ts">
-import { defaultSlashCommands, SlashCommand } from '@vuemail/editor/ui';
+import { defaultSlashCommands, SlashCommand } from 'vuemail-editor/ui';
 </script>
 
 <template>
@@ -89,7 +89,7 @@ import {
   defaultSlashCommands,
   SlashCommand,
   type SlashCommandItem,
-} from '@vuemail/editor/ui';
+} from 'vuemail-editor/ui';
 import { ImageIcon } from 'lucide-vue-next';
 import { h } from 'vue';
 
@@ -171,5 +171,5 @@ The `defaultSlashCommands` export includes these built-in commands:
 ## CSS import
 
 ```ts
-import '@vuemail/editor/styles/slash-command.css';
+import 'vuemail-editor/styles/slash-command.css';
 ```

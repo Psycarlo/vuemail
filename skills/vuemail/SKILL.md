@@ -42,11 +42,11 @@ The dev server runs at localhost:3000 with a preview interface for templates in 
 
 ### Adding to an Existing Project
 
-Install the packages (the preview app, `@vuemail/ui`, is a dev dependency in the same version as `vuemail`) and add a script to your `package.json`:
+Install the packages (the preview app, `vuemail-ui`, is a dev dependency in the same version as `vuemail`) and add a script to your `package.json`:
 
 ```sh
 npm i vuemail
-npm i -D @vuemail/ui
+npm i -D vuemail-ui
 ```
 
 ```json
@@ -59,7 +59,7 @@ npm i -D @vuemail/ui
 
 Make sure the path to the emails folder is relative to the base project directory. Emails are compiled with Vite, so TypeScript and the `paths` aliases of `tsconfig.json` work in them without extra configuration. Vuemail requires Node 20.19 or higher, and `vue` 3.4 or higher as a peer dependency.
 
-In a Nuxt app, also add the `@vuemail/nuxt` module, so that server routes can import and render the emails (see [references/SENDING.md](references/SENDING.md)).
+In a Nuxt app, also add the `vuemail-nuxt` module, so that server routes can import and render the emails (see [references/SENDING.md](references/SENDING.md)).
 
 ## Basic Email Template
 
@@ -300,7 +300,7 @@ const text = await render(
 );
 ```
 
-Importing a `.vue` file needs a build step that compiles it: Nuxt with the `@vuemail/nuxt` module, Vite (an SSR build, or vite-node), or a bundler with a Vue plugin, like tsdown with `unplugin-vue`. Plain Node can't import `.vue` files.
+Importing a `.vue` file needs a build step that compiles it: Nuxt with the `vuemail-nuxt` module, Vite (an SSR build, or vite-node), or a bundler with a Vue plugin, like tsdown with `unplugin-vue`. Plain Node can't import `.vue` files.
 
 ## Sending
 
@@ -347,7 +347,7 @@ See [references/I18N.md](references/I18N.md) for complete i18n documentation. Vu
 
 ## Email Editor
 
-Vuemail includes a visual editor (`@vuemail/editor`) that can be embedded in your Vue app. It's built on TipTap/ProseMirror and produces email-ready HTML.
+Vuemail includes a visual editor (`vuemail-editor`) that can be embedded in your Vue app. It's built on TipTap/ProseMirror and produces email-ready HTML.
 
 See [references/EDITOR.md](references/EDITOR.md) for complete documentation including:
 - `EmailEditor` — batteries-included component with bubble menus, slash commands, and theming
@@ -361,8 +361,8 @@ Quick example:
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
-import '@vuemail/editor/themes/default.css';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
+import 'vuemail-editor/themes/default.css';
 import { ref } from 'vue';
 
 const editorRef = ref<EmailEditorRef | null>(null);

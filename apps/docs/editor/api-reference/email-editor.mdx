@@ -19,7 +19,7 @@ APIs instead, starting with [`EditorProvider`](/editor/getting-started#lower-lev
   separately:
 
   ```ts
-  import '@vuemail/editor/themes/default.css';
+  import 'vuemail-editor/themes/default.css';
   ```
 
   See [styling](/editor/features/styling) for details on customizing the editor's appearance.
@@ -28,8 +28,8 @@ APIs instead, starting with [`EditorProvider`](/editor/getting-started#lower-lev
 ## Import
 
 ```ts
-import '@vuemail/editor/themes/default.css';
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
+import 'vuemail-editor/themes/default.css';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
 ```
 
 ## Signature
@@ -180,8 +180,8 @@ interface EmailEditorRef {
 
 ```vue
 <script setup lang="ts">
-import '@vuemail/editor/themes/default.css';
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
+import 'vuemail-editor/themes/default.css';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
 import { ref, useTemplateRef } from 'vue';
 
 const emailEditor = useTemplateRef<EmailEditorRef>('email-editor');

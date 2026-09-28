@@ -13,7 +13,7 @@ template, and produces both HTML and plain text output.
 ## Import
 
 ```ts
-import { composeVueEmail } from '@vuemail/editor/core';
+import { composeVueEmail } from 'vuemail-editor/core';
 ```
 
 ## Signature
@@ -169,7 +169,7 @@ are then produced in parallel from that HTML.
 ### Basic export
 
 ```ts
-import { composeVueEmail } from '@vuemail/editor/core';
+import { composeVueEmail } from 'vuemail-editor/core';
 
 const { html, text } = await composeVueEmail({ editor });
 ```
@@ -194,8 +194,8 @@ When the [`EmailTheming`](/editor/features/theming) extension is in your extensi
 theme styles are automatically inlined into every node during export:
 
 ```ts
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 
 const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
 
@@ -207,7 +207,7 @@ const { html } = await composeVueEmail({ editor });
 
 ```vue export-panel.vue
 <script setup lang="ts">
-import { composeVueEmail, useCurrentEditor } from '@vuemail/editor/core';
+import { composeVueEmail, useCurrentEditor } from 'vuemail-editor/core';
 import { ref } from 'vue';
 
 const { editor } = useCurrentEditor();

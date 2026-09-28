@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "@vuemail/ui": "workspace:*",
+    "vuemail-ui": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "catalog:",
     "vitest": "catalog:",

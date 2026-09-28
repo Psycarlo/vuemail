@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const extensions = [StarterKit];

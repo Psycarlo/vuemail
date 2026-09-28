@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { Star } from 'lucide-vue-next';
+import { h } from 'vue';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import {
   defaultSlashCommands,
   SlashCommand,
   type SlashCommandItem,
-} from '@vuemail/editor/ui';
-import { Star } from 'lucide-vue-next';
-import { h } from 'vue';
+} from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const CUSTOM_COMMAND: SlashCommandItem = {

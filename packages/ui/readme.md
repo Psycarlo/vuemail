@@ -1,4 +1,4 @@
-<div align="center"><strong>@vuemail/ui</strong></div>
+<div align="center"><strong>vuemail-ui</strong></div>
 <div align="center">A live preview of your emails right in your browser.</div>
 <br />
 <div align="center">

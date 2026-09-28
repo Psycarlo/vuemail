@@ -1,5 +1,5 @@
 {
-  "name": "@vuemail/nuxt",
+  "name": "vuemail-nuxt",
   "version": "0.1.0",
   "description": "Render Vuemail emails in your Nuxt server routes",
   "type": "module",

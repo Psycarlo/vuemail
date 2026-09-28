@@ -14,7 +14,7 @@
     "vuemail": "workspace:*"
   },
   "devDependencies": {
-    "@vuemail/ui": "workspace:*",
+    "vuemail-ui": "workspace:*",
     "tsconfig": "workspace:*"
   }
 }

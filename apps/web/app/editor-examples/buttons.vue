@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BUTTON, BubbleMenu, SlashCommand } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BUTTON, BubbleMenu, SlashCommand } from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const extensions = [StarterKit];

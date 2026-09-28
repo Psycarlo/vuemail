@@ -9,10 +9,10 @@ icon: "tower-broadcast"
 
 The editor provides a typed event bus for communication between components. It's a singleton
 instance built on the browser's native `CustomEvent` API with events prefixed as
-`@vuemail/editor:`.
+`vuemail-editor:`.
 
 ```ts
-import { editorEventBus } from '@vuemail/editor/core';
+import { editorEventBus } from 'vuemail-editor/core';
 ```
 
 ## Dispatching events
@@ -29,7 +29,7 @@ Subscribe to events and clean up when done:
 
 ```vue
 <script setup lang="ts">
-import { editorEventBus } from '@vuemail/editor/core';
+import { editorEventBus } from 'vuemail-editor/core';
 import { onBeforeUnmount, onMounted } from 'vue';
 
 let subscription: { unsubscribe: () => void } | undefined;
@@ -52,7 +52,7 @@ component unmounts to avoid memory leaks.
 The `useEditorEvent` composable does both for you, listening while the component is mounted:
 
 ```ts
-import { useEditorEvent } from '@vuemail/editor/core';
+import { useEditorEvent } from 'vuemail-editor/core';
 
 useEditorEvent('bubble-menu:add-link', () => {
   console.log('Link addition triggered');
@@ -70,7 +70,7 @@ useEditorEvent('bubble-menu:add-link', () => {
 Use TypeScript module augmentation to register custom events with full type safety:
 
 ```ts
-declare module '@vuemail/editor/core' {
+declare module 'vuemail-editor/core' {
   interface EditorEventMap {
     'my-feature:custom-event': { data: string };
     'my-feature:another-event': { count: number };

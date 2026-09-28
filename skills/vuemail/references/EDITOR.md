@@ -21,7 +21,7 @@ A visual rich-text editor for building email templates, built on [TipTap](https:
 Install the editor:
 
 ```sh
-npm install @vuemail/editor
+npm install vuemail-editor
 ```
 
 Requires **Vue 3.4+** and a bundler that supports [package exports](https://nodejs.org/api/packages.html#exports) (Vite, Nuxt, Webpack 5, etc.). The editor is created once its component mounts, so it only runs in the browser.
@@ -31,7 +31,7 @@ Requires **Vue 3.4+** and a bundler that supports [package exports](https://node
 Import the bundled default theme for the quickest start:
 
 ```ts
-import '@vuemail/editor/themes/default.css';
+import 'vuemail-editor/themes/default.css';
 ```
 
 This includes the default color theme and built-in UI styles for bubble menus, slash commands, and the inspector.
@@ -39,9 +39,9 @@ This includes the default color theme and built-in UI styles for bubble menus, s
 To import only what you need:
 
 ```ts
-import '@vuemail/editor/styles/bubble-menu.css';
-import '@vuemail/editor/styles/slash-command.css';
-import '@vuemail/editor/styles/inspector.css';
+import 'vuemail-editor/styles/bubble-menu.css';
+import 'vuemail-editor/styles/slash-command.css';
+import 'vuemail-editor/styles/inspector.css';
 ```
 
 ## Architecture
@@ -50,21 +50,21 @@ The editor is organized into six entry points:
 
 | Import | Purpose |
 |--------|---------|
-| `@vuemail/editor` | `EmailEditor`: the all-in-one component, and `EditorProvider` |
-| `@vuemail/editor/core` | `composeVueEmail` serialization, `EmailNode`, `EmailMark`, `useCurrentEditor`, event bus, types |
-| `@vuemail/editor/extensions` | `StarterKit` and the email-aware extensions |
-| `@vuemail/editor/ui` | `BubbleMenu`, `SlashCommand`, `Inspector` |
-| `@vuemail/editor/plugins` | `EmailTheming` plugin, image upload |
-| `@vuemail/editor/utils` | Selection and alignment helpers |
+| `vuemail-editor` | `EmailEditor`: the all-in-one component, and `EditorProvider` |
+| `vuemail-editor/core` | `composeVueEmail` serialization, `EmailNode`, `EmailMark`, `useCurrentEditor`, event bus, types |
+| `vuemail-editor/extensions` | `StarterKit` and the email-aware extensions |
+| `vuemail-editor/ui` | `BubbleMenu`, `SlashCommand`, `Inspector` |
+| `vuemail-editor/plugins` | `EmailTheming` plugin, image upload |
+| `vuemail-editor/utils` | Selection and alignment helpers |
 
 ## EmailEditor Component
 
-The `EmailEditor` component from `@vuemail/editor` is a batteries-included component that bundles StarterKit, EmailTheming, BubbleMenus, and SlashCommands. Use it when you want the full experience with minimal setup.
+The `EmailEditor` component from `vuemail-editor` is a batteries-included component that bundles StarterKit, EmailTheming, BubbleMenus, and SlashCommands. Use it when you want the full experience with minimal setup.
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
-import '@vuemail/editor/themes/default.css';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
+import 'vuemail-editor/themes/default.css';
 import { ref } from 'vue';
 
 const editorRef = ref<EmailEditorRef | null>(null);
@@ -131,12 +131,12 @@ The default slot renders next to the editor's content once the editor exists, wh
 
 ## Minimal Setup (Extensions Only)
 
-For more control, use `EditorProvider` from `@vuemail/editor` with `StarterKit`. It creates the editor and provides it to the components in its default slot, like `EditorProvider` from `@tiptap/react`:
+For more control, use `EditorProvider` from `vuemail-editor` with `StarterKit`. It creates the editor and provides it to the components in its default slot, like `EditorProvider` from `@tiptap/react`:
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 
 const extensions = [StarterKit];
 
@@ -166,10 +166,10 @@ Floating formatting toolbars that appear on text selection. Add them to the defa
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { BubbleMenu } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { BubbleMenu } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 
@@ -230,10 +230,10 @@ Insert content blocks by typing `/` in the editor.
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { SlashCommand, defaultSlashCommands } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { SlashCommand, defaultSlashCommands } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit];
 </script>
@@ -266,7 +266,7 @@ Cherry-pick individual commands:
 
 ```vue
 <script setup lang="ts">
-import { BUTTON, H1, H2, SlashCommand, TEXT } from '@vuemail/editor/ui';
+import { BUTTON, H1, H2, SlashCommand, TEXT } from 'vuemail-editor/ui';
 
 const items = [TEXT, H1, H2, BUTTON];
 </script>
@@ -284,11 +284,11 @@ A contextual sidebar for editing document-level styles, node properties, and tex
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
-import { Inspector } from '@vuemail/editor/ui';
-import '@vuemail/editor/themes/default.css';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
+import { Inspector } from 'vuemail-editor/ui';
+import 'vuemail-editor/themes/default.css';
 
 const extensions = [StarterKit, EmailTheming];
 
@@ -345,8 +345,8 @@ Its parts take scoped slots to customize them. For example, `Inspector.Breadcrum
 Apply visual styles (typography, spacing, colors) to email output. Themes are resolved during `composeVueEmail` and inlined as `style` attributes.
 
 ```ts
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 
 const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
 ```
@@ -364,9 +364,9 @@ With `EmailEditor`, change its `theme` prop, and it sets the editor up again. Wi
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 import { computed, ref } from 'vue';
 
 const theme = ref<'basic' | 'minimal'>('basic');
@@ -400,7 +400,7 @@ In a component rendered inside `EditorProvider` or `EmailEditor`:
 
 ```vue
 <script setup lang="ts">
-import { composeVueEmail, useCurrentEditor } from '@vuemail/editor/core';
+import { composeVueEmail, useCurrentEditor } from 'vuemail-editor/core';
 
 const { editor } = useCurrentEditor();
 
@@ -434,8 +434,8 @@ Create custom email-compatible nodes using `EmailNode` (extends TipTap's `Node` 
 
 ```ts
 import { mergeAttributes } from '@tiptap/core';
-import { EmailNode } from '@vuemail/editor/core';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { EmailNode } from 'vuemail-editor/core';
+import { StarterKit } from 'vuemail-editor/extensions';
 import { h } from 'vue';
 import { Section } from 'vuemail';
 
@@ -481,4 +481,4 @@ const extensions = [StarterKit, Callout];
 
 Mark custom `div` nodes with a `data-type` attribute: `StarterKit` parses every other `div` as its own generic node. Prefer Vuemail components in `renderToVueEmail`: plain elements rendered with `h()` don't add `px` to numbers in `style`.
 
-For custom marks (inline formatting), use `EmailMark` from `@vuemail/editor/core` — same pattern but for inline elements.
+For custom marks (inline formatting), use `EmailMark` from `vuemail-editor/core` — same pattern but for inline elements.

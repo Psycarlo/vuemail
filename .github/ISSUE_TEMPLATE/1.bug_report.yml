@@ -8,10 +8,10 @@ body:
       label: What package is this bug report for?
       options:
         - vuemail (components and render)
-        - vuemail (CLI) / @vuemail/ui (preview)
-        - '@vuemail/render'
-        - '@vuemail/editor'
-        - '@vuemail/nuxt'
+        - vuemail (CLI) / vuemail-ui (preview)
+        - 'vuemail-render'
+        - 'vuemail-editor'
+        - 'vuemail-nuxt'
         - create-vuemail
         - Website or docs
     validations:

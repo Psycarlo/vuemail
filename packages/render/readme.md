@@ -1,6 +1,6 @@
-![@vuemail/render cover](../../apps/web/public/static/covers/render.png)
+![vuemail-render cover](../../apps/web/public/static/covers/render.png)
 
-<div align="center"><strong>@vuemail/render</strong></div>
+<div align="center"><strong>vuemail-render</strong></div>
 <div align="center">Transform Vue components into HTML email templates.</div>
 <br />
 <div align="center">
@@ -17,13 +17,13 @@ Install component from your command line.
 #### With yarn
 
 ```sh
-yarn add @vuemail/render -E
+yarn add vuemail-render -E
 ```
 
 #### With npm
 
 ```sh
-npm install @vuemail/render -E
+npm install vuemail-render -E
 ```
 
 `render` is also exported from [`vuemail`](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail), so you don't need to install this package if you already use it.
@@ -33,7 +33,7 @@ npm install @vuemail/render -E
 Convert Vue components into a HTML string.
 
 ```ts
-import { render } from '@vuemail/render';
+import { render } from 'vuemail-render';
 import MyTemplate from '../components/MyTemplate.vue';
 
 const html = await render(MyTemplate, { firstName: 'Jim' });
@@ -67,7 +67,7 @@ const localized = await render(
 
 `pretty` and `toPlainText` are exported too, to format HTML or convert it into plain text.
 
-Importing `.vue` files needs a build step that compiles them, like [Nuxt](https://nuxt.com) with `@vuemail/nuxt`, [Vite](https://vite.dev), or a bundler with a Vue plugin.
+Importing `.vue` files needs a build step that compiles them, like [Nuxt](https://nuxt.com) with `vuemail-nuxt`, [Vite](https://vite.dev), or a bundler with a Vue plugin.
 
 ## License
 

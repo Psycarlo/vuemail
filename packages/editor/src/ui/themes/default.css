@@ -1,6 +1,6 @@
-/* Default theme for @vuemail/editor bubble menu primitives.
+/* Default theme for vuemail-editor bubble menu primitives.
  *
- * Opt-in: import '@vuemail/editor/themes/default.css';
+ * Opt-in: import 'vuemail-editor/themes/default.css';
  *
  * Override any variable on a parent element:
  *   .my-editor { --re-bg: #1a1a1a; --re-border: #333; }

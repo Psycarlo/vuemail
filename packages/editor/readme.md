@@ -1,4 +1,4 @@
-# @vuemail/editor
+# vuemail-editor
 
 A rich text editor for editing and building email templates with Vue, built on top of [Tiptap](https://tiptap.dev) and [Vuemail](https://vuemail.dev).
 
@@ -18,22 +18,22 @@ packages/editor/src/
 
 The package exposes multiple entry points for granular imports:
 
-- `@vuemail/editor` — Main editor component and top-level API
-- `@vuemail/editor/core` — Serializer, types, and event bus
-- `@vuemail/editor/extensions` — Tiptap extensions for all supported email elements
-- `@vuemail/editor/ui` — UI components (bubble menus, slash command, inspector)
-- `@vuemail/editor/plugins` — Editor plugins (email theming, image upload)
-- `@vuemail/editor/utils` — Shared utilities
+- `vuemail-editor` — Main editor component and top-level API
+- `vuemail-editor/core` — Serializer, types, and event bus
+- `vuemail-editor/extensions` — Tiptap extensions for all supported email elements
+- `vuemail-editor/ui` — UI components (bubble menus, slash command, inspector)
+- `vuemail-editor/plugins` — Editor plugins (email theming, image upload)
+- `vuemail-editor/utils` — Shared utilities
 
 And its styles:
 
-- `@vuemail/editor/themes/default.css` — Default theme, with the styles of every UI component
-- `@vuemail/editor/styles/bubble-menu.css`, `@vuemail/editor/styles/slash-command.css`, `@vuemail/editor/styles/inspector.css` — Styles of each UI component
+- `vuemail-editor/themes/default.css` — Default theme, with the styles of every UI component
+- `vuemail-editor/styles/bubble-menu.css`, `vuemail-editor/styles/slash-command.css`, `vuemail-editor/styles/inspector.css` — Styles of each UI component
 
 ## Installation
 
 ```bash
-npm install @vuemail/editor
+npm install vuemail-editor
 ```
 
 ## Development

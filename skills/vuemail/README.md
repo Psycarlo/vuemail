@@ -23,7 +23,7 @@ skills/
 Agent Skills are a standardized format for giving AI agents specialized knowledge and workflows. This skill teaches agents how to:
 
 - Build HTML email templates using Vuemail components written as Vue single file components
-- Add a visual drag-and-drop email editor to a Vue application (using `@vuemail/editor`)
+- Add a visual drag-and-drop email editor to a Vue application (using `vuemail-editor`)
 - Send emails through Resend and other providers, including from Nuxt server routes
 - Implement internationalization for multi-language support
 - Follow email development best practices

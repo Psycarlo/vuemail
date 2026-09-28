@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { JSONContent } from '@tiptap/core';
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
+import { computed, ref } from 'vue';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
 import {
   createTheme,
   type EditorThemeInput,
   EmailTheming,
   extendTheme,
-} from '@vuemail/editor/plugins';
-import { BubbleMenu } from '@vuemail/editor/ui';
-import { computed, ref } from 'vue';
+} from 'vuemail-editor/plugins';
+import { BubbleMenu } from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const initialContent = {

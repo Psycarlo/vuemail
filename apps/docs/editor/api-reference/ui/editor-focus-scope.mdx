@@ -10,7 +10,7 @@ Everything is accessed through a single import:
 ```ts
 import {
   EditorFocusScope,
-} from '@vuemail/editor/ui';
+} from 'vuemail-editor/ui';
 ```
 
 The `FocusScopes` extension, included by default in `StarterKit`, keeps the
@@ -35,9 +35,9 @@ provider still installs the same tracking plugin for editors that do not use
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EditorFocusScope } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EditorFocusScope } from 'vuemail-editor/ui';
 import {
   PopoverContent,
   PopoverPortal,
@@ -92,7 +92,7 @@ extension is not present, it renders its children unchanged.
 
 ```vue
 <script setup lang="ts">
-import { EditorFocusScope, Inspector } from '@vuemail/editor/ui';
+import { EditorFocusScope, Inspector } from 'vuemail-editor/ui';
 import {
   SelectContent,
   SelectItem,

@@ -27,7 +27,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Install Playwright's Chromium
         # For the editor's specs that run in a real browser
-        run: pnpm --filter @vuemail/editor exec playwright install chromium --with-deps
+        run: pnpm --filter vuemail-editor exec playwright install chromium --with-deps
       - name: Run Build
         run: pnpm build
       - name: Run Tests

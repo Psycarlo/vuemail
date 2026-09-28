@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Editor, EditorContent } from '@tiptap/vue-3';
-import { composeVueEmail, provideCurrentEditor } from '@vuemail/editor/core';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
+import { composeVueEmail, provideCurrentEditor } from 'vuemail-editor/core';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 import {
   BubbleMenu,
   defaultSlashCommands,
   Inspector,
   SlashCommand,
-} from '@vuemail/editor/ui';
-import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
+} from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 type EditorTheme = 'basic' | 'minimal';

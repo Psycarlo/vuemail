@@ -11,7 +11,7 @@ If you use the standalone `EmailEditor` component, you can access the email HTML
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
+import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
 import { ref, useTemplateRef } from 'vue';
 
 const emailEditor = useTemplateRef<EmailEditorRef>('email-editor');
@@ -49,7 +49,7 @@ Use [composeVueEmail](/editor/api-reference/compose-vue-email) directly to conve
 
 ```vue export-panel.vue
 <script setup lang="ts">
-import { composeVueEmail, useCurrentEditor } from '@vuemail/editor/core';
+import { composeVueEmail, useCurrentEditor } from 'vuemail-editor/core';
 import { ref } from 'vue';
 
 const { editor } = useCurrentEditor();
@@ -83,10 +83,10 @@ async function handleExport() {
 
 ```vue my-editor.vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
-import { BubbleMenu } from '@vuemail/editor/ui';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
+import { BubbleMenu } from 'vuemail-editor/ui';
 import ExportPanel from './export-panel.vue';
 
 const extensions = [StarterKit, EmailTheming];
@@ -164,14 +164,14 @@ Here's a complete editor with theming and an export panel, using the `export-pan
 
 ```vue full-email-builder.vue
 <script setup lang="ts">
-import { EditorProvider } from '@vuemail/editor';
-import { StarterKit } from '@vuemail/editor/extensions';
-import { EmailTheming } from '@vuemail/editor/plugins';
+import { EditorProvider } from 'vuemail-editor';
+import { StarterKit } from 'vuemail-editor/extensions';
+import { EmailTheming } from 'vuemail-editor/plugins';
 import {
   BubbleMenu,
   defaultSlashCommands,
   SlashCommand,
-} from '@vuemail/editor/ui';
+} from 'vuemail-editor/ui';
 import { computed, ref } from 'vue';
 import ExportPanel from './export-panel.vue';
 
