@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Build and send emails using Vue. Components, rendering and a live preview of your emails right in your browser.",
   "bin": {
-    "email": "./dist/cli/index.mjs",
-    "vuemail": "./dist/cli/index.mjs"
+    "email": "./bin/email.mjs",
+    "vuemail": "./bin/email.mjs"
   },
   "type": "module",
   "sideEffects": false,
@@ -12,6 +12,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "files": [
+    "bin/**",
     "dist/**"
   ],
   "scripts": {

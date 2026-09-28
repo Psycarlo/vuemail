@@ -5,6 +5,8 @@ import { slugify } from './shared/utils/slugify';
 const description =
   'A collection of high-quality, unstyled components for creating beautiful emails using Vue and TypeScript.';
 const cover = 'https://vuemail.dev/static/covers/vuemail.png';
+// The Mintlify site of the docs, whose subdomain is in the Mintlify dashboard
+const docsOrigin = 'https://vuemail.mintlify.site';
 
 export default defineNuxtConfig({
   modules: ['@vuemaildev/nuxt'],
@@ -87,9 +89,13 @@ export default defineNuxtConfig({
     '/examples': { redirect: { to: '/templates', statusCode: 308 } },
     '/editor/examples': { redirect: { to: '/editor', statusCode: 308 } },
     '/editor/examples/**': { redirect: { to: '/editor/**', statusCode: 308 } },
-    // The docs are a Mintlify site, served under the same domain
-    '/docs': { proxy: 'https://vuemail.mintlify.dev/docs' },
-    '/docs/**': { proxy: 'https://vuemail.mintlify.dev/docs/**' },
+    // The docs are a Mintlify site, served under the same domain: Mintlify
+    // builds them for the `/docs` base path and loads its assets and APIs
+    // from the other two paths
+    '/docs': { proxy: `${docsOrigin}/docs` },
+    '/docs/**': { proxy: `${docsOrigin}/docs/**` },
+    '/_mintlify/**': { proxy: `${docsOrigin}/_mintlify/**` },
+    '/mintlify-assets/**': { proxy: `${docsOrigin}/mintlify-assets/**` },
     '/api/**': {
       cors: true,
       headers: {
