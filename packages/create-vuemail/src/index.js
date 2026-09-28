@@ -68,12 +68,6 @@ const init = async (name, { tag }) => {
   fse.copySync(templatePath, resolvedProjectPath, {
     recursive: true,
   });
-  // npm leaves .gitignore files out of published packages, so the template
-  // ships it without the dot
-  fse.moveSync(
-    path.resolve(resolvedProjectPath, 'gitignore'),
-    path.resolve(resolvedProjectPath, '.gitignore'),
-  );
   const templatePackageJsonPath = path.resolve(
     resolvedProjectPath,
     './package.json',
@@ -99,18 +93,6 @@ const init = async (name, { tag }) => {
         .join(dirent.parentPath, dirent.name)
         .includes('node_modules');
     }),
-  );
-
-  console.info(
-    [
-      '',
-      'To get started, run:',
-      '',
-      `  cd ${path.relative(process.cwd(), resolvedProjectPath)}`,
-      '  npm install',
-      '  npm run dev',
-      '',
-    ].join('\n'),
   );
 };
 

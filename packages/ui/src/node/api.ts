@@ -15,6 +15,11 @@ export interface ApiContext {
   loader: EmailLoader;
   hotReload: HotReload;
   resendApiKey?: string;
+  /** Renders an email, if not the plain way, as the preview server does. */
+  renderEmail?: (
+    emailPath: string,
+    props?: Record<string, unknown>,
+  ) => Promise<EmailRenderingResult>;
 }
 
 interface RenderRequest {
@@ -23,13 +28,15 @@ interface RenderRequest {
 }
 
 export async function renderEmailBySlug(
-  context: Pick<ApiContext, 'emailsDirectory' | 'loader'>,
+  context: Pick<ApiContext, 'emailsDirectory' | 'loader' | 'renderEmail'>,
   slug: string,
   props?: Record<string, unknown>,
 ): Promise<EmailRenderingResult | undefined> {
   const emailPath = await getEmailPathFromSlug(context.emailsDirectory, slug);
   if (!emailPath) return undefined;
-  return renderEmailByPath(context.loader, emailPath, props);
+  return context.renderEmail
+    ? context.renderEmail(emailPath, props)
+    : renderEmailByPath(context.loader, emailPath, props);
 }
 
 /**

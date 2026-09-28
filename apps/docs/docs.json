@@ -76,6 +76,7 @@
                   "guides/internationalization/messages-as-props"
                 ]
               },
+              "guides/vite-plugins",
               "guides/vite"
             ]
           },
@@ -215,7 +216,7 @@
         },
         {
           "anchor": "Templates",
-          "href": "https://vuemail.dev/templates",
+          "href": "https://demo.vuemail.dev/preview/Community/notifications/vercel-invite-user",
           "icon": "arrow-pointer"
         }
       ]

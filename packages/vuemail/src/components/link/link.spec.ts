@@ -44,4 +44,12 @@ describe('<Link> component', () => {
       ),
     ).toContain('target="_self"');
   });
+
+  it('blocks javascript: URLs, like React Email', async () => {
+    expect(
+      await renderMarkup(h(Link, { href: 'javascript:alert(1)' }, () => 'x')),
+    ).toContain(
+      'href="javascript:throw new Error(&#39;Vuemail has blocked a javascript: URL as a security precaution.&#39;)"',
+    );
+  });
 });

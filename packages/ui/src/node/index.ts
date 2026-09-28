@@ -5,4 +5,5 @@ export * from './build-preview';
 export * from './dev-server';
 export * from './emails-directory';
 export * from './export-templates';
+export { isReportedError } from './reported-error';
 export * from './start-preview';

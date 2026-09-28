@@ -14,26 +14,30 @@ import { getElementNames } from './caniemail/get-element-names';
 import { supportEntries } from './caniemail-data';
 import { reactEmailSupportEntries } from './custom-support-entries';
 import {
-  getUsedHtmlFeatures,
-  type HtmlFeatures,
-} from './get-used-html-features';
+  getUsedSourceFeatures,
+  type SetupTailwind,
+  type SourceFeatures,
+  type StylePropertyUsage,
+} from './get-used-source-features';
+import { snakeToCamel } from './snake-to-camel';
 
 export type {
   CompatibilityCheckingResult,
   SupportEntry,
 } from '../../shared/types';
 
-const normalizeCssValue = (value: string) =>
-  value.trim().replace(/\s+/g, ' ').toLowerCase();
-
-/** Where the markup first uses the feature of an entry, if it does. */
+/** Where the source first uses the feature of an entry, if it does. */
 const findUsage = (
   entry: SupportEntry,
-  { elements, attributes, styleProperties }: HtmlFeatures,
+  { elements, attributes, styleProperties }: SourceFeatures,
 ): SourceLocation | undefined => {
   if (entry.category === 'html') {
-    // Entries like "loading attribute" come with keywords, like `img`, that
-    // would otherwise be taken for the elements they're about
+    const entryElements = getElementNames(entry.title, entry.keywords);
+    if (entryElements.length > 0) {
+      return elements.find((element) => entryElements.includes(element.name))
+        ?.location;
+    }
+
     const entryAttributes = getElementAttributes(entry.title);
     if (entryAttributes.length > 0) {
       return attributes.find((attribute) =>
@@ -41,71 +45,76 @@ const findUsage = (
       )?.location;
     }
 
-    const entryElements = getElementNames(entry.title, entry.keywords);
-    if (entryElements.length > 0) {
-      return elements.find((element) => entryElements.includes(element.name))
-        ?.location;
-    }
-
     return undefined;
   }
 
-  if (entry.category === 'css') {
-    const entryFullProperty = getCssPropertyWithValue(entry.title);
-    if (entryFullProperty?.name && entryFullProperty.value) {
-      const value = normalizeCssValue(entryFullProperty.value);
-      return styleProperties.find(
-        (property) =>
-          property.name === entryFullProperty.name &&
-          normalizeCssValue(property.value) === value,
-      )?.location;
-    }
+  if (entry.category !== 'css') return undefined;
 
-    const entryFunctions = getCssFunctions(entry.title);
-    if (entryFunctions.length > 0) {
-      return styleProperties.find((property) =>
-        property.functions.some((name) => entryFunctions.includes(name)),
-      )?.location;
-    }
+  const entryFullProperty = getCssPropertyWithValue(entry.title);
+  const entryProperties = getCssPropertyNames(entry.title, entry.keywords);
+  const entryUnit = getCssUnit(entry.title);
+  const entryFunctions = getCssFunctions(entry.title);
 
-    const entryUnit = getCssUnit(entry.title);
-    if (entryUnit) {
-      return styleProperties.find((property) =>
-        property.units.includes(entryUnit),
-      )?.location;
-    }
-
-    const entryProperties = getCssPropertyNames(entry.title, entry.keywords);
-    if (entryProperties.length > 0) {
-      return styleProperties.find((property) =>
-        entryProperties.includes(property.name),
-      )?.location;
-    }
+  let matches: ((property: StylePropertyUsage) => boolean) | undefined;
+  if (entryFullProperty?.name && entryFullProperty.value) {
+    matches = (property) =>
+      property.name === snakeToCamel(entryFullProperty.name) &&
+      property.value === entryFullProperty.value;
+  } else if (entryFunctions.length > 0) {
+    matches = (property) => {
+      const functionName =
+        /(?<functionName>[a-zA-Z_][a-zA-Z0-9_-]*)\s*\(/g.exec(property.value)
+          ?.groups?.functionName;
+      return (
+        functionName !== undefined && entryFunctions.includes(functionName)
+      );
+    };
+  } else if (entryUnit) {
+    matches = (property) => {
+      // Upstream matches with the global flag, which leaves out the groups,
+      // so no unit ever matches
+      const match = property.value.match(/[0-9](?<unit>[a-zA-Z%]+)$/g) as
+        | (RegExpMatchArray & { groups?: { unit?: string } })
+        | null;
+      const unit = match?.groups?.unit;
+      return unit !== undefined && entryUnit === unit;
+    };
+  } else if (entryProperties.length > 0) {
+    matches = (property) =>
+      entryProperties.some(
+        (propertyName) => snakeToCamel(propertyName) === property.name,
+      );
   }
 
-  return undefined;
+  return matches ? styleProperties.find(matches)?.location : undefined;
 };
 
 /**
- * Checks what of an email's markup the given email clients don't support,
- * with Can I Email's data: the first use of every unsupported feature, in
- * the order of the data.
+ * Checks what of an email the given email clients don't support, with Can I
+ * Email's data: the first use of every unsupported feature in the source of
+ * the email, in the order of the data.
  *
- * Upstream analyses the source code of React emails. Vue emails are
- * analysed through the HTML they render instead: its elements, attributes,
- * inline styles and `<style>` elements, located by lines of the markup.
+ * As upstream does for the source of React emails, it looks at the
+ * elements and attributes of the email's template, and at the style
+ * properties of its `style` attributes and of its Tailwind classes.
  */
-export const checkCompatibility = (
-  markup: string,
+export const checkCompatibility = async (
+  source: string,
+  emailPath: string,
   emailClients: readonly EmailClient[],
-): CompatibilityCheckingResult[] => {
-  const features = getUsedHtmlFeatures(markup);
-  const markupLines = markup.split(/\r\n|\n|\r/);
+  setupTailwind: SetupTailwind,
+): Promise<CompatibilityCheckingResult[]> => {
+  const features = await getUsedSourceFeatures(
+    source,
+    emailPath,
+    setupTailwind,
+  );
+  const sourceLines = source.split(/\n|\r|\r\n/);
   const getSourceCodeAt = (location: SourceLocation) =>
-    markupLines
+    sourceLines
       .slice(
         Math.max(location.start.line - 2, 0),
-        Math.min(location.end.line + 2, markupLines.length),
+        Math.min(location.end.line + 2, sourceLines.length),
       )
       .join('\n');
 

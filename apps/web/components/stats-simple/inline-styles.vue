@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import { Section } from 'vuemail';
-
-const responsiveRow = { textAlign: 'center', fontSize: '0' } as const;
-
-const responsiveColumn = {
-  maxWidth: '200px',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  fontSize: '16px',
-  boxSizing: 'border-box',
-} as const;
+import ResponsiveColumn from '../_components/responsive-column.vue';
+import ResponsiveRow from '../_components/responsive-row.vue';
 </script>
 
 <template>
-  <Section :style="responsiveRow">
-    <Section :style="responsiveColumn">
+  <ResponsiveRow>
+    <ResponsiveColumn>
       <p
         :style="{
           margin: '0',
@@ -40,8 +31,8 @@ const responsiveColumn = {
       >
         The Answer
       </p>
-    </Section>
-    <Section :style="responsiveColumn">
+    </ResponsiveColumn>
+    <ResponsiveColumn>
       <p
         :style="{
           margin: '0',
@@ -67,8 +58,8 @@ const responsiveColumn = {
       >
         Days for Earth Mark II
       </p>
-    </Section>
-    <Section :style="responsiveColumn">
+    </ResponsiveColumn>
+    <ResponsiveColumn>
       <p
         :style="{
           margin: '0',
@@ -94,6 +85,6 @@ const responsiveColumn = {
       >
         Improbability Drive odds
       </p>
-    </Section>
-  </Section>
+    </ResponsiveColumn>
+  </ResponsiveRow>
 </template>

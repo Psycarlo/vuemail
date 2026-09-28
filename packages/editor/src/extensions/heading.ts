@@ -26,7 +26,15 @@ export const Heading: EmailNode<TipTapHeadingOptions, any> = EmailNode.from(
           innerDecorations,
           updateProps,
         }) => {
-          if (newNode.type !== oldNode.type) {
+          // A new level renders another element (`h1` -> `h2`), which Vue
+          // does by replacing the element holding the content, so the
+          // content element ProseMirror knows would be left detached (React
+          // node views move a single content element around instead): let
+          // ProseMirror render the node view again for it.
+          if (
+            newNode.type !== oldNode.type ||
+            newNode.attrs.level !== oldNode.attrs.level
+          ) {
             return false;
           }
 

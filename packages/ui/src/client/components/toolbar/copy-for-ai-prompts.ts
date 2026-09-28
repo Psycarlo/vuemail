@@ -85,6 +85,7 @@ For each issue:
 
 function buildCompatibilityPrompt(
   results: CompatibilityCheckingResult[],
+  extname: string,
 ): string {
   const issues = results
     .filter((r) => r.status === 'error')
@@ -93,7 +94,7 @@ function buildCompatibilityPrompt(
         .filter(([, stats]) => stats?.status === 'error')
         .map(([client]) => nicenames.family[client as EmailClient] || client);
 
-      return `- "${sanitize(result.entry.title)}" is not supported in: ${unsupported.join(', ')} (line ${result.location.start.line} of the rendered HTML)`;
+      return `- "${sanitize(result.entry.title)}" is not supported in: ${unsupported.join(', ')} (line ${result.location.start.line} of the .${extname} file)`;
     });
 
   if (issues.length === 0) return '';
@@ -157,7 +158,7 @@ export function getPromptForTab(
   if (activeTab === 'linter' && lintingRows) {
     issuePrompt = buildLinterPrompt(lintingRows);
   } else if (activeTab === 'compatibility' && compatibilityResults) {
-    issuePrompt = buildCompatibilityPrompt(compatibilityResults);
+    issuePrompt = buildCompatibilityPrompt(compatibilityResults, extname);
   } else if (activeTab === 'spam-assassin' && spamResult) {
     issuePrompt = buildSpamPrompt(spamResult);
   } else {
@@ -167,7 +168,7 @@ export function getPromptForTab(
       if (p) parts.push(p);
     }
     if (compatibilityResults) {
-      const p = buildCompatibilityPrompt(compatibilityResults);
+      const p = buildCompatibilityPrompt(compatibilityResults, extname);
       if (p) parts.push(p);
     }
     if (spamResult) {

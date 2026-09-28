@@ -1,6 +1,6 @@
 import { marked, Renderer } from 'marked';
 import { type CSSProperties, defineComponent, type HTMLAttributes } from 'vue';
-import { useTailwind } from '../element';
+import { markdownDataId, useTailwind } from '../element';
 import { h } from '../utils/h';
 import { getSlotText } from '../utils/slot-text';
 import { styleToString } from '../utils/style';
@@ -171,7 +171,7 @@ export const Markdown = defineComponent(
         ...rest,
         class: className,
         innerHTML: marked.parse(markdown, { renderer, async: false }),
-        'data-id': 'vuemail-markdown',
+        'data-id': markdownDataId,
         style: styleToString(style),
       });
     };

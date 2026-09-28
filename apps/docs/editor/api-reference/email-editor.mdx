@@ -32,6 +32,15 @@ import '@vuemail/editor/themes/default.css';
 import { EmailEditor, type EmailEditorRef } from '@vuemail/editor';
 ```
 
+## Signature
+
+```ts
+const EmailEditor: new () => ComponentPublicInstance<EmailEditorProps> & EmailEditorRef;
+```
+
+A Vue component that takes the [props](#props) below, and whose template ref exposes the
+[`EmailEditorRef`](#ref-api).
+
 ## Default behavior
 
 When rendered without a custom `extensions` prop, `EmailEditor` configures:
@@ -114,7 +123,7 @@ appended automatically.
 </ResponseField>
 
 <ResponseField name="@ready" type="(ref: EmailEditorRef) => void">
-  Emitted once after the editor instance is created and ready.
+  Emitted once after the editor instance is mounted and ready.
 </ResponseField>
 
 ## Slots

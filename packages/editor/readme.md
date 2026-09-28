@@ -51,6 +51,12 @@ pnpm typecheck
 # Run all tests
 pnpm test
 
+# Run unit tests only
+pnpm test:unit
+
+# Run browser tests only (in Chromium: `pnpm exec playwright install chromium`)
+pnpm test:browser
+
 # Watch mode for tests
 pnpm test:watch
 ```

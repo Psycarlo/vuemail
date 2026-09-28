@@ -76,17 +76,12 @@ export class EmailNode<
   }
 
   // @ts-expect-error - same as configure: extend returns EmailNode for chaining; base typings are incompatible
-  extend<
-    ExtendedOptions = Options,
-    ExtendedStorage = Storage,
-    ExtendedConfig extends NodeConfig<
-      ExtendedOptions,
-      ExtendedStorage
-    > = EmailNodeConfig<ExtendedOptions, ExtendedStorage>,
-  >(
+  // The config is typed as the email one directly: inferring a config type
+  // from it would reject `renderToVueEmail`
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
     extendedConfig?:
-      | (() => Partial<ExtendedConfig>)
-      | (Partial<ExtendedConfig> &
+      | (() => Partial<EmailNodeConfig<ExtendedOptions, ExtendedStorage>>)
+      | (Partial<EmailNodeConfig<ExtendedOptions, ExtendedStorage>> &
           ThisType<{
             name: string;
             options: ExtendedOptions;

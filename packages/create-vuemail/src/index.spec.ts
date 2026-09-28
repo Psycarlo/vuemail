@@ -62,23 +62,13 @@ describe('create-vuemail', () => {
     expect(createProcess.status, createProcess.stderr).toBe(0);
     expect(createProcess.stderr).toContain('Vuemail Starter files ready');
     expect(createProcess.stdout).toContain('vercel-invite-user.vue');
-    expect(createProcess.stdout).toContain('cd vuemail-starter');
-    expect(createProcess.stdout).toContain('npm run dev');
 
     const starterPath = path.join(testPath, 'vuemail-starter');
     const files = await listFiles(templatePath);
     expect(files).toContain(path.join('emails', 'static', 'vercel-user.png'));
-    // The template ships its .gitignore without the dot, since npm leaves
-    // .gitignore files out of the packages it publishes
-    const toStarterFile = (file: string) =>
-      file === 'gitignore' ? '.gitignore' : file;
-    expect(await listFiles(starterPath)).toEqual(
-      files.map(toStarterFile).sort(),
-    );
+    expect(await listFiles(starterPath)).toEqual(files);
     for (const file of files.filter((file) => file !== 'package.json')) {
-      const copy = await fs.readFile(
-        path.join(starterPath, toStarterFile(file)),
-      );
+      const copy = await fs.readFile(path.join(starterPath, file));
       const original = await fs.readFile(path.join(templatePath, file));
       expect(copy.equals(original), `${file} should be copied as is`).toBe(
         true,

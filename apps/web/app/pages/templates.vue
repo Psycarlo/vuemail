@@ -2,7 +2,7 @@
 const description = 'Open source templates built with Vuemail';
 
 useSeoMeta({
-  title: 'Templates',
+  title: 'Templates — Vuemail',
   description,
 });
 

@@ -66,19 +66,18 @@ export async function lintEmail(
 }
 
 /**
- * Checks how well the configured email clients support an email's markup.
- * Built previews come with the results of their build.
+ * Checks how well the configured email clients support what the source of
+ * an email uses. Built previews come with the results of their build.
  */
 export async function checkEmailCompatibility(
   slug: string,
-  markup: string,
 ): Promise<CompatibilityCheckingResult[]> {
   if (isStatic) return (await fetchToolbarData(slug)).compatibilityResults;
 
   const { results } = await postJson<{
     results: CompatibilityCheckingResult[];
   }>('/api/toolbar/compatibility', {
-    markup,
+    slug,
     clients: config.compatibilityClients,
   });
   return results;

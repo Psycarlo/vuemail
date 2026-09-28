@@ -78,17 +78,12 @@ export class EmailMark<
   }
 
   // @ts-expect-error - same as configure: extend returns EmailMark for chaining; base typings are incompatible
-  extend<
-    ExtendedOptions = Options,
-    ExtendedStorage = Storage,
-    ExtendedConfig extends MarkConfig<
-      ExtendedOptions,
-      ExtendedStorage
-    > = EmailMarkConfig<ExtendedOptions, ExtendedStorage>,
-  >(
+  // The config is typed as the email one directly: inferring a config type
+  // from it would reject `renderToVueEmail`
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
     extendedConfig?:
-      | (() => Partial<ExtendedConfig>)
-      | (Partial<ExtendedConfig> &
+      | (() => Partial<EmailMarkConfig<ExtendedOptions, ExtendedStorage>>)
+      | (Partial<EmailMarkConfig<ExtendedOptions, ExtendedStorage>> &
           ThisType<{
             name: string;
             options: ExtendedOptions;

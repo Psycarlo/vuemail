@@ -9,7 +9,6 @@ vi.mock('node:net', () => ({
 
 // Imported after vi.mock declarations so the mocks apply.
 import { checkSpam, checkSpamRequest } from './check-spam';
-import { createRateLimiter } from './rate-limiter';
 
 /** Stands for the TCP connection to spamd */
 class FakeSocket extends EventEmitter {
@@ -215,14 +214,12 @@ describe('checkSpamRequest()', () => {
     createConnection.mockReset();
   });
 
-  const allowAll = () => createRateLimiter({ points: 100, duration: 60 });
-
   it('answers with the result of the check', async () => {
     spamdAnswers(spammyResponse);
 
     const response = await checkSpamRequest(
       { html: '<p>Hi</p>', plainText: 'Hi' },
-      { ip: '127.0.0.1', limiter: allowAll(), spamd },
+      { spamd },
     );
 
     expect(response.status).toBe(200);
@@ -230,10 +227,7 @@ describe('checkSpamRequest()', () => {
   });
 
   it('answers with 400 when the body is not valid', async () => {
-    const response = await checkSpamRequest(
-      { html: '<p>Hi</p>' },
-      { ip: '127.0.0.1', limiter: allowAll(), spamd },
-    );
+    const response = await checkSpamRequest({ html: '<p>Hi</p>' }, { spamd });
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('error');
@@ -241,11 +235,7 @@ describe('checkSpamRequest()', () => {
   });
 
   it('answers with 400 when there is no body', async () => {
-    const response = await checkSpamRequest(undefined, {
-      ip: '127.0.0.1',
-      limiter: allowAll(),
-      spamd,
-    });
+    const response = await checkSpamRequest(undefined, { spamd });
 
     expect(response.status).toBe(400);
   });
@@ -253,36 +243,12 @@ describe('checkSpamRequest()', () => {
   it('answers with 500 when spamd is not configured', async () => {
     const response = await checkSpamRequest(
       { html: '<p>Hi</p>', plainText: 'Hi' },
-      { ip: '127.0.0.1', limiter: allowAll(), spamd: {} },
+      { spamd: {} },
     );
 
     expect(response).toEqual({
       status: 500,
       body: { error: 'Host and port for spam assassin must be specified' },
     });
-  });
-
-  it('answers with 429 once the IP checked too many emails', async () => {
-    const limiter = createRateLimiter({ points: 1, duration: 60 });
-    spamdAnswers(spammyResponse);
-    const body = { html: '<p>Hi</p>', plainText: 'Hi' };
-
-    const first = await checkSpamRequest(body, {
-      ip: '10.0.0.1',
-      limiter,
-      spamd,
-    });
-    const second = await checkSpamRequest(body, {
-      ip: '10.0.0.1',
-      limiter,
-      spamd,
-    });
-
-    expect(first.status).toBe(200);
-    expect(second).toEqual({
-      status: 429,
-      body: { error: 'Rate limit exceeded' },
-    });
-    expect(createConnection).toHaveBeenCalledTimes(1);
   });
 });

@@ -3,7 +3,7 @@ import http from 'node:http';
 import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { serveFileFrom } from './http';
+import { serveFileFrom, serveStaticFile } from './http';
 
 const staticDirectory = fileURLToPath(
   new URL('./fixtures/project/emails/static', import.meta.url),
@@ -65,5 +65,57 @@ describe('serveFileFrom()', () => {
   it("doesn't serve directories or missing files", async () => {
     expect((await fetch(`${baseUrl}/`)).status).toBe(404);
     expect((await fetch(`${baseUrl}/missing.png`)).status).toBe(404);
+  });
+});
+
+describe('serveStaticFile()', () => {
+  let server: http.Server;
+  let baseUrl: string;
+
+  beforeAll(async () => {
+    server = http.createServer(async (request, response) => {
+      const { pathname } = new URL(request.url ?? '/', 'http://localhost');
+      response.setHeader('Cache-Control', 'no-store');
+      await serveStaticFile(response, pathname, staticDirectory);
+    });
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    baseUrl = `http://localhost:${(server.address() as AddressInfo).port}`;
+  });
+
+  afterAll(async () => {
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  });
+
+  it('serves the files of the static directory, keeping the caching headers', async () => {
+    const response = await fetch(`${baseUrl}/static/logo.png`);
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toBe('image/png');
+    expect(response.headers.get('content-length')).toBe('13');
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(await response.text()).toBe('not an image\n');
+  });
+
+  it('refuses paths that would escape the directory', async () => {
+    for (const attempt of [
+      '/static/..%2F..%2Fwelcome.vue',
+      // The emails directory itself
+      '/static/..%2F',
+    ]) {
+      const response = await fetch(`${baseUrl}${attempt}`);
+      expect(response.status, attempt).toBe(403);
+    }
+    // Backslashes only separate paths on Windows, elsewhere it's a file name
+    const backslashes = await fetch(`${baseUrl}/static/..%5C..%5Cwelcome.vue`);
+    expect(backslashes.status).toBe(process.platform === 'win32' ? 403 : 404);
+  });
+
+  it("can't serve paths that don't decode", async () => {
+    expect((await fetch(`${baseUrl}/static/%E0%A4%A`)).status).toBe(400);
+  });
+
+  it("doesn't serve directories or missing files", async () => {
+    expect((await fetch(`${baseUrl}/static/`)).status).toBe(404);
+    expect((await fetch(`${baseUrl}/static/missing.png`)).status).toBe(404);
   });
 });

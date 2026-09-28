@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import { Button, Img, Row, Section, Text } from 'vuemail';
-
-const responsiveRow = { textAlign: 'center', fontSize: '0' } as const;
-
-const responsiveColumn = {
-  maxWidth: '200px',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  fontSize: '16px',
-  boxSizing: 'border-box',
-} as const;
+import ResponsiveColumn from '../_components/responsive-column.vue';
+import ResponsiveRow from '../_components/responsive-row.vue';
 </script>
 
 <template>
@@ -23,8 +15,8 @@ const responsiveColumn = {
         course of over three decades as the Braun design leader.
       </Text>
     </Row>
-    <Section class="mt-[16px]" :style="responsiveRow">
-      <Section class="py-[16px] pr-[4px] text-left" :style="responsiveColumn">
+    <ResponsiveRow class="mt-[16px]">
+      <ResponsiveColumn class="py-[16px] pr-[4px] text-left">
         <Img
           alt="Braun Analogue Clock"
           class="w-full rounded-[8px] object-cover"
@@ -48,8 +40,8 @@ const responsiveColumn = {
           class="mt-[16px] rounded-[8px] bg-indigo-600 px-[24px] py-[12px] font-semibold text-white"
           href="https://vuemail.dev"
         >Buy</Button>
-      </Section>
-      <Section class="px-[4px] py-[16px] text-left" :style="responsiveColumn">
+      </ResponsiveColumn>
+      <ResponsiveColumn class="px-[4px] py-[16px] text-left">
         <Img
           alt="Braun Wall Clock"
           class="w-full rounded-[8px] object-cover"
@@ -73,8 +65,8 @@ const responsiveColumn = {
           class="mt-[16px] rounded-[8px] bg-indigo-600 px-[24px] py-[12px] font-semibold text-white"
           href="https://vuemail.dev"
         >Buy</Button>
-      </Section>
-      <Section class="py-[16px] pl-[4px] text-left" :style="responsiveColumn">
+      </ResponsiveColumn>
+      <ResponsiveColumn class="py-[16px] pl-[4px] text-left">
         <Img
           alt="Braun Classic Watch"
           class="w-full rounded-[8px] object-cover"
@@ -98,7 +90,7 @@ const responsiveColumn = {
           class="mt-[16px] rounded-[8px] bg-indigo-600 px-[24px] py-[12px] font-semibold text-white"
           href="https://vuemail.dev"
         >Buy</Button>
-      </Section>
-    </Section>
+      </ResponsiveColumn>
+    </ResponsiveRow>
   </Section>
 </template>

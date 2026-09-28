@@ -1,14 +1,26 @@
 // @vitest-environment node
+import fs from 'node:fs';
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { ApiContext } from './api';
 import { handleToolbarApiRequest } from './api-toolbar';
+import { checkCompatibility } from './email-validation/check-compatibility';
 import { getLintingRows } from './email-validation/linting';
 import { createResendTemplates, uploadTemplateToResend } from './resend';
 
 vi.mock('./email-validation/linting', () => ({
   getLintingRows: vi.fn(async () => []),
 }));
+
+vi.mock('./email-validation/check-compatibility', () => ({
+  checkCompatibility: vi.fn(async () => [{ status: 'error' }]),
+}));
+
+const emailsDirectory = fileURLToPath(
+  new URL('./fixtures/project/emails', import.meta.url),
+);
 
 vi.mock('./resend', () => ({
   createResendTemplates: vi.fn(() => ({})),
@@ -86,22 +98,42 @@ describe('POST /api/toolbar/linter', () => {
 });
 
 describe('POST /api/toolbar/compatibility', () => {
-  it('checks the markup against the given email clients', async () => {
-    const { status, body } = await post('/api/toolbar/compatibility', {
-      markup: '<div style="border-radius: 4px"></div>',
-      clients: ['outlook'],
-    });
-    expect(status).toBe(200);
-    const result = body.results.find(
-      (result: { entry: { slug: string } }) =>
-        result.entry.slug === 'css-border-radius',
+  it('checks the source of the email against the given email clients', async () => {
+    context = { emailsDirectory };
+
+    expect(
+      await post('/api/toolbar/compatibility', {
+        slug: 'welcome',
+        clients: ['outlook'],
+      }),
+    ).toEqual({ status: 200, body: { results: [{ status: 'error' }] } });
+
+    const emailPath = path.join(emailsDirectory, 'welcome.vue');
+    expect(checkCompatibility).toHaveBeenCalledWith(
+      fs.readFileSync(emailPath, 'utf8'),
+      emailPath,
+      ['outlook'],
+      expect.any(Function),
     );
-    expect(Object.keys(result.statsPerEmailClient)).toEqual(['outlook']);
-    expect(result.location.start.line).toBe(1);
   });
 
-  it('requires the markup', async () => {
+  it('has nothing to say about HTML emails', async () => {
+    context = { emailsDirectory };
+
+    expect(await post('/api/toolbar/compatibility', { slug: 'raw' })).toEqual({
+      status: 200,
+      body: { results: [] },
+    });
+    expect(checkCompatibility).not.toHaveBeenCalled();
+  });
+
+  it('requires an email that exists', async () => {
+    context = { emailsDirectory };
+
     expect((await post('/api/toolbar/compatibility', {})).status).toBe(400);
+    expect(
+      (await post('/api/toolbar/compatibility', { slug: 'missing' })).status,
+    ).toBe(404);
   });
 });
 

@@ -1,7 +1,7 @@
-import { styleText } from 'node:util';
 import logSymbols from 'log-symbols';
 import prompts from 'prompts';
 import { conf } from '../../utils/conf';
+import { styleText } from '../../utils/style-text';
 
 export async function resendSetup() {
   const previousValue = conf.get('resendApiKey');

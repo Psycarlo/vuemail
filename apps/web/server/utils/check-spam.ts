@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import type { RateLimiter } from './rate-limiter';
 import { parsePointingTableRows } from './spam-assassin/parse-pointing-table-rows';
 import { type SpamdOptions, sendToSpamd } from './spam-assassin/send-to-spamd';
 
@@ -52,21 +51,14 @@ export const checkSpamBodySchema = z.object({
 });
 
 /**
- * What `POST /api/check-spam` answers to a request with the body given, coming
- * from the IP given.
+ * What `POST /api/check-spam` answers to a request with the body given. Like
+ * React Email's, it isn't rate limited: `email build` checks every email of a
+ * project in a row.
  */
 export async function checkSpamRequest(
   body: unknown,
-  {
-    ip,
-    limiter,
-    spamd,
-  }: { ip: string; limiter: RateLimiter; spamd: SpamdOptions },
+  { spamd }: { spamd: SpamdOptions },
 ): Promise<{ status: number; body: SpamCheckingResult | { error: string } }> {
-  if (!limiter.consume(ip).allowed) {
-    return { status: 429, body: { error: 'Rate limit exceeded' } };
-  }
-
   const parsedBody = checkSpamBodySchema.safeParse(body);
   if (!parsedBody.success) {
     return { status: 400, body: { error: parsedBody.error.message } };

@@ -24,9 +24,10 @@ const gradientLine =
     class="absolute top-0 right-0 h-px w-50"
     :style="{ background: gradientLine }"
   />
-  <pre class="p-4 font-mono" :style="codeTheme.plain"><div
+  <pre class="p-4 font-mono"><div
       v-for="(line, lineIndex) in lines"
       :key="lineIndex"
+      :style="codeTheme.plain"
       :class="[
         'whitespace-pre',
         codeClass,

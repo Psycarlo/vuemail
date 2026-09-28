@@ -46,7 +46,10 @@ program
     '-c, --clients <clients>',
     'Comma-separated list of email clients to show compatibility warnings for (overrides COMPATIBILITY_EMAIL_CLIENTS)',
     parseClientsOption,
-    process.env.COMPATIBILITY_EMAIL_CLIENTS,
+  )
+  .option(
+    '--vite-plugins <path>',
+    'Path to a module whose default export is an array of Vite plugins (or a function returning one) applied when compiling email templates',
   )
   .action(dev);
 
@@ -61,7 +64,10 @@ program
     '-c, --clients <clients>',
     'Comma-separated list of email clients to show compatibility warnings for (overrides COMPATIBILITY_EMAIL_CLIENTS)',
     parseClientsOption,
-    process.env.COMPATIBILITY_EMAIL_CLIENTS,
+  )
+  .option(
+    '--vite-plugins <path>',
+    'Path to a module whose default export is an array of Vite plugins (or a function returning one) applied when compiling email templates',
   )
   .action(build);
 
@@ -87,6 +93,10 @@ program
     '-s, --silent',
     'To, or not to show a spinner with process information',
     false,
+  )
+  .option(
+    '--vite-plugins <path>',
+    'Path to a module whose default export is an array of Vite plugins (or a function returning one) applied when compiling email templates',
   )
   .action(exportTemplates);
 

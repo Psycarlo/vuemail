@@ -85,17 +85,18 @@ export function extractRulesPerClass(root: CssNode, classes: string[]) {
       return;
     }
 
-    // Only the classes of the selector itself name the owner of the rule. The
-    // ones inside the block or inside pseudo-classes (e.g. `.group` in
-    // `:where(.group)`, which newer Tailwind versions put in the prelude)
-    // must not key it.
+    // Only the prelude names the class that owns the rule; classes referenced
+    // inside the block (e.g. `.group` in `:where(.group)`) must not key it.
+    //
+    // Classes inside the prelude's pseudo-classes do key it, as in React
+    // Email: utilities like `divide-y`, `space-x-4` or `*:p-2` only appear
+    // there (`:where(.divide-y>:not(:last-child))`), and marker classes like
+    // `group/item` have to be sanitized like the selectors that refer to them.
     const selectorClasses: string[] = [];
     walk(rule.prelude, {
-      enter(node: CssNode) {
-        if (node.type === 'PseudoClassSelector') return walk.skip;
-        if (node.type === 'ClassSelector') {
-          selectorClasses.push(string.decode(node.name));
-        }
+      visit: 'ClassSelector',
+      enter(classSelector) {
+        selectorClasses.push(string.decode(classSelector.name));
       },
     });
 

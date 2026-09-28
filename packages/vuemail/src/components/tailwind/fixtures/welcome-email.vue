@@ -11,6 +11,10 @@ import CallToAction from './call-to-action.vue';
 import Card from './card.vue';
 
 defineProps<{ name: string; steps: string[] }>();
+
+defineOptions({
+  PreviewProps: { name: 'Ana', steps: ['Create an account'] },
+});
 </script>
 
 <template>

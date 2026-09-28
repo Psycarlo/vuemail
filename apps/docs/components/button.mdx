@@ -2,6 +2,7 @@
 title: "Button"
 sidebarTitle: "Button"
 description: "A link that is styled to look like a button."
+"og:image": "https://vuemail.dev/static/covers/button.png"
 icon: "b"
 ---
 
@@ -45,11 +46,15 @@ import { Button } from 'vuemail';
   <Button
     href="https://example.com"
     :style="{ color: '#42b883', padding: '10px 20px' }"
-  >
-    Click me
-  </Button>
+  >Click me</Button>
 </template>
 ```
+
+<Note>
+  In Vue templates, text written over several lines inside a component keeps a single space at
+  each end, where JSX trims it. Write short texts like button labels on one line when exact spacing
+  matters, as above.
+</Note>
 
 ## Props
 

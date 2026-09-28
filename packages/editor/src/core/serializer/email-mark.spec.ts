@@ -60,4 +60,19 @@ describe('EmailMark', () => {
     expect(configured.config.renderToVueEmail).toBe(renderer);
     expect(configured.name).toBe(CustomHighlight.name);
   });
+
+  it('can replace renderToVueEmail with extend()', () => {
+    const CustomHighlight = EmailMark.from(Highlight, () => 'original');
+
+    const extended = CustomHighlight.extend({
+      renderToVueEmail: () => 'extended',
+    });
+
+    expect(extended).toBeInstanceOf(EmailMark);
+    expect(
+      extended.config.renderToVueEmail(
+        {} as Parameters<typeof extended.config.renderToVueEmail>[0],
+      ),
+    ).toBe('extended');
+  });
 });

@@ -1,25 +1,13 @@
 <script setup lang="ts">
-import { Img, Section } from 'vuemail';
-
-const responsiveRow = { textAlign: 'center', fontSize: '0' } as const;
-
-const responsiveColumn = {
-  maxWidth: '300px',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  fontSize: '16px',
-  boxSizing: 'border-box',
-} as const;
+import { Img } from 'vuemail';
+import ResponsiveColumn from '../_components/responsive-column.vue';
+import ResponsiveRow from '../_components/responsive-row.vue';
 </script>
 
 <template>
-  <Section
-    class="mx-[12px] my-[16px] text-[14px] text-gray-600"
-    :style="responsiveRow"
-  >
-    <Section
+  <ResponsiveRow class="mx-[12px] my-[16px] text-[14px] text-gray-600">
+    <ResponsiveColumn
       class="mt-0 mr-[24px] mb-[24px] ml-0 w-64 overflow-hidden rounded-3xl"
-      :style="responsiveColumn"
     >
       <Img
         src="/static/steve-jobs.jpg"
@@ -28,8 +16,8 @@ const responsiveColumn = {
         alt="Steve Jobs"
         class="h-[320px] w-full object-cover object-center"
       />
-    </Section>
-    <Section class="pr-[24px]" :style="responsiveColumn">
+    </ResponsiveColumn>
+    <ResponsiveColumn class="pr-[24px]">
       <p
         class="mx-0 my-0 mb-[24px] text-left text-[16px] leading-[1.625] font-light text-gray-700"
       >
@@ -44,6 +32,6 @@ const responsiveColumn = {
         Steve Jobs
       </p>
       <p class="m-0 text-left text-[14px] text-gray-600">Co-founder of Apple</p>
-    </Section>
-  </Section>
+    </ResponsiveColumn>
+  </ResponsiveRow>
 </template>

@@ -8,9 +8,9 @@ describe('<Html> component', () => {
     expect(html).toContain('Test message');
   });
 
-  it('renders correctly', async () => {
+  it('renders correctly, with the empty <head> React Email renders it with', async () => {
     expect(await renderMarkup(h(Html))).toBe(
-      '<html dir="ltr" lang="en"></html>',
+      '<html dir="ltr" lang="en"><head></head></html>',
     );
   });
 
@@ -19,6 +19,6 @@ describe('<Html> component', () => {
       await renderMarkup(
         h(Html, { lang: 'ar', dir: 'rtl', 'data-testid': 'html' }),
       ),
-    ).toBe('<html data-testid="html" dir="rtl" lang="ar"></html>');
+    ).toBe('<html data-testid="html" dir="rtl" lang="ar"><head></head></html>');
   });
 });

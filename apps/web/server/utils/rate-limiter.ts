@@ -65,12 +65,3 @@ export const sendTestRecipientRatelimit = createRateLimiter({
   points: 3,
   duration: 60,
 });
-
-/**
- * Generous, since the preview server of every Vuemail project checks its
- * emails for spam through the website, but protecting spamd.
- */
-export const checkSpamIpRatelimit = createRateLimiter({
-  points: 30,
-  duration: 60,
-});

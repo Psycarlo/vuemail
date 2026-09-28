@@ -31,10 +31,13 @@ const attrs = computed(() => {
     'data-placeholder': getPlaceholder(props.decorations),
   };
 });
+
+// `node-heading` is the class React's node views put on their wrapper, which
+// the theme's placeholder styles rely on. (A comment in the template would
+// render a fragment around the wrapper.)
 </script>
 
 <template>
-  <!-- `node-heading` is the class React's node views put on their wrapper, which the theme's placeholder styles rely on -->
   <NodeViewWrapper class="node-heading">
     <EmailHeading :as="as" v-bind="attrs">
       <NodeViewContent />

@@ -1,6 +1,7 @@
 ---
 title: 'Codebase overview'
 sidebarTitle: 'Codebase overview'
+'og:image': 'https://vuemail.dev/static/covers/vuemail.png'
 description: 'An overview of the Vuemail codebase'
 icon: 'folder-tree'
 ---
@@ -26,8 +27,19 @@ After cloning the [Vuemail repository](https://github.com/vuemail/vuemail) you w
       <td>
         Here you can find all of the apps related to our online presence, like:
         - this documentation (under [apps/docs](https://github.com/vuemail/vuemail/tree/main/apps/docs)),
-        - the demo emails, previewed with `email dev` (under [apps/demo](https://github.com/vuemail/vuemail/tree/main/apps/demo))
+        - the demo emails we have on [demo.vuemail.dev](https://demo.vuemail.dev/preview/Community/notifications/vercel-invite-user)
+          (under [apps/demo](https://github.com/vuemail/vuemail/tree/main/apps/demo))
         - the Nuxt app we have for our landing page on [vuemail.dev](https://vuemail.dev) (under [apps/web](https://github.com/vuemail/vuemail/tree/main/apps/web))
+      </td>
+    </tr>
+    <tr>
+      <td>
+[benchmarks](https://github.com/vuemail/vuemail/tree/main/benchmarks)
+      </td>
+      <td>
+        We make benchmarks from version-to-version to demonstrate data-observable performance gains with metrics like *p99 and p75*.
+
+        For example, see the [Tailwind benchmark](https://github.com/vuemail/vuemail/tree/main/benchmarks/tailwind), which measures the cost of rendering an email with the `Tailwind` component.
       </td>
     </tr>
     <tr>

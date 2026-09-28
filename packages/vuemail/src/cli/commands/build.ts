@@ -1,4 +1,3 @@
-import fs from 'node:fs';
 import { loadUi } from '../utils/load-ui';
 import { packageJson } from '../utils/package-json';
 
@@ -6,23 +5,23 @@ interface Args {
   dir: string;
   outDir: string;
   clients?: string;
+  vitePlugins?: string;
 }
 
-export const build = async ({ dir, outDir, clients }: Args) => {
-  if (!fs.existsSync(dir)) {
-    console.error(`Missing ${dir} folder`);
-    process.exit(1);
-  }
-
+export const build = async ({ dir, outDir, clients, vitePlugins }: Args) => {
   const ui = await loadUi();
   try {
     await ui.buildPreview({
       emailsDir: dir,
       outDir,
       version: packageJson.version,
-      compatibilityClients: clients?.split(','),
+      compatibilityClients: (
+        clients ?? process.env.COMPATIBILITY_EMAIL_CLIENTS
+      )?.split(','),
+      vitePlugins,
     });
-  } catch {
+  } catch (exception) {
+    if (!ui.isReportedError(exception)) console.log(exception);
     process.exit(1);
   }
 };

@@ -6,24 +6,100 @@ icon: "code"
 hidden: true
 ---
 
-## useCurrentEditor
+`EmailEditor` and `EditorProvider` create the editor for you. These composables give your components
+the editor they're rendered in, select a piece of its state, and let you share an editor you create
+yourself with `useEditor` from `@tiptap/vue-3`.
 
-Gives your components the editor of the `EmailEditor` or `EditorProvider` they are rendered in.
-
-### Import
+## Import
 
 ```ts
-import { useCurrentEditor } from '@vuemail/editor/core';
+import {
+  isDocumentVisuallyEmpty,
+  provideCurrentEditor,
+  useCurrentEditor,
+  useEditorState,
+} from '@vuemail/editor/core';
 ```
 
-### Return value
+## Parameters
+
+### useCurrentEditor
+
+`useCurrentEditor()` takes no parameters. It gives your components the editor of the `EmailEditor` or
+`EditorProvider` they are rendered in, or the one provided with `provideCurrentEditor`.
+
+### useEditorState
+
+<ResponseField name="editor" type="MaybeRefOrGetter<Editor | null | undefined>" required>
+  The editor to select from, like the `editor` of `useCurrentEditor()`.
+</ResponseField>
+
+<ResponseField name="selector" type="(snapshot: { editor: Editor | null; transactionNumber: number }) => T" required>
+  Selects the state your component needs. It runs again after every change to the editor, and
+  reactive values it reads, like props, are tracked too.
+</ResponseField>
+
+<ResponseField name="equalityFn" type="(a: T, b: T | null) => boolean">
+  Decides whether a new selection is the same as the previous one, which keeps what depends on it from
+  updating. Deep equality by default.
+</ResponseField>
+
+### provideCurrentEditor
+
+<ResponseField name="editor" type="ShallowRef<Editor | undefined>" required>
+  The editor to make available to `useCurrentEditor()`, and so to the bubble menus, slash commands and
+  inspector, in the components rendered inside the one that calls it, like the editor that `useEditor`
+  from `@tiptap/vue-3` returns.
+</ResponseField>
+
+### isDocumentVisuallyEmpty
+
+<ResponseField name="doc" type="Node" required>
+  The document to check, like `editor.state.doc`.
+</ResponseField>
+
+## Return value
+
+### useCurrentEditor
 
 <ResponseField name="editor" type="ShallowRef<Editor | undefined>">
   The TipTap editor instance. `undefined` until the editor is created, which happens once the
   component that creates it is mounted, in the browser.
 </ResponseField>
 
-### Example
+### useEditorState
+
+A `ComputedRef<T>` with the latest selection, like `useEditorState` from `@tiptap/react`. The editor's
+state isn't reactive, so a `computed` that reads it directly would never update.
+
+### provideCurrentEditor
+
+<ResponseField name="editor" type="ShallowRef<Editor | undefined>">
+  The context it provides, as `{ editor }`.
+</ResponseField>
+
+### isDocumentVisuallyEmpty
+
+<ResponseField name="isDocumentVisuallyEmpty" type="boolean">
+  Whether the document is visually empty (only contains an empty paragraph).
+  Excludes `globalContent` nodes from the calculation.
+</ResponseField>
+
+## Collaboration support
+
+<Note>
+  `EditorProvider` and `useEditor` from `@tiptap/vue-3` don't detect collaboration extensions, like
+  TipTap's `Collaboration` extension for Y.js. When you add one:
+  - Leave `content` out, since the collaboration provider manages the content
+  - Turn off the `UndoRedo` extension with `StarterKit.configure({ UndoRedo: false })`, since
+    collaboration extensions handle their own history
+</Note>
+
+## Example
+
+### Using the editor from your components
+
+`useCurrentEditor()` works in any component rendered inside `EmailEditor` or `EditorProvider`:
 
 ```vue toolbar.vue
 <script setup lang="ts">
@@ -41,38 +117,7 @@ const { editor } = useCurrentEditor();
 </template>
 ```
 
-## useEditorState
-
-Selects a piece of the editor's state and updates it after every change to the editor, like
-`useEditorState` from `@tiptap/react`. The editor's state isn't reactive, so a `computed` that reads it
-directly would never update.
-
-### Import
-
-```ts
-import { useEditorState } from '@vuemail/editor/core';
-```
-
-### Parameters
-
-<ParamField body="editor" type="MaybeRefOrGetter<Editor | null | undefined>" required>
-  The editor to select from, like the `editor` of `useCurrentEditor()`.
-</ParamField>
-
-<ParamField body="selector" type="(snapshot: { editor: Editor | null; transactionNumber: number }) => T" required>
-  Selects the state your component needs. Reactive values it reads, like props, are tracked too.
-</ParamField>
-
-<ParamField body="equalityFn" type="(a: T, b: T | null) => boolean">
-  Decides whether a new selection is the same as the previous one, which keeps what depends on it from
-  updating. Deep equality by default.
-</ParamField>
-
-### Return value
-
-A `ComputedRef<T>` with the latest selection.
-
-### Example
+Select the state your component renders with `useEditorState`, so that it updates as the editor changes:
 
 ```vue toolbar.vue
 <script setup lang="ts">
@@ -109,11 +154,11 @@ const state = useEditorState({
 </template>
 ```
 
-## Creating the editor yourself
+### Creating the editor yourself
 
-When you need the editor instance in the same component that creates it, create it with `useEditor`
-from `@tiptap/vue-3`, and make it available to the UI components of `@vuemail/editor` with
-`provideCurrentEditor`:
+Use `useEditor` from `@tiptap/vue-3` directly when you need more control than `EditorProvider` offers,
+like the editor instance in the same component that creates it, and make it available to the UI
+components of `@vuemail/editor` with `provideCurrentEditor`:
 
 ```vue
 <script setup lang="ts">
@@ -150,17 +195,8 @@ const isEditorEmpty = useEditorState({
 ```
 
 `useEditor` creates the editor when the component mounts and destroys it when it unmounts. It takes
-any of [TipTap's editor options](https://tiptap.dev/docs/editor/api/editor#settings).
-
-<ResponseField name="provideCurrentEditor" type="(editor: ShallowRef<Editor | undefined>) => void">
-  Makes the editor available to `useCurrentEditor()`, and so to the bubble menus, slash commands and
-  inspector, in the components rendered inside the one that calls it.
-</ResponseField>
-
-<ResponseField name="isDocumentVisuallyEmpty" type="(doc: Node) => boolean">
-  Whether the document is visually empty (only contains an empty paragraph).
-  Excludes `globalContent` nodes from the calculation.
-</ResponseField>
+any of [TipTap's editor options](https://tiptap.dev/docs/editor/api/editor#settings), and unlike
+`EmailEditor`, it doesn't add `StarterKit` for you.
 
 <Tip>
   For most use cases, [`EditorProvider`](/editor/getting-started#lower-level-setup) is simpler: it

@@ -107,10 +107,9 @@ const handleStartResizing = (newDirection: Direction) => {
   document.addEventListener('mousemove', mouseMoveListener);
 };
 
-onBeforeUnmount(() => {
-  // Finishes a resize the preview got unmounted in the middle of
-  if (mouseMoveListener) handleStopResizing();
-});
+// As upstream's cleanup does, which saves the size, as when leaving for the
+// code view
+onBeforeUnmount(handleStopResizing);
 
 const isHorizontalResize = () =>
   direction.value === 'east' || direction.value === 'west';

@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import { Button, Img, Row, Section, Text } from 'vuemail';
-
-const responsiveRow = { textAlign: 'center', fontSize: '0' } as const;
-
-const responsiveColumn = {
-  maxWidth: '200px',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  fontSize: '16px',
-  boxSizing: 'border-box',
-} as const;
+import ResponsiveColumn from '../_components/responsive-column.vue';
+import ResponsiveRow from '../_components/responsive-row.vue';
 </script>
 
 <template>
@@ -38,17 +30,14 @@ const responsiveColumn = {
         course of over three decades as the Braun design leader.
       </Text>
     </Row>
-    <Section :style="[responsiveRow, { marginTop: '16px' }]">
-      <Section
-        :style="[
-          responsiveColumn,
-          {
-            textAlign: 'left',
-            paddingRight: '4px',
-            paddingTop: '16px',
-            paddingBottom: '16px',
-          },
-        ]"
+    <ResponsiveRow :style="{ marginTop: '16px' }">
+      <ResponsiveColumn
+        :style="{
+          textAlign: 'left',
+          paddingRight: '4px',
+          paddingTop: '16px',
+          paddingBottom: '16px',
+        }"
       >
         <Img
           alt="Braun Analogue Clock"
@@ -105,18 +94,15 @@ const responsiveColumn = {
             color: 'rgb(255,255,255)',
           }"
         >Buy</Button>
-      </Section>
-      <Section
-        :style="[
-          responsiveColumn,
-          {
-            textAlign: 'left',
-            paddingRight: '4px',
-            paddingLeft: '4px',
-            paddingTop: '16px',
-            paddingBottom: '16px',
-          },
-        ]"
+      </ResponsiveColumn>
+      <ResponsiveColumn
+        :style="{
+          textAlign: 'left',
+          paddingRight: '4px',
+          paddingLeft: '4px',
+          paddingTop: '16px',
+          paddingBottom: '16px',
+        }"
       >
         <Img
           alt="Braun Wall Clock"
@@ -173,17 +159,14 @@ const responsiveColumn = {
             color: 'rgb(255,255,255)',
           }"
         >Buy</Button>
-      </Section>
-      <Section
-        :style="[
-          responsiveColumn,
-          {
-            paddingTop: '16px',
-            paddingBottom: '16px',
-            paddingLeft: '4px',
-            textAlign: 'left',
-          },
-        ]"
+      </ResponsiveColumn>
+      <ResponsiveColumn
+        :style="{
+          paddingTop: '16px',
+          paddingBottom: '16px',
+          paddingLeft: '4px',
+          textAlign: 'left',
+        }"
       >
         <Img
           alt="Braun Classic Watch"
@@ -240,7 +223,7 @@ const responsiveColumn = {
             color: 'rgb(255,255,255)',
           }"
         >Buy</Button>
-      </Section>
-    </Section>
+      </ResponsiveColumn>
+    </ResponsiveRow>
   </Section>
 </template>

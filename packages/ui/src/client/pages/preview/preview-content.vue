@@ -10,16 +10,19 @@ const props = defineProps<{
   serverRenderingResult: EmailRenderingResult;
 }>();
 
-const { renderedEmailMetadata } = providePreview({
+const { renderedEmailMetadata, renderingResult } = providePreview({
   emailSlug: props.emailSlug,
   serverRenderingResult: props.serverRenderingResult,
 });
 
-// The file name of the email, as in `welcome.vue`. Failed renders don't
-// tell the extension of the email, so it's left out until one succeeds.
+// The file name of the email, as in `welcome.vue`, which failed renders
+// tell as well
 const emailTitle = computed(() => {
-  const metadata = renderedEmailMetadata.value;
-  if (metadata) return `${metadata.basename}.${metadata.extname}`;
+  const { basename, extname } =
+    renderedEmailMetadata.value ?? renderingResult.value;
+  if (basename !== undefined && extname !== undefined) {
+    return `${basename}.${extname}`;
+  }
   return props.emailSlug.split('/').pop() ?? props.emailSlug;
 });
 </script>

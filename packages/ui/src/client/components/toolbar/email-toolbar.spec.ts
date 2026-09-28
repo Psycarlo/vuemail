@@ -45,7 +45,7 @@ const jsonResponse = (body: unknown) =>
     headers: { 'Content-Type': 'application/json' },
   });
 
-const fetchMock = vi.fn(async (input: string) => {
+const fetchMock = vi.fn(async (input: string, _init?: RequestInit) => {
   switch (input) {
     case '/api/toolbar/linter':
       return jsonResponse({ rows: lintingRows });
@@ -80,7 +80,7 @@ const settle = async () => {
   }
 };
 
-const mountToolbar = async (url: string) => {
+const mountToolbar = async (url: string, emailRendering = rendering) => {
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [{ path: '/preview/:slug(.*)', component: { render: () => null } }],
@@ -93,7 +93,8 @@ const mountToolbar = async (url: string) => {
     defineComponent({
       setup() {
         provideWorkspaceId('workspace');
-        return () => h(EmailToolbar, { slug: 'welcome', rendering });
+        return () =>
+          h(EmailToolbar, { slug: 'welcome', rendering: emailRendering });
       },
     }),
   );
@@ -128,6 +129,16 @@ test('runs the checks and shows the results of the open panel', async () => {
   expect(lineLink?.getAttribute('href')).toBe(
     '/preview/Community/welcome?toolbar-panel=linter&view=source&lang=html#L3',
   );
+});
+
+test('runs the checks one after the other', async () => {
+  await mountToolbar('/preview/Community/welcome');
+
+  expect(fetchMock.mock.calls.map(([input]) => input)).toEqual([
+    '/api/toolbar/linter',
+    'https://vuemail.dev/api/check-spam',
+    '/api/toolbar/compatibility',
+  ]);
 });
 
 test('caches the results of the checks for the email', async () => {
@@ -196,4 +207,34 @@ test('asks to connect to Resend without an API key', async () => {
   expect(container.querySelector('code')?.textContent).toBe(
     'npx vuemail@latest resend setup',
   );
+});
+
+test("doesn't check the compatibility of raw HTML emails", async () => {
+  const { container, getTab } = await mountToolbar(
+    '/preview/Community/welcome?toolbar-panel=compatibility',
+    { ...rendering, source: rendering.markup, extname: 'html' },
+  );
+
+  expect(fetchMock.mock.calls.map(([input]) => input)).toEqual([
+    '/api/toolbar/linter',
+    'https://vuemail.dev/api/check-spam',
+  ]);
+  expect(getTab('Compatibility')).toBeUndefined();
+  expect(container.textContent).toContain('Compatibility unavailable');
+  expect(container.textContent).toContain(
+    'Compatibility checks rely on the Vuemail source and are skipped for raw HTML templates.',
+  );
+});
+
+test('checks the compatibility of the email by its slug', async () => {
+  await mountToolbar('/preview/Community/welcome');
+
+  const [, init] =
+    fetchMock.mock.calls.find(
+      ([input]) => input === '/api/toolbar/compatibility',
+    ) ?? [];
+  expect(JSON.parse(String(init?.body))).toEqual({
+    slug: 'welcome',
+    clients: [],
+  });
 });

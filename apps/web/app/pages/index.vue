@@ -1,17 +1,9 @@
 <script setup lang="ts">
-const description =
-  'A collection of high-quality, unstyled components for creating beautiful emails using Vue and TypeScript.';
-
+// The description and the Open Graph tags are the ones of every page
 useSeoMeta({
   // Only "Vuemail", without the " • Vuemail" suffix of the other pages
   title: 'Vuemail',
   titleTemplate: '%s',
-  description,
-  ogTitle: 'Vuemail',
-  ogDescription: description,
-  ogUrl: 'https://vuemail.dev',
-  twitterTitle: 'Vuemail',
-  twitterDescription: description,
 });
 
 useHead({

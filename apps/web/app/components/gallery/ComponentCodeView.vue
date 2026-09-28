@@ -101,11 +101,7 @@ const onLanguageChange = (value: string | number) => {
           :model-value="selectedVariant"
           @update:model-value="setSelectedVariant"
         />
-        <!-- With the classes of React Email's IconButton, which wraps its CopyCode -->
-        <CopyCode
-          class="rounded-sm p-1 text-[#EEF7FE] transition duration-200 ease-in-out hover:text-white focus:text-white focus:outline-hidden focus:ring-2 focus:ring-slate-6 shadow-none p-2 h-8 w-8"
-          :code="code"
-        />
+        <CopyCode class="shadow-none p-2 h-8 w-8" :code="code" />
       </div>
     </div>
     <div class="h-full w-full overflow-auto">

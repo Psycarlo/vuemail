@@ -3,6 +3,7 @@ import { AnimatePresence, Motion } from 'motion-v';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'reka-ui';
 import { ref } from 'vue';
 import { toolsDemoEmailHtml } from '~/utils/home/tools-demo';
+import { vSrcdoc } from '~/utils/srcdoc';
 
 type Tool = {
   title: string;
@@ -135,11 +136,9 @@ const activeTool = ref('linter');
               >
                 <div class="h-1 w-8 rounded-md bg-black/30" />
               </div>
-              <!-- Once: hydrating it would set `srcdoc` again, reloading it -->
               <iframe
-                v-once
                 class="max-h-full rounded-xl bg-white [color-scheme:auto]"
-                :srcdoc="toolsDemoEmailHtml"
+                v-srcdoc="toolsDemoEmailHtml"
                 title="aws-verify-email.vue"
                 style="width: 600px; height: 740px"
                 tabindex="-1"

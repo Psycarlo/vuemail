@@ -7,6 +7,7 @@ interface Args {
   dir: string;
   extension?: string;
   silent: boolean;
+  vitePlugins?: string;
 }
 
 export const exportTemplates = async ({
@@ -16,6 +17,7 @@ export const exportTemplates = async ({
   dir,
   extension,
   silent,
+  vitePlugins,
 }: Args) => {
   const ui = await loadUi();
   try {
@@ -26,9 +28,10 @@ export const exportTemplates = async ({
       plainText,
       extension,
       silent,
+      vitePlugins,
     });
   } catch (exception) {
-    if (silent) console.error(exception);
+    if (!ui.isReportedError(exception)) console.log(exception);
     process.exit(1);
   }
 };

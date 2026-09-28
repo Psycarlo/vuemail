@@ -59,9 +59,21 @@ const illustrations: Record<string, Component> = {
 const description =
   'Build beautiful emails with pre-built components that you can copy-and-paste into your app.';
 
+// With its own Open Graph tags, which replace all of those of the other
+// pages, like React Email's page does (its twitter card keeps the image)
+const title = 'Components - Vuemail';
 useSeoMeta({
-  title: 'Components',
+  title,
   description,
+  ogTitle: `${title} • Vuemail`,
+  ogDescription: description,
+  ogImage: 'https://vuemail.dev/static/covers/patterns.png',
+  ogUrl: null,
+  ogSiteName: null,
+  ogLocale: null,
+  ogType: null,
+  twitterTitle: `${title} • Vuemail`,
+  twitterDescription: description,
 });
 
 const jsonLd = {

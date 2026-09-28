@@ -2,6 +2,7 @@
 title: 'Send email using Mailgun'
 sidebarTitle: 'Mailgun'
 description: 'Learn how to send an email using Vuemail and the Mailgun JavaScript SDK.'
+'og:image': 'https://vuemail.dev/static/covers/vuemail.png'
 ---
 
 ## 1. Install dependencies
@@ -67,3 +68,14 @@ await client.messages.create(process.env.MAILGUN_DOMAIN, {
   html: emailHtml,
 });
 ```
+
+## Try it yourself
+
+<Card
+  title="Mailgun example"
+  icon="arrow-up-right-from-square"
+  iconType="duotone"
+  href="https://github.com/vuemail/vuemail/tree/main/examples/mailgun"
+>
+  See the full source code.
+</Card>

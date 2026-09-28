@@ -9,6 +9,8 @@ export interface EditorExample {
   slug: string;
   title: string;
   description: string;
+  /** The description of the example's page, when it isn't the card's one */
+  pageDescription?: string;
   /** Heading of the example's page, `subtitle` goes above the example. */
   heading: string;
   subtitle?: string;
@@ -38,6 +40,8 @@ export const editorExampleSections: EditorExampleSection[] = [
         title: 'Full Features',
         description:
           'Theme switching, ref methods (export, getJSON), and callbacks — all with a single component.',
+        pageDescription:
+          'Theme switching, ref methods (getEmailHTML, getJSON), and callbacks — all with a single component.',
         heading: 'Standalone editor',
         subtitle: 'Full features',
         docsUrl: '/docs/editor/getting-started',
@@ -47,6 +51,8 @@ export const editorExampleSections: EditorExampleSection[] = [
         title: 'Inspector',
         description:
           'Add an inspector sidebar alongside the one-line EmailEditor — no manual EditorProvider setup needed.',
+        pageDescription:
+          'Add an inspector sidebar alongside the standalone EmailEditor.',
         heading: 'Standalone editor',
         subtitle: 'Inspector',
         docsUrl: '/docs/editor/features/inspector',
@@ -119,6 +125,8 @@ export const editorExampleSections: EditorExampleSection[] = [
         title: 'Image upload',
         description:
           'Upload images via paste, drop, or the slash command — with a stubbed uploader and an error-path toggle.',
+        pageDescription:
+          'Upload images via paste, drop, or the slash command using the useEditorImage composable.',
         heading: 'Image upload',
         docsUrl: '/docs/editor/features/image-upload',
       },
@@ -132,6 +140,8 @@ export const editorExampleSections: EditorExampleSection[] = [
         title: 'Email theming',
         description:
           'Switch between Basic, Minimal, and Custom themes to see how email styles change.',
+        pageDescription:
+          'Switch between Basic and Minimal themes to see how email styles change.',
         heading: 'Email theming',
         docsUrl: '/docs/editor/features/theming',
       },

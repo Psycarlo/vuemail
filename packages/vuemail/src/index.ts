@@ -12,7 +12,10 @@ declare module 'vue' {
      *   PreviewProps: { username: 'alanturing' },
      * });
      * ```
+     *
+     * Typed loosely so that `render(Email, Email.PreviewProps)` also works for
+     * emails with required props.
      */
-    PreviewProps?: Record<string, unknown>;
+    PreviewProps?: any;
   }
 }

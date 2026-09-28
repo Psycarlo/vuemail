@@ -6,6 +6,7 @@ import {
   type Component,
   componentsStructure,
 } from '../../components/structure';
+import { sortVariants } from './gallery-variants';
 
 /**
  * Tailwind and Inline Styles are both written with Vue, while the Vue
@@ -16,8 +17,6 @@ export type CodeVariant = 'tailwind' | 'inline-styles' | 'vue' | 'html';
 export interface ImportedComponent extends Component {
   code: Partial<Record<CodeVariant, string>> & { html: string };
 }
-
-const variantOrder = ['tailwind', 'inline-styles', 'index'];
 
 const readSource = async (slug: string, variant: string) => {
   // `.vue` isn't a known text type, so the asset comes back as raw bytes
@@ -42,9 +41,7 @@ export async function getImportedComponent(
     throw new Error(`There is no component called ${component.slug}`);
   }
 
-  const variantNames = Object.keys(loaders).sort(
-    (a, b) => variantOrder.indexOf(a) - variantOrder.indexOf(b),
-  );
+  const variantNames = sortVariants(Object.keys(loaders));
   const [{ default: Layout }, { default: firstVariant }] = await Promise.all([
     loadLayout(),
     loaders[variantNames[0]!]!(),

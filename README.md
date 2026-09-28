@@ -1,3 +1,5 @@
+![Vuemail cover](./apps/web/public/static/covers/vuemail.png)
+
 <div align="center"><strong>Vuemail</strong></div>
 <div align="center">The next generation of writing emails.<br />High-quality, unstyled components for creating emails with Vue.</div>
 <br />
@@ -125,7 +127,7 @@ Emails built with Vuemail can be converted into HTML and sent using any email se
 
 All components were tested using the most popular email clients.
 
-| <img src="https://vuemail.dev/static/icons/gmail.svg" width="48px" height="48px" alt="Gmail logo"> | <img src="https://vuemail.dev/static/icons/apple-mail.svg" width="48px" height="48px" alt="Apple Mail"> | <img src="https://vuemail.dev/static/icons/outlook.svg" width="48px" height="48px" alt="Outlook logo"> | <img src="https://vuemail.dev/static/icons/yahoo-mail.svg" width="48px" height="48px" alt="Yahoo! Mail logo"> | <img src="https://vuemail.dev/static/icons/hey.svg" width="48px" height="48px" alt="HEY logo"> | <img src="https://vuemail.dev/static/icons/superhuman.svg" width="48px" height="48px" alt="Superhuman logo"> |
+| <img src="./apps/web/public/static/icons/gmail.svg" width="48px" height="48px" alt="Gmail logo"> | <img src="./apps/web/public/static/icons/apple-mail.svg" width="48px" height="48px" alt="Apple Mail"> | <img src="./apps/web/public/static/icons/outlook.svg" width="48px" height="48px" alt="Outlook logo"> | <img src="./apps/web/public/static/icons/yahoo-mail.svg" width="48px" height="48px" alt="Yahoo! Mail logo"> | <img src="./apps/web/public/static/icons/hey.svg" width="48px" height="48px" alt="HEY logo"> | <img src="./apps/web/public/static/icons/superhuman.svg" width="48px" height="48px" alt="Superhuman logo"> |
 | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Gmail ✔                                                                                           | Apple Mail ✔                                                                                           | Outlook ✔                                                                                             | Yahoo! Mail ✔                                                                                                | HEY ✔                                                                                         | Superhuman ✔                                                                                                |
 

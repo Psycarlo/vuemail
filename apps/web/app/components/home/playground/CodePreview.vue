@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TabsContent } from 'reka-ui';
 import { computed } from 'vue';
+import { vSrcdoc } from '~/utils/srcdoc';
 
 interface Tab {
   label: string;
@@ -79,12 +80,10 @@ const maskStyle = {
       <div
         class="md:col-span-2 md:border-l border-zinc-800 h-[400px] md:h-auto"
       >
-        <!-- Once: hydrating it would set `srcdoc` again, reloading it -->
         <iframe
           v-if="emailOutput"
-          v-once
           class="w-full h-full"
-          :srcdoc="emailOutput"
+          v-srcdoc="emailOutput"
           title="Email Preview"
         />
       </div>

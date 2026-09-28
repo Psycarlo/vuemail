@@ -2,12 +2,10 @@
   "name": "vuemail-starter",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "email build",
     "dev": "email dev",
-    "export": "email export",
-    "typecheck": "vue-tsc --noEmit"
+    "export": "email export"
   },
   "dependencies": {
     "vuemail": "INSERT_VUEMAIL_VERSION",
@@ -15,8 +13,6 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "@vuemail/ui": "INSERT_VUEMAIL_VERSION",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.11"
+    "@vuemail/ui": "INSERT_VUEMAIL_VERSION"
   }
 }

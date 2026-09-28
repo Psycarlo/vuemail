@@ -9,7 +9,9 @@ import {
 import { renderToString } from 'vue/server-renderer';
 import type { Options } from './options';
 import { hoistTitles } from './utils/hoist-titles';
+import { normalizeDocument } from './utils/normalize-document';
 import { pretty } from './utils/pretty';
+import { sanitizeUrlAttributes } from './utils/sanitize-url-attributes';
 import { stripSsrMarkers } from './utils/strip-ssr-markers';
 import { toPlainText } from './utils/to-plain-text';
 import { unstableToPlainText } from './utils/unstable-to-plain-text';
@@ -76,7 +78,9 @@ export async function render(
   }
   if (errors.length > 0) throw errors[0];
 
-  const html = hoistTitles(stripSsrMarkers(markup));
+  const html = hoistTitles(
+    normalizeDocument(sanitizeUrlAttributes(stripSsrMarkers(markup))),
+  );
 
   if (options?.plainText) {
     return options.unstableTextConversion

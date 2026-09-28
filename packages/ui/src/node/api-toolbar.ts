@@ -1,8 +1,12 @@
+import fs from 'node:fs';
 import type http from 'node:http';
+import path from 'node:path';
 import type { ApiContext } from './api';
 import { checkCompatibility } from './email-validation/check-compatibility';
 import { getRelevantEmailClients } from './email-validation/email-clients';
 import { getLintingRows } from './email-validation/linting';
+import { createTailwindSetup } from './email-validation/tailwind-setup';
+import { getEmailPathFromSlug } from './emails-directory';
 import { readJsonBody, sendJson } from './http';
 import { createResendTemplates, uploadTemplateToResend } from './resend';
 
@@ -13,7 +17,8 @@ interface LinterRequest {
 }
 
 interface CompatibilityRequest {
-  markup?: unknown;
+  /** The email to check, which is read from its source. */
+  slug?: unknown;
   /** The email clients to check against, the most used ones by default. */
   clients?: unknown;
 }
@@ -32,8 +37,9 @@ const isStringArray = (value: unknown): value is string[] =>
  *
  * - `POST /api/toolbar/linter` with `{ markup, base? }` responds with
  *   `{ rows: LintingRow[] }`, the images and links with issues.
- * - `POST /api/toolbar/compatibility` with `{ markup, clients? }` responds
- *   with `{ results: CompatibilityCheckingResult[] }`.
+ * - `POST /api/toolbar/compatibility` with `{ slug, clients? }` responds
+ *   with `{ results: CompatibilityCheckingResult[] }`, for the source of the
+ *   email. There are none for HTML emails.
  * - `POST /api/toolbar/resend/upload` with `{ name, html }` responds with an
  *   `UploadTemplateResult`.
  */
@@ -60,15 +66,25 @@ export async function handleToolbarApiRequest(
   }
 
   if (pathname === '/api/toolbar/compatibility') {
-    const { markup, clients } =
-      await readJsonBody<CompatibilityRequest>(request);
-    if (typeof markup !== 'string') {
-      sendJson(response, 400, { error: 'The markup to check is required.' });
+    const { slug, clients } = await readJsonBody<CompatibilityRequest>(request);
+    if (typeof slug !== 'string') {
+      sendJson(response, 400, { error: 'The email to check is required.' });
       return true;
     }
-    const results = checkCompatibility(
-      markup,
+    const emailPath = await getEmailPathFromSlug(context.emailsDirectory, slug);
+    if (!emailPath) {
+      sendJson(response, 404, { error: `No email found for ${slug}.` });
+      return true;
+    }
+    if (path.extname(emailPath) === '.html') {
+      sendJson(response, 200, { results: [] });
+      return true;
+    }
+    const results = await checkCompatibility(
+      await fs.promises.readFile(emailPath, 'utf8'),
+      emailPath,
       getRelevantEmailClients(isStringArray(clients) ? clients : []),
+      createTailwindSetup(context.loader, emailPath),
     );
     sendJson(response, 200, { results });
     return true;

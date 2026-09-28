@@ -25,7 +25,7 @@ const Example = defineAsyncComponent(examples[examplePath]!);
 
 useSeoMeta({
   title: `${example.subtitle ? `${example.heading} — ${example.subtitle.toLowerCase()}` : example.heading} — Editor examples`,
-  description: example.description,
+  description: example.pageDescription ?? example.description,
 });
 
 useHead({

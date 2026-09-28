@@ -1,44 +1,30 @@
 <script setup lang="ts">
-import { Img, Section } from 'vuemail';
-
-const responsiveRow = { textAlign: 'center', fontSize: '0' } as const;
-
-const responsiveColumn = {
-  maxWidth: '300px',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  fontSize: '16px',
-  boxSizing: 'border-box',
-} as const;
+import { Img } from 'vuemail';
+import ResponsiveColumn from '../_components/responsive-column.vue';
+import ResponsiveRow from '../_components/responsive-row.vue';
 </script>
 
 <template>
-  <Section
-    :style="[
-      responsiveRow,
-      {
-        marginLeft: '12px',
-        marginRight: '12px',
-        marginTop: '16px',
-        marginBottom: '16px',
-        fontSize: '14px',
-        color: '#4b5563',
-      },
-    ]"
+  <ResponsiveRow
+    :style="{
+      marginLeft: '12px',
+      marginRight: '12px',
+      marginTop: '16px',
+      marginBottom: '16px',
+      fontSize: '14px',
+      color: '#4b5563',
+    }"
   >
-    <Section
-      :style="[
-        responsiveColumn,
-        {
-          marginTop: '0',
-          marginRight: '24px',
-          marginBottom: '24px',
-          marginLeft: '0',
-          width: '256px',
-          overflow: 'hidden',
-          borderRadius: '24px',
-        },
-      ]"
+    <ResponsiveColumn
+      :style="{
+        marginTop: '0',
+        marginRight: '24px',
+        marginBottom: '24px',
+        marginLeft: '0',
+        width: '256px',
+        overflow: 'hidden',
+        borderRadius: '24px',
+      }"
     >
       <Img
         src="/static/steve-jobs.jpg"
@@ -52,8 +38,8 @@ const responsiveColumn = {
           objectPosition: 'center',
         }"
       />
-    </Section>
-    <Section :style="[responsiveColumn, { paddingRight: '24px' }]">
+    </ResponsiveColumn>
+    <ResponsiveColumn :style="{ paddingRight: '24px' }">
       <p
         :style="{
           marginLeft: '0',
@@ -96,6 +82,6 @@ const responsiveColumn = {
       >
         Co-founder of Apple
       </p>
-    </Section>
-  </Section>
+    </ResponsiveColumn>
+  </ResponsiveRow>
 </template>

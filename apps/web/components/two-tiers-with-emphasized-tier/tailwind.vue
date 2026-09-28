@@ -67,20 +67,20 @@ const plans = [
           <Section
             v-for="plan in plans"
             :key="plan.title"
-            class="rounded-[8px] border border-solid p-[24px] text-left w-full"
-            :class="
+            :class="[
               plan.highlighted
                 ? 'bg-[rgb(16,24,40)] border-[rgb(16,24,40)] text-gray-300 mb-[12px]'
-                : 'bg-white border-gray-300 text-gray-600 mb-[24px]'
-            "
+                : 'bg-white border-gray-300 text-gray-600 mb-[24px]',
+              'rounded-[8px] border border-solid p-[24px] text-left w-full',
+            ]"
           >
             <Text
-              class="text-[14px] leading-[20px] font-semibold mb-[16px]"
-              :class="
+              :class="[
                 plan.highlighted
                   ? 'text-[rgb(124,134,255)]'
-                  : 'text-[rgb(79,70,229)]'
-              "
+                  : 'text-[rgb(79,70,229)]',
+                'text-[14px] leading-[20px] font-semibold mb-[16px]',
+              ]"
             >
               {{ plan.title }}
             </Text>

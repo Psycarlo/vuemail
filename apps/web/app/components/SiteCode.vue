@@ -22,7 +22,6 @@ const gradientLine =
   <pre
     class="relative inline-flex h-11 w-full items-center overflow-auto whitespace-pre rounded-xl border border-slate-6 pr-11 pl-4 font-mono text-sm backdrop-blur-md"
     :style="{
-      ...codeTheme.plain,
       lineHeight: '130%',
       background:
         'linear-gradient(145.37deg, rgba(255, 255, 255, 0.09) -8.75%, rgba(255, 255, 255, 0.027) 83.95%)',
@@ -37,6 +36,7 @@ const gradientLine =
     /><div
       v-for="(line, lineIndex) in lines"
       :key="lineIndex"
+      :style="codeTheme.plain"
       :class="[
         'whitespace-pre',
         language === 'bash' &&

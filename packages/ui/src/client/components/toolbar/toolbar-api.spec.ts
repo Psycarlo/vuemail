@@ -29,9 +29,7 @@ describe('toolbar API of a built preview', () => {
     });
 
     await expect(lintEmail('auth/welcome', '<html />')).resolves.toEqual([]);
-    await expect(
-      checkEmailCompatibility('auth/welcome', '<html />'),
-    ).resolves.toEqual([]);
+    await expect(checkEmailCompatibility('auth/welcome')).resolves.toEqual([]);
     await expect(checkSpam('auth/welcome', '<html />', '')).resolves.toEqual(
       spamCheckingResult,
     );

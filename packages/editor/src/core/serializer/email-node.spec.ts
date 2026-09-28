@@ -42,4 +42,20 @@ describe('EmailNode', () => {
     expect(configured.config.renderToVueEmail).toBe(renderer);
     expect(configured.name).toBe(CustomHeader.name);
   });
+
+  it('can replace renderToVueEmail with extend()', () => {
+    const CustomHeader = EmailNode.from(Heading, () => 'original');
+
+    const extended = CustomHeader.extend({
+      renderToVueEmail: () => 'extended',
+    });
+
+    expect(extended).toBeInstanceOf(EmailNode);
+    expect(
+      extended.config.renderToVueEmail(
+        {} as Parameters<typeof extended.config.renderToVueEmail>[0],
+      ),
+    ).toBe('extended');
+    expect(extended.name).toBe(CustomHeader.name);
+  });
 });

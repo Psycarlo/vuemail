@@ -104,24 +104,26 @@ const {
   loading: compatibilityLoading,
 } = useCompatibility({
   slug: props.slug,
-  markup: () => props.rendering.prettyMarkup,
 
   initialResults: cachedCompatibilityResults.value,
 });
 
-// Unlike upstream, compatibility is checked on the rendered HTML, so it
-// applies to raw HTML emails too, and the checks run side by side. Built
-// previews come with the results of their build.
-onMounted(() => {
-  void loadLinting().then((rows) => {
-    if (rows) setCachedLintingRows(rows);
-  });
-  void loadSpamChecking().then((result) => {
-    if (result) setCachedSpamCheckingResult(result);
-  });
-  void loadCompatibility().then((results) => {
-    if (results) setCachedCompatibilityResults(results);
-  });
+const isRawHtmlEmail = computed(() => props.rendering.extname === 'html');
+
+// Built previews come with the results of their build
+onMounted(async () => {
+  const newLintingRows = await loadLinting();
+  if (!isStatic) setCachedLintingRows(newLintingRows);
+
+  const newSpamCheckingResult = await loadSpamChecking();
+  if (!isStatic) setCachedSpamCheckingResult(newSpamCheckingResult);
+
+  // Compatibility checks rely on parsing the source of emails, so they
+  // don't apply to raw .html templates and would only produce noise.
+  if (!isRawHtmlEmail.value) {
+    const newCompatibilityResults = await loadCompatibility();
+    if (!isStatic) setCachedCompatibilityResults(newCompatibilityResults);
+  }
 });
 
 const id = useId();
@@ -207,10 +209,14 @@ const panelLabels: Record<ToolbarTabValue, string> = {
   'spam-assassin': 'Spam',
   resend: 'Resend',
 };
-const availablePanels = toolbarTabValues.map((value) => ({
-  value,
-  label: panelLabels[value],
-}));
+const availablePanels = computed(() =>
+  toolbarTabValues
+    .filter((value) => !(isRawHtmlEmail.value && value === 'compatibility'))
+    .map((value) => ({ value, label: panelLabels[value] })),
+);
+// The label must reflect the URL-selected panel even when that panel is not
+// offered for this template (e.g. compatibility on a raw HTML email), since
+// the content area still renders that panel's state.
 const activePanelLabel = computed(
   () =>
     (activeTab.value ? panelLabels[activeTab.value] : undefined) ?? 'Linter',
@@ -232,7 +238,7 @@ const reload = async () => {
     await loadSpamChecking();
   } else if (tab === 'linter') {
     await loadLinting();
-  } else if (tab === 'compatibility') {
+  } else if (tab === 'compatibility' && !isRawHtmlEmail.value) {
     await loadCompatibility();
   }
 };
@@ -316,7 +322,11 @@ const toggle = () => {
                   Linter
                 </ToolbarButton>
               </TabsTrigger>
-              <TabsTrigger as-child value="compatibility">
+              <TabsTrigger
+                v-if="!isRawHtmlEmail"
+                as-child
+                value="compatibility"
+              >
                 <ToolbarButton :active="activeTab === 'compatibility'">
                   Compatibility
                 </ToolbarButton>
@@ -408,8 +418,15 @@ const toggle = () => {
             <Linter v-else :rows="lintingRows ?? []" />
           </TabsContent>
           <TabsContent value="compatibility">
+            <ToolbarSuccessState
+              v-if="isRawHtmlEmail"
+              title="Compatibility unavailable"
+            >
+              Compatibility checks rely on the Vuemail source and are skipped
+              for raw HTML templates.
+            </ToolbarSuccessState>
             <ToolbarLoadingState
-              v-if="compatibilityLoading"
+              v-else-if="compatibilityLoading"
               message="Checking email compatibility..."
             />
             <ToolbarSuccessState

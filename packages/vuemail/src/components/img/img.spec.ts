@@ -34,4 +34,10 @@ describe('<Img> component', () => {
     // Vue renders empty attributes without a value, which HTML reads as empty
     expect(await renderMarkup(h(Img, { src: 'cat.jpg' }))).toMatch(/ alt /);
   });
+
+  it('leaves out an empty src, like React Email', async () => {
+    expect(await renderMarkup(h(Img, { src: '', alt: 'Cat' }))).toBe(
+      '<img alt="Cat" style="display:block;outline:none;border:none;text-decoration:none">',
+    );
+  });
 });

@@ -51,7 +51,7 @@ const rows = computed(() =>
         {{ row.description }}<a :href="row.url" class="underline ml-2 decoration-slate-9 decoration-1 hover:decoration-slate-11 transition-colors hover:text-slate-12" rel="noreferrer" target="_blank">More ↗</a>
       </ResultsColumn>
       <ResultsColumn class="font-mono text-slate-11 text-right">
-        <CodePreviewLineLink :line="row.line" />
+        <CodePreviewLineLink :line="row.line" type="source" />
       </ResultsColumn>
     </ResultsRow>
   </Results>

@@ -23,6 +23,8 @@ import type { TailwindSetup } from './tailwindcss/setup-tailwind';
 export interface TailwindRenderContext extends TailwindContext {
   /** Makes sure the CSS for all of these classes has been generated. */
   prepare(classes: string[]): void;
+  /** The name a class a component already resolved should end up with. */
+  refreshResolvedClass(className: string): string;
   /** The `<style>` contents for every class used so far that can't be inlined. */
   getNonInlinableCss(): string;
   /** The classes used so far that can't be inlined, as they were written. */
@@ -91,13 +93,15 @@ export function createTailwindContext(
 
     const styleSheet = setup.getStyleSheet();
     sanitizeStyleSheet(styleSheet);
+    // Every known class is extracted again, since the rules that name a class
+    // can come from the new ones: `group-hover/item:underline` gives the
+    // `group/item` class used before it a rule of its own.
     const { inlinable, nonInlinable } = extractRulesPerClass(
       styleSheet,
-      unknownClasses,
+      Array.from(cache.knownClasses),
     );
-    for (const [className, rules] of inlinable) {
-      cache.inlinableRules.set(className, rules);
-    }
+    cache.inlinableRules = inlinable;
+    cache.nonInlinableProperties = new Map();
     for (const [className, rules] of nonInlinable) {
       const properties: string[] = [];
       for (const rule of rules) {
@@ -111,6 +115,7 @@ export function createTailwindContext(
       cache.nonInlinableProperties.set(className, properties);
     }
     cache.customProperties = getCustomProperties(styleSheet);
+    cache.resolutions.clear();
   }
 
   function computeResolution(className: string): CachedResolution {
@@ -187,9 +192,22 @@ export function createTailwindContext(
     return generate(nonInlineStyles);
   }
 
+  /**
+   * A class a component resolved can get non-inlinable rules from utilities
+   * rendered after it, like the `group/item` of `group-hover/item:underline`.
+   * React Email knows every class of the email before inlining any, so the
+   * class is sanitized, as the selectors that refer to it are.
+   */
+  function refreshResolvedClass(className: string) {
+    if (!cache.nonInlinableProperties.has(className)) return className;
+    usedNonInlinableClasses.add(className);
+    return sanitizeClassName(className);
+  }
+
   return {
     prepare,
     resolve,
+    refreshResolvedClass,
     getNonInlinableCss,
     getNonInlinableClasses: () => Array.from(usedNonInlinableClasses),
   };

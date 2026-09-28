@@ -2,6 +2,7 @@
 title: 'Send (& receive) emails using Inbound'
 sidebarTitle: 'Inbound'
 description: 'Learn how to send and receive emails using Vuemail and the Inbound Node.js SDK.'
+'og:image': 'https://vuemail.dev/static/covers/vuemail.png'
 ---
 
 ## 1. Install dependencies
@@ -59,7 +60,9 @@ import { Inbound } from 'inboundemail';
 import { render } from 'vuemail';
 import Email from './email.vue';
 
-const inbound = new Inbound(process.env.INBOUND_API_KEY);
+const inbound = new Inbound({
+  apiKey: process.env.INBOUND_API_KEY,
+});
 
 await inbound.emails.send({
   from: 'you@example.com',

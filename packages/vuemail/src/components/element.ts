@@ -29,6 +29,12 @@ export const tailwindContextKey: InjectionKey<TailwindContext> =
  */
 export const resolvedClassMarker = '__vuemail_resolved';
 
+/**
+ * The `data-id` of the element `<Markdown>` renders its HTML into, which
+ * `<Tailwind>` leaves as it is, the way React Email leaves any raw HTML.
+ */
+export const markdownDataId = 'vuemail-markdown';
+
 export type TailwindResolver = (
   className: unknown,
   style: unknown,

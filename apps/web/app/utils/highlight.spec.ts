@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { codeTheme, highlight, styleForToken } from './highlight';
 
@@ -36,5 +38,22 @@ describe('highlight()', () => {
     const colors = colorsOf('<template><Html /></template>', 'vue');
 
     expect(colors.some(([, color]) => color !== 'plain')).toBe(true);
+  });
+});
+
+describe('codeTheme', () => {
+  it('renders code with the mono font the site declares', () => {
+    const css = readFileSync(
+      fileURLToPath(new URL('../assets/css/globals.css', import.meta.url)),
+      'utf8',
+    );
+    const declared = [
+      ...css.matchAll(/@font-face\s*{[^}]*font-family:\s*"([^"]+)"/g),
+    ].map((match) => match[1]);
+    const family = codeTheme.plain
+      .fontFamily!.split(',')[0]!
+      .replaceAll('"', '');
+
+    expect(declared).toContain(family);
   });
 });

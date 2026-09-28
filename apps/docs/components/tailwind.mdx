@@ -2,6 +2,7 @@
 title: "Tailwind"
 sidebarTitle: "Tailwind"
 description: "A Vue component to wrap emails with Tailwind CSS."
+"og:image": "https://vuemail.dev/static/covers/tailwind.png"
 icon: "wind"
 ---
 
@@ -153,9 +154,9 @@ export const Badge = defineComponent((_, { attrs, slots }) => {
   title="Tailwind Demo"
   icon="arrow-up-right-from-square"
   iconType="duotone"
-  href="https://github.com/vuemail/vuemail/tree/main/apps/demo/emails"
+  href="https://demo.vuemail.dev/preview/Community/notifications/vercel-invite-user"
 >
-  See the source code of the demo emails.
+  See the full demo and source code.
 </Card>
 
 <Support/>
@@ -192,5 +193,10 @@ export const Badge = defineComponent((_, { attrs, slots }) => {
     or `prose` from `@tailwindcss/typography`, use pseudo-classes such as `:where()` and `:not()`,
     so they go into the `<head>` too, instead of being inlined, and don't work on email clients that
     don't support `<style>` tags.
+  </Accordion>
+  <Accordion title="HTML inserted with v-html gets its classes inlined too">
+    Vue renders the HTML you insert with `v-html` (or `innerHTML`) like the rest of the template, so
+    `Tailwind` can't tell it apart: the classes of its elements get inlined too. React Email leaves
+    raw HTML alone, so if you rely on that, keep the classes out of the HTML you insert.
   </Accordion>
 </AccordionGroup>

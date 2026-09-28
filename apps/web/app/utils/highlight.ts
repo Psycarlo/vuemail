@@ -17,12 +17,17 @@ export interface CodeTheme {
   styles: { types: string[]; style: Record<string, string> }[];
 }
 
-/** The theme code blocks of the website share. */
+/**
+ * The theme code blocks of the website share. Like prism-react-renderer's
+ * `getLineProps`, the `plain` style goes on every line.
+ */
 export const codeTheme: CodeTheme = {
   plain: {
     color: '#EDEDEF',
     fontSize: '13px',
-    fontFamily: 'CommitMono, monospace',
+    // The family `globals.css` declares (React Email's `CommitMono` matches
+    // the `commitMono` family of next/font, font names being case-insensitive)
+    fontFamily: '"Commit Mono", monospace',
   },
   styles: [
     { types: ['comment'], style: { color: '#706F78' } },

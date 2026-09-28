@@ -3,15 +3,24 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const props = defineProps<{
-  /** A line of the pretty markup, which the HTML tab of the code view shows. */
   line: number;
+  column?: number;
+  /**
+   * The code the line is of: the source of the email, which the Vue tab of
+   * the code view shows, or the pretty markup, which the HTML tab shows.
+   */
+  type: 'source' | 'html';
 }>();
 
 const route = useRoute();
 
 const to = computed(() => ({
   path: route.path,
-  query: { ...route.query, view: 'source', lang: 'html' },
+  query: {
+    ...route.query,
+    view: 'source',
+    lang: props.type === 'html' ? 'html' : 'vue',
+  },
   hash: `#L${props.line}`,
 }));
 </script>

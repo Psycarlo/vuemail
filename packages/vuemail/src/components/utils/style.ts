@@ -13,7 +13,8 @@ export type StyleObject = Record<string, string | number | undefined>;
 
 /**
  * Properties that take plain numbers, so that, like React does, every other
- * property can be given a number that stands for pixels.
+ * property can be given a number that stands for pixels. The same list as
+ * React 19's, vendor-prefixed ones included (and `WebKitBoxFlexGroup` as is).
  */
 const unitlessProperties = new Set([
   'animationIterationCount',
@@ -60,18 +61,36 @@ const unitlessProperties = new Set([
   'strokeMiterlimit',
   'strokeOpacity',
   'strokeWidth',
+  'MozAnimationIterationCount',
+  'MozBoxFlex',
+  'MozBoxFlexGroup',
+  'MozLineClamp',
+  'msAnimationIterationCount',
+  'msFlex',
+  'msZoom',
+  'msFlexGrow',
+  'msFlexNegative',
+  'msFlexOrder',
+  'msFlexPositive',
+  'msFlexShrink',
+  'msGridColumn',
+  'msGridColumnSpan',
+  'msGridRow',
+  'msGridRowSpan',
+  'WebkitAnimationIterationCount',
+  'WebkitBoxFlex',
+  'WebKitBoxFlexGroup',
+  'WebkitBoxOrdinalGroup',
+  'WebkitColumnCount',
+  'WebkitColumns',
+  'WebkitFlex',
+  'WebkitFlexGrow',
+  'WebkitFlexPositive',
+  'WebkitFlexShrink',
+  'WebkitLineClamp',
 ]);
 
-const vendorPrefix = /^(?:Webkit|Moz|ms|O)(?=[A-Z])/;
-
-function isUnitless(property: string) {
-  if (unitlessProperties.has(property)) return true;
-  const unprefixed = property.replace(vendorPrefix, '');
-  if (unprefixed === property) return false;
-  return unitlessProperties.has(
-    unprefixed.charAt(0).toLowerCase() + unprefixed.slice(1),
-  );
-}
+const isUnitless = (property: string) => unitlessProperties.has(property);
 
 function toPropertyKey(property: string) {
   const trimmed = property.trim();

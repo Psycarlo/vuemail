@@ -2,6 +2,7 @@
 title: "CLI"
 sidebarTitle: "CLI"
 description: "After installing the Vuemail package (or cloning a starter), you can start using the command line interface (CLI)."
+"og:image": "https://vuemail.dev/static/covers/vuemail.png"
 icon: "square-terminal"
 ---
 
@@ -35,6 +36,9 @@ your email template when you make changes.
   Supported email clients: `gmail`, `outlook`, `yahoo`, `apple-mail`, `aol`, `thunderbird`,
   `microsoft`, `samsung-email`, `sfr`, `orange`, `protonmail`, `hey`, `mail-ru`, `fastmail`,
   `laposte`, `t-online-de`, `free-fr`, `gmx`, `web-de`, `ionos-1and1`, `rainloop` and `wp-pl`.
+</ResponseField>
+<ResponseField name="--vite-plugins" type="string">
+  Path to a module whose default export is an array of [Vite plugins](/guides/vite-plugins), or a function returning one, to apply when compiling your templates.
 </ResponseField>
 
 **F.A.Q**
@@ -89,8 +93,8 @@ your email template when you make changes.
         </template>
         ```
 
-        The starter created by `npx create-vuemail@latest` does the same with the
-        `VERCEL_URL` environment variable, for a preview deployed on Vercel.
+        You can refer to our [demo emails source code](https://demo.vuemail.dev/preview/Community/notifications/vercel-invite-user)
+        for an example of how we do this with our demo deploy on Vercel.
     </Info>
 
   </Accordion>
@@ -192,6 +196,9 @@ directory is copied along, so the output can be hosted on any static hosting. Se
   Comma-separated list of email clients to check compatibility for, the same as for
   [`email dev`](#email-dev). Alias: `-c`.
 </ResponseField>
+<ResponseField name="--vite-plugins" type="string">
+  Path to a module whose default export is an array of [Vite plugins](/guides/vite-plugins), or a function returning one, to apply when compiling your templates.
+</ResponseField>
 
 ## `email start`
 
@@ -250,6 +257,9 @@ Generates the plain HTML files of your emails into a `out` directory.
 </ResponseField>
 <ResponseField name="--silent" type="boolean" default="false">
   Hide the spinner with process information. Alias: `-s`.
+</ResponseField>
+<ResponseField name="--vite-plugins" type="string">
+  Path to a module whose default export is an array of [Vite plugins](/guides/vite-plugins), or a function returning one, to apply when compiling your templates.
 </ResponseField>
 
 ## `email help <cmd>`

@@ -2,6 +2,7 @@
 title: "Send email using eusend"
 sidebarTitle: "eusend"
 description: "Learn how to send an email using Vuemail and the eusend Node.js SDK."
+"og:image": "https://vuemail.dev/static/covers/vuemail.png"
 ---
 
 ## 1. Install dependencies
@@ -66,3 +67,14 @@ await eusend.emails.send({
   html: await render(Email, { url: 'https://example.com' }),
 });
 ```
+
+## Try it yourself
+
+<Card
+  title="eusend example"
+  icon="arrow-up-right-from-square"
+  iconType="duotone"
+  href="https://github.com/vuemail/vuemail/tree/main/examples/eusend"
+>
+  See the full source code.
+</Card>

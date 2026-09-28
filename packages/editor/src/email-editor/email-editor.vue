@@ -103,9 +103,11 @@ const createEditor = () => {
     },
   });
   instance.on('update', () => props.onUpdate?.(emailEditorRef));
+  // Like React Email, the editor is ready once it's mounted in the page:
+  // `<EditorContent>` moves it into place right after it's created, before
+  // TipTap tells it's created.
+  instance.on('create', () => props.onReady?.(emailEditorRef));
   editor.value = instance;
-
-  props.onReady?.(emailEditorRef);
 };
 
 onMounted(createEditor);

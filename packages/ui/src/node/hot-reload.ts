@@ -55,6 +55,8 @@ export function setupHotReload(
   };
 
   loader.watcher.on('all', onChange);
+  // The emails directory can be outside of the project Vite watches
+  loader.watcher.add(emailsDirectory);
 
   // Keeps connections alive through proxies that drop idle ones
   const heartbeat = setInterval(() => {

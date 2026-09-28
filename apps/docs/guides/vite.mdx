@@ -2,6 +2,7 @@
 title: 'Compiling emails with Vite'
 sidebarTitle: 'Vite'
 description: 'How Vuemail compiles your emails, and how to compile them in your own code'
+'og:image': 'https://vuemail.dev/static/covers/vuemail.png'
 icon: 'bolt'
 ---
 
@@ -49,7 +50,7 @@ import theme from './theme.css?raw';
 ## What's not supported
 
 - **Your Vite configuration**: the CLI doesn't load `vite.config.ts`, so plugins you add there don't
-  apply to your emails, and there's no option to add Vite plugins to it.
+  apply to your emails. Pass the plugins your emails need with [`--vite-plugins`](/guides/vite-plugins) instead.
 - **`.env` files**: they aren't loaded either. `process.env` has the environment variables of the
   process running the CLI, set by your shell or your tooling.
 

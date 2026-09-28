@@ -1,3 +1,5 @@
+![create-vuemail cover](../../apps/web/public/static/covers/create-vuemail.png)
+
 <div align="center"><strong>create-vuemail</strong></div>
 <div align="center">The easiest way to get started with Vuemail.</div>
 <br />

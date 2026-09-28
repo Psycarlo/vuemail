@@ -4,6 +4,7 @@ import { slugify } from './shared/utils/slugify';
 
 const description =
   'A collection of high-quality, unstyled components for creating beautiful emails using Vue and TypeScript.';
+const cover = 'https://vuemail.dev/static/covers/vuemail.png';
 
 export default defineNuxtConfig({
   modules: ['@vuemail/nuxt'],
@@ -22,25 +23,58 @@ export default defineNuxtConfig({
       // title, the separator goes away, leaving `Vuemail`
       titleTemplate: '%s %separator %siteName',
       templateParams: { separator: '•', siteName: 'Vuemail' },
+      // What every page gets, like the metadata of React Email's root layout
+      // (a page with its own Open Graph tags replaces all of them, see the
+      // components pages)
       meta: [
         { name: 'description', content: description },
-        { name: 'theme-color', content: '#42D392' },
+        { name: 'author', content: 'Vuemail contributors' },
+        { name: 'theme-color', content: '#42B883' },
+        { property: 'og:title', content: 'Vuemail' },
+        { property: 'og:description', content: description },
+        { property: 'og:url', content: 'https://vuemail.dev' },
         { property: 'og:site_name', content: 'Vuemail' },
-        { property: 'og:type', content: 'website' },
         { property: 'og:locale', content: 'en_US' },
-        {
-          property: 'og:image',
-          content: 'https://vuemail.dev/static/covers/vuemail.png',
-        },
+        { property: 'og:image', content: cover },
+        { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'Vuemail' },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: cover },
       ],
       link: [
+        { rel: 'icon', href: '/meta/favicon.ico', sizes: 'any' },
         { rel: 'icon', href: '/meta/favicon.svg', type: 'image/svg+xml' },
         { rel: 'apple-touch-icon', href: '/meta/apple-touch-icon.png' },
         // @ts-expect-error unhead doesn't know the llms.txt link relations
         { rel: 'llms-txt', href: '/llms.txt' },
         // @ts-expect-error
         { rel: 'llms-full-txt', href: '/llms-full.txt' },
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Vuemail',
+              url: 'https://vuemail.dev',
+              logo: cover,
+              sameAs: [
+                'https://github.com/vuemail/vuemail',
+                'https://www.npmjs.com/package/vuemail',
+              ],
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Vuemail',
+              url: 'https://vuemail.dev',
+              description,
+            },
+          ]),
+        },
       ],
     },
   },
@@ -50,15 +84,16 @@ export default defineNuxtConfig({
     spamAssassinPort: '783',
   },
   routeRules: {
-    '/examples': { redirect: { to: '/templates', statusCode: 301 } },
-    '/editor/examples': { redirect: { to: '/editor', statusCode: 301 } },
-    '/editor/examples/**': { redirect: { to: '/editor/**', statusCode: 301 } },
+    '/examples': { redirect: { to: '/templates', statusCode: 308 } },
+    '/editor/examples': { redirect: { to: '/editor', statusCode: 308 } },
+    '/editor/examples/**': { redirect: { to: '/editor/**', statusCode: 308 } },
     // The docs are a Mintlify site, served under the same domain
     '/docs': { proxy: 'https://vuemail.mintlify.dev/docs' },
     '/docs/**': { proxy: 'https://vuemail.mintlify.dev/docs/**' },
     '/api/**': {
       cors: true,
       headers: {
+        'Access-Control-Allow-Credentials': 'true',
         'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
         'Access-Control-Allow-Headers':
           'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',

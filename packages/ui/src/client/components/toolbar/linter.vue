@@ -114,7 +114,7 @@ const results = computed(() =>
       </ResultsColumn>
       <ResultsColumn align="right" class="font-mono text-slate-11">
         <template v-for="(item, index) in result.metadata" :key="index">{{ item }} · </template>
-        <CodePreviewLineLink :line="result.line" />
+        <CodePreviewLineLink :line="result.line" type="html" />
       </ResultsColumn>
     </ResultsRow>
   </Results>

@@ -9,6 +9,8 @@ import { Heading } from '../heading';
 import { Hr } from '../hr';
 import { Html } from '../html';
 import { Link } from '../link';
+import { Markdown } from '../markdown';
+import { Preview } from '../preview';
 import { Row } from '../row';
 import { Section } from '../section';
 import { renderMarkup } from '../utils/render-markup';
@@ -72,8 +74,11 @@ describe('<Tailwind> component', () => {
   });
 
   it('inlines the classes of your own components, with the style they give winning', async () => {
+    // The same output React Email gives for its "class manipulation done on
+    // components" case: the value of `padding` is the style's, in the place
+    // of Tailwind's p-4
     expect(await renderMarkup(tailwind(() => h(Card)))).toBe(
-      '<div style="color:rgb(81,162,255);background-color:rgb(251,44,54);padding:4px"></div>',
+      '<div style="padding:4px;color:rgb(81,162,255);background-color:rgb(251,44,54)"></div>',
     );
   });
 
@@ -83,8 +88,22 @@ describe('<Tailwind> component', () => {
         tailwind(() => h(Card, { class: 'mt-2' }, () => 'Hi')),
       ),
     ).toBe(
-      '<div style="color:rgb(81,162,255);background-color:rgb(251,44,54);margin-top:0.5rem;padding:4px">Hi</div>',
+      '<div style="padding:4px;color:rgb(81,162,255);background-color:rgb(251,44,54);margin-top:0.5rem">Hi</div>',
     );
+  });
+
+  it('merges the style of an element over its Tailwind styles like React Email, which can change what wins', async () => {
+    // `padding-top` keeps the place of pt-4, before `padding`, which wins
+    expect(
+      await renderMarkup(
+        tailwind(() =>
+          h('div', {
+            class: 'pt-4',
+            style: { padding: '10px', paddingTop: '5px' },
+          }),
+        ),
+      ),
+    ).toBe('<div style="padding-top:5px;padding:10px"></div>');
   });
 
   it('works with components that render multiple root nodes', async () => {
@@ -122,7 +141,7 @@ describe('<Tailwind> component', () => {
     );
 
     expect(html).toBe(
-      '<html dir="ltr" lang="en"><body><p style="font-size:14px;color:rgb(0,0,0);line-height:24px">or copy and paste this URL into your browser: <a href="https://vuemail.dev" class="other" style="color:rgb(21,93,252);text-decoration-line:none" target="_blank">https://vuemail.dev</a></p></body></html>',
+      '<html dir="ltr" lang="en"><head></head><body><p style="font-size:14px;color:rgb(0,0,0);line-height:24px">or copy and paste this URL into your browser: <a href="https://vuemail.dev" class="other" style="color:rgb(21,93,252);text-decoration-line:none" target="_blank">https://vuemail.dev</a></p></body></html>',
     );
   });
 
@@ -160,7 +179,7 @@ describe('<Tailwind> component', () => {
         ]),
       ),
     ).toBe(
-      '<head><style>@media (max-width:40rem){.max-sm_bg-red-500{background-color:rgb(251,44,54)!important}}@media (max-width:40rem){.max-sm_px-5{padding-right:1.25rem!important;padding-left:1.25rem!important}}</style><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"></head><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="max-sm_bg-red-500"><tbody><tr><td class="max-sm_px-5" style="padding-right:2.25rem;padding-left:2.25rem">x</td></tr></tbody></table>',
+      '<head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"><style>@media (max-width:40rem){.max-sm_bg-red-500{background-color:rgb(251,44,54)!important}}@media (max-width:40rem){.max-sm_px-5{padding-right:1.25rem!important;padding-left:1.25rem!important}}</style></head><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="max-sm_bg-red-500"><tbody><tr><td class="max-sm_px-5" style="padding-right:2.25rem;padding-left:2.25rem">x</td></tr></tbody></table>',
     );
   });
 
@@ -252,7 +271,7 @@ describe('<Tailwind> component', () => {
         ),
       ),
     ).toBe(
-      '<head><style>@media (min-width:48rem){.md_p-4{padding:1rem!important}}</style><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"></head><button type="button" class="bg-blue-600 md_p-4">Click me</button>',
+      '<head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"><style>@media (min-width:48rem){.md_p-4{padding:1rem!important}}</style></head><button type="button" class="bg-blue-600 md_p-4">Click me</button>',
     );
   });
 
@@ -315,7 +334,7 @@ describe('<Tailwind> component', () => {
     expect(html).toContain('<td dir="ltr" lang="en" style="color:green">');
   });
 
-  it('does not key rules by the group marker class', async () => {
+  it('keys group rules by the group marker class too, like React Email does with Tailwind >=4.3.3', async () => {
     const html = await renderMarkup(
       h(Html, null, () =>
         tailwind(() => [
@@ -335,10 +354,94 @@ describe('<Tailwind> component', () => {
     expect(html).toContain(
       '<a class="group-hover_underline" href="https://vuemail.dev">link</a>',
     );
+    // Once for each class the rule is keyed by, as in React Email
+    const rule =
+      '@media (hover:hover){.group-hover_underline:is(:where(.group):hover *){text-decoration-line:underline!important}}';
     const style = html.match(/<style>(.*?)<\/style>/)?.[1];
-    expect(style).toBe(
-      '@media (hover:hover){.group-hover_underline:is(:where(.group):hover *){text-decoration-line:underline!important}}',
+    expect(style).toBe(`${rule}${rule}`);
+  });
+
+  it('sanitizes named group markers the way the rules that refer to them are', async () => {
+    const html = await renderMarkup(
+      tailwind(() => [
+        h(Head),
+        // Resolved by <Section> before the utility that refers to it renders
+        h(Section, { class: 'group/card' }, () =>
+          h('p', { class: 'group-hover/card:underline' }, 'x'),
+        ),
+        h('div', { class: 'group/item' }, [
+          h('p', { class: 'group-focus/item:text-red-500' }, 'y'),
+        ]),
+      ]),
     );
+
+    expect(html).toContain('class="group_card"');
+    expect(html).toContain('<div class="group_item">');
+    expect(html).toContain(':where(.group_card):hover *');
+    expect(html).toContain(':where(.group_item):focus *');
+    expect(html).not.toContain('group/');
+  });
+
+  it('sanitizes a group marker even when an earlier render used it without the utility that refers to it', async () => {
+    const markerOnly = await renderMarkup(
+      tailwind(() => [h(Head), h('div', { class: 'group/history' }, 'x')]),
+    );
+    const withUtility = await renderMarkup(
+      tailwind(() => [
+        h(Head),
+        h('div', { class: 'group/history' }, [
+          h('p', { class: 'group-hover/history:underline' }, 'y'),
+        ]),
+      ]),
+    );
+
+    expect(markerOnly).toContain('<div class="group/history">');
+    expect(withUtility).toContain('<div class="group_history">');
+  });
+
+  it('leaves the HTML <Markdown> renders as it is, like React Email does with raw HTML', async () => {
+    const html = await renderMarkup(
+      tailwind(() => [
+        h(Head),
+        h(
+          Markdown,
+          { class: 'p-4 sm:p-8' },
+          () => 'Some <span class="text-red-500 sm:p-4">html</span>',
+        ),
+      ]),
+    );
+
+    expect(html).toContain(
+      '<div class="sm_p-8" data-id="vuemail-markdown" style="padding:1rem">',
+    );
+    expect(html).toContain('<span class="text-red-500 sm:p-4">html</span>');
+    expect(html).not.toContain('sm_p-4');
+  });
+
+  it("doesn't require a <head> for classes in the HTML <Markdown> renders", async () => {
+    await expect(
+      renderMarkup(
+        tailwind(() => h(Markdown, () => '<div class="container">cms</div>')),
+      ),
+    ).resolves.toContain('<div class="container">cms</div>');
+  });
+
+  it('puts utilities that style children, like divide-y, space-y-2 and *:p-2, in the <style>', async () => {
+    const html = await renderMarkup(
+      tailwind(() => [
+        h(Head),
+        h('div', { class: 'divide-y space-y-2 *:p-2' }, [
+          h('p', 'a'),
+          h('p', 'b'),
+        ]),
+      ]),
+    );
+
+    expect(html).toContain('<div class="divide-y space-y-2 __p-2">');
+    const style = html.match(/<style>(.*?)<\/style>/)?.[1] ?? '';
+    expect(style).toContain(':where(.divide-y>:not(:last-child)){');
+    expect(style).toContain(':where(.space-y-2>:not(:last-child)){');
+    expect(style).toContain(':is(.__p-2>*){padding:0.5rem!important}');
   });
 
   it('recognizes custom responsive screens', async () => {
@@ -407,8 +510,40 @@ describe('<Tailwind> component', () => {
     );
 
     expect(withResponsiveClass).toContain('.sm_text-lg');
-    expect(withoutResponsiveClass).not.toContain('<style>');
+    expect(withoutResponsiveClass).not.toContain('sm_text-lg');
+    expect(withoutResponsiveClass).toContain('<style></style>');
     expect(withResponsiveClassAgain).toBe(withResponsiveClass);
+  });
+
+  it('puts its <style> after the <meta> and <title> elements the <head> starts with, like React Email', async () => {
+    const FontStyle = () =>
+      h('style', { innerHTML: "* { font-family: 'Inter', Arial; }" });
+
+    const html = await renderMarkup(
+      h(Html, () =>
+        tailwind(() => [
+          h(Head, () => h(FontStyle)),
+          h(Body, () => [
+            h(Preview, () => 'Hi'),
+            h('p', { class: 'text-sm sm:text-lg' }, 'A'),
+          ]),
+        ]),
+      ),
+    );
+
+    expect(html.slice(0, html.indexOf('</head>') + 7)).toBe(
+      '<html dir="ltr" lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"><title>Hi</title><style>@media (min-width:40rem){.sm_text-lg{font-size:1.125rem!important;line-height:1.5555555555555556!important}}</style><style>* { font-family: \'Inter\', Arial; }</style></head>',
+    );
+  });
+
+  it('always adds a <style> to the <head>, even an empty one, like React Email', async () => {
+    expect(
+      await renderMarkup(
+        tailwind(() => [h(Head), h('p', { class: 'text-sm' }, 'A')]),
+      ),
+    ).toBe(
+      '<head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta name="x-apple-disable-message-reformatting"><style></style></head><p style="font-size:0.875rem;line-height:1.4285714285714286">A</p>',
+    );
   });
 
   it('keeps the order Tailwind gives rules, whatever order the classes show up in', async () => {
@@ -586,22 +721,22 @@ describe('<Tailwind> component', () => {
       expect(html).toMatchInlineSnapshot(`
         "<html dir="ltr" lang="en">
           <head>
-            <style>
-              @media (min-width:40rem){.sm_px-10{padding-right:2.5rem!important;padding-left:2.5rem!important}}
-            </style>
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
             <meta name="x-apple-disable-message-reformatting" />
             <title>Welcome, Ana</title>
+            <style>
+              @media (min-width:40rem){.sm_px-10{padding-right:2.5rem!important;padding-left:2.5rem!important}}
+            </style>
           </head>
-          <div
-            data-skip-in-text="true"
-            style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0">
-            Welcome, Ana
-            <div>
-               ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
-            </div>
-          </div>
           <body dir="ltr" lang="en" style="background-color:rgb(255,255,255)">
+            <div
+              data-skip-in-text="true"
+              style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0">
+              Welcome, Ana
+              <div>
+                 ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
+              </div>
+            </div>
             <table
               border="0"
               width="100%"
@@ -655,7 +790,7 @@ describe('<Tailwind> component', () => {
                               </tbody>
                             </table>
                             <div
-                              style="color:rgb(81,162,255);background-color:rgb(251,44,54);margin-top:0.5rem;padding:4px">
+                              style="padding:4px;color:rgb(81,162,255);background-color:rgb(251,44,54);margin-top:0.5rem">
                               Nested component
                             </div>
                             <a

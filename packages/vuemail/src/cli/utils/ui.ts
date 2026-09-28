@@ -4,18 +4,22 @@
  */
 export interface Ui {
   version: string;
+  /** Whether an error was reported to the user already, before being thrown. */
+  isReportedError(error: unknown): boolean;
   startDevServer(options: {
     emailsDir: string;
     port: number;
     version: string;
     resendApiKey?: string;
     compatibilityClients?: string[];
+    vitePlugins?: string;
   }): Promise<{ url: string; close(): Promise<void> }>;
   buildPreview(options: {
     emailsDir: string;
     outDir?: string;
     version: string;
     compatibilityClients?: string[];
+    vitePlugins?: string;
   }): Promise<void>;
   startPreview(options: {
     dir?: string;
@@ -28,5 +32,6 @@ export interface Ui {
     plainText?: boolean;
     extension?: string;
     silent?: boolean;
+    vitePlugins?: string;
   }): Promise<void>;
 }

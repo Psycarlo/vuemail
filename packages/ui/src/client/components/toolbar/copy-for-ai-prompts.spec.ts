@@ -104,7 +104,7 @@ test('getPromptForTab() asks to fix the compatibility issues', () => {
     'vue',
   );
   expect(prompt).toContain(
-    '- "border radius" is not supported in: Outlook (line 7 of the rendered HTML)',
+    '- "border radius" is not supported in: Outlook (line 7 of the .vue file)',
   );
   expect(prompt).not.toContain('linting issues');
 });

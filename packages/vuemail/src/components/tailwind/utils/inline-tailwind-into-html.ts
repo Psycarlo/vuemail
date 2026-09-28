@@ -1,12 +1,12 @@
 import { decodeHTMLAttribute } from 'entities';
 import {
   type IAttribute,
+  type INode,
   type ITag,
   parse,
   SyntaxKind,
-  walk,
 } from 'html5parser';
-import { resolvedClassMarker } from '../../element';
+import { markdownDataId, resolvedClassMarker } from '../../element';
 import { styleToString, toStyleObject } from '../../utils/style';
 import type { TailwindRenderContext } from './tailwind-context';
 
@@ -48,9 +48,30 @@ Move <Head /> inside <Tailwind>, or remove these classes that require a <head>: 
   );
 
 /**
+ * Where the `<style>` goes: after the `<meta>` and `<title>` elements the
+ * `<head>` starts with, and before everything else in it. That's where React
+ * Email's `<style>` ends up, as the first child of the `<head>` that React
+ * doesn't hoist above the others.
+ */
+const styleInsertionPoint = (head: ITag) => {
+  let point = head.open.end;
+  for (const child of head.body ?? []) {
+    if (child.type === SyntaxKind.Text) {
+      if (child.value.trim() === '') continue;
+      break;
+    }
+    if (child.name !== 'meta' && child.name !== 'title') break;
+    point = child.end;
+  }
+  return point;
+};
+
+/**
  * Inlines the Tailwind classes left in rendered HTML, which come from plain
  * elements, including the ones rendered by components of your own, and adds
  * the styles that can't be inlined, like media queries, to the `<head>`.
+ * Like React Email, the `<head>` always gets that `<style>`, even when it
+ * ends up empty.
  *
  * Elements from Vuemail's components have already resolved their classes
  * by this point, and what is left on them doesn't match any utility.
@@ -60,44 +81,58 @@ export function inlineTailwindIntoHtml(
   context: TailwindRenderContext,
 ): string {
   const elements: ElementWithClasses[] = [];
-  let headContentStart: number | undefined;
+  let styleStart: number | undefined;
 
-  walk(parse(html), {
-    enter(node) {
-      if (node.type !== SyntaxKind.Tag) return;
+  const visit = (nodes: INode[]) => {
+    for (const node of nodes) {
+      if (node.type !== SyntaxKind.Tag) continue;
 
-      if (node.name === 'head' && headContentStart === undefined) {
-        headContentStart = node.open.end;
+      if (node.name === 'head' && styleStart === undefined) {
+        styleStart = styleInsertionPoint(node);
       }
 
       const classAttribute = findAttribute(node, 'class');
-      if (!classAttribute) return;
+      const classes = classAttribute
+        ? attributeValue(classAttribute).split(/\s+/).filter(Boolean)
+        : [];
+      if (classAttribute && classes.length > 0) {
+        elements.push({
+          classAttribute,
+          styleAttribute: findAttribute(node, 'style'),
+          classes,
+        });
+      }
 
-      const classes = attributeValue(classAttribute)
-        .split(/\s+/)
-        .filter(Boolean);
-      if (classes.length === 0) return;
+      // What <Markdown> renders is HTML of its own, which React Email leaves
+      // as it is, since it never goes through React
+      const dataId = findAttribute(node, 'data-id');
+      if (dataId && attributeValue(dataId) === markdownDataId) continue;
 
-      elements.push({
-        classAttribute,
-        styleAttribute: findAttribute(node, 'style'),
-        classes,
-      });
-    },
-  });
+      if (node.body) visit(node.body);
+    }
+  };
+  visit(parse(html));
 
   const edits: Edit[] = [];
+  const resolvedElements: ElementWithClasses[] = [];
   const unresolvedElements: ElementWithClasses[] = [];
 
   for (const element of elements) {
-    if (!element.classes.includes(resolvedClassMarker)) {
+    if (element.classes.includes(resolvedClassMarker)) {
+      resolvedElements.push(element);
+    } else {
       unresolvedElements.push(element);
-      continue;
     }
-    // Resolved by its component already, only the marker has to go
-    const classes = element.classes.filter(
-      (className) => className !== resolvedClassMarker,
-    );
+  }
+
+  context.prepare(unresolvedElements.flatMap((element) => element.classes));
+
+  for (const element of resolvedElements) {
+    // Resolved by its component already, so only the marker has to go, along
+    // with the classes that utilities rendered after it gave rules to since.
+    const classes = element.classes
+      .filter((className) => className !== resolvedClassMarker)
+      .map((className) => context.refreshResolvedClass(className));
     edits.push({
       start: element.classAttribute.start,
       end: attributeEnd(element.classAttribute),
@@ -107,8 +142,6 @@ export function inlineTailwindIntoHtml(
           : '',
     });
   }
-
-  context.prepare(unresolvedElements.flatMap((element) => element.classes));
 
   for (const {
     classAttribute,
@@ -121,18 +154,16 @@ export function inlineTailwindIntoHtml(
       continue;
     }
 
-    const existingStyle = styleAttribute
-      ? attributeValue(styleAttribute).trim().replace(/;+$/, '')
-      : '';
-    const existingProperties = toStyleObject(existingStyle);
-    const tailwindStyle = Object.fromEntries(
-      Object.entries(resolution.style).filter(
-        ([property]) => !(property in existingProperties),
-      ),
-    );
-    const style = [styleToString(tailwindStyle), existingStyle]
-      .filter(Boolean)
-      .join(';');
+    // Merged like React Email merges the `style` prop over Tailwind's: the
+    // element's own values win, and the properties it shares with Tailwind
+    // stay where Tailwind put them.
+    const style =
+      styleToString({
+        ...resolution.style,
+        ...(styleAttribute
+          ? toStyleObject(attributeValue(styleAttribute))
+          : {}),
+      }) ?? '';
 
     const classText = resolution.className
       ? `class="${escapeAttribute(resolution.className)}"`
@@ -160,15 +191,14 @@ export function inlineTailwindIntoHtml(
   }
 
   const nonInlinableCss = context.getNonInlinableCss();
-  if (nonInlinableCss !== '') {
-    if (headContentStart === undefined) {
-      throw headNotFoundError(context.getNonInlinableClasses());
-    }
+  if (styleStart !== undefined) {
     edits.push({
-      start: headContentStart,
-      end: headContentStart,
+      start: styleStart,
+      end: styleStart,
       text: `<style>${nonInlinableCss}</style>`,
     });
+  } else if (nonInlinableCss !== '') {
+    throw headNotFoundError(context.getNonInlinableClasses());
   }
 
   let result = html;

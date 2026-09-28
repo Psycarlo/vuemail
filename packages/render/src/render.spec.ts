@@ -155,6 +155,46 @@ describe('render', () => {
     expect(await render(Email, {}, { plainText: true })).toBe('Hello');
   });
 
+  it('lays the document out like React Email, moving what is outside of the <head> and <body> into the <body>', async () => {
+    // Like <Html><Head /><Preview>…</Preview><Body>…</Body><p>…</p></Html>
+    const Email = defineComponent({
+      render: () =>
+        h('html', [
+          h('head', [
+            h('meta', { name: 'x-apple-disable-message-reformatting' }),
+          ]),
+          h('title', { 'data-vuemail-hoist': '' }, 'Preview'),
+          h('div', { 'data-skip-in-text': 'true' }, 'Preview'),
+          h('body', [h('p', 'Hello')]),
+          h('p', 'Goodbye'),
+        ]),
+    });
+
+    expect(await render(Email)).toBe(
+      `${doctype}<html><head><meta name="x-apple-disable-message-reformatting"><title>Preview</title></head><body><div data-skip-in-text="true">Preview</div><p>Hello</p><p>Goodbye</p></body></html>`,
+    );
+    // What was outside of the <body> makes it to plain text too
+    expect(await render(Email, {}, { plainText: true })).toBe(
+      'Hello\n\nGoodbye',
+    );
+  });
+
+  it('gives a document without a <head> one, for the titles to be hoisted into', async () => {
+    const Email = defineComponent({
+      render: () =>
+        h('html', [
+          h('body', [
+            h('p', 'Hello'),
+            h('title', { 'data-vuemail-hoist': '' }, 'Preview'),
+          ]),
+        ]),
+    });
+
+    expect(await render(Email)).toBe(
+      `${doctype}<html><head><title>Preview</title></head><body><p>Hello</p></body></html>`,
+    );
+  });
+
   it('prettifies the output', async () => {
     const actualOutput = await render(
       Template,

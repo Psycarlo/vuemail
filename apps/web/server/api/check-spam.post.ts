@@ -7,11 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const result = await checkSpamRequest(
     await readBody(event).catch(() => undefined),
-    {
-      ip: getRequestIP(event, { xForwardedFor: true }) ?? 'unknown',
-      limiter: checkSpamIpRatelimit,
-      spamd: { host: spamAssassinHost, port: spamAssassinPort },
-    },
+    { spamd: { host: spamAssassinHost, port: spamAssassinPort } },
   );
 
   setResponseStatus(event, result.status);

@@ -10,7 +10,7 @@ export const start = async ({ dir, port }: Args) => {
   try {
     await ui.startPreview({ dir, port: Number.parseInt(port, 10) });
   } catch (exception) {
-    console.error(exception instanceof Error ? exception.message : exception);
+    if (!ui.isReportedError(exception)) console.log(exception);
     process.exit(1);
   }
 };

@@ -33,13 +33,21 @@ if (error.value && import.meta.server) {
   setResponseStatus(500);
 }
 
-const title = `${category.name} Components`;
-
+// With its own Open Graph tags, which replace all of those of the other
+// pages, like React Email's page does (its twitter card keeps the image)
+const title = `${category.name} Components - Vuemail`;
 useSeoMeta({
   title,
   description: category.description,
-  ogTitle: `${title} • Vuemail`,
+  ogTitle: title,
   ogDescription: category.description,
+  ogImage: 'https://vuemail.dev/static/covers/patterns.png',
+  ogUrl: null,
+  ogSiteName: null,
+  ogLocale: null,
+  ogType: null,
+  twitterTitle: title,
+  twitterDescription: category.description,
 });
 
 const jsonLd = {

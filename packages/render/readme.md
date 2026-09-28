@@ -1,3 +1,5 @@
+![@vuemail/render cover](../../apps/web/public/static/covers/render.png)
+
 <div align="center"><strong>@vuemail/render</strong></div>
 <div align="center">Transform Vue components into HTML email templates.</div>
 <br />

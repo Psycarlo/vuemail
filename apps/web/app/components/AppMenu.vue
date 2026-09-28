@@ -49,7 +49,7 @@ const closeDrawer = () => {
         @click="closeDrawer"
       >
         <GithubIcon />
-        <span v-if="starCount">{{ starCount }}</span>
+        <span>{{ starCount }}</span>
       </AppMenuItem>
     </ul>
   </nav>
@@ -60,7 +60,7 @@ const closeDrawer = () => {
       @click="closeDrawer"
     >
       <GithubIcon />
-      <span v-if="starCount">{{ starCount }}</span>
+      <span>{{ starCount }}</span>
     </AppMenuItem>
     <ul class="flex gap-2">
       <DrawerRoot v-model:open="isDrawerOpen" should-scale-background>

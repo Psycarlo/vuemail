@@ -2,6 +2,7 @@
 title: 'Send email using AWS SES'
 sidebarTitle: 'AWS SES'
 description: 'Learn how to send an email using Vuemail and the AWS SES Node.js SDK.'
+'og:image': 'https://vuemail.dev/static/covers/vuemail.png'
 ---
 
 ## 1. Install dependencies
@@ -77,3 +78,14 @@ const params: SendEmailCommandInput = {
 
 await ses.sendEmail(params);
 ```
+
+## Try it yourself
+
+<Card
+  title="AWS SES example"
+  icon='arrow-up-right-from-square'
+  iconType="duotone"
+  href="https://github.com/vuemail/vuemail/tree/main/examples/aws-ses"
+>
+  See the full source code.
+</Card>

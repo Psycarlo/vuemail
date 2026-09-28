@@ -155,9 +155,18 @@ export const isPathWithinDirectory = (directory: string, target: string) => {
   );
 };
 
+/** Where a path really is, through symbolic links, when it exists. */
+const safeRealpath = (target: string) => {
+  try {
+    return fs.realpathSync(target);
+  } catch {
+    return path.resolve(target);
+  }
+};
+
 /**
  * Finds the file of an email from its slug, never one outside of the emails
- * directory.
+ * directory, not even through a symbolic link.
  */
 export async function getEmailPathFromSlug(
   emailsDirectory: string,
@@ -170,9 +179,15 @@ export async function getEmailPathFromSlug(
     ? [normalizedSlug]
     : emailExtensions.map((extension) => `${normalizedSlug}${extension}`);
 
+  const realEmailsDirectory = safeRealpath(emailsDirectory);
   for (const candidate of candidates) {
     const fullPath = path.resolve(emailsDirectory, candidate);
-    if (!isPathWithinDirectory(emailsDirectory, fullPath)) continue;
+    if (
+      !isPathWithinDirectory(emailsDirectory, fullPath) ||
+      !isPathWithinDirectory(realEmailsDirectory, safeRealpath(fullPath))
+    ) {
+      continue;
+    }
     if (await isFileAnEmail(fullPath)) return fullPath;
   }
   return undefined;

@@ -15,10 +15,12 @@ const attrs = computed(() => {
     style: inlineCssToJs(props.node.attrs.style),
   };
 });
+
+// `node-horizontalRule` is the class React's node views put on their wrapper.
+// (A comment in the template would render a fragment around the wrapper.)
 </script>
 
 <template>
-  <!-- `node-horizontalRule` is the class React's node views put on their wrapper -->
   <NodeViewWrapper class="node-horizontalRule">
     <Hr v-bind="attrs" />
   </NodeViewWrapper>

@@ -1,3 +1,5 @@
+![Vuemail cover](../../apps/web/public/static/covers/vuemail.png)
+
 <div align="center"><strong>Vuemail</strong></div>
 <div align="center">The next generation of writing emails.<br />High-quality, unstyled components for creating emails with Vue.</div>
 <br />
@@ -87,10 +89,11 @@ npx vuemail dev
 | `-d, --dir <path>`        | `./emails` | Directory with your email templates                                                          |
 | `-p, --port <port>`       | `3000`     | Port to run the dev server on                                                                |
 | `-c, --clients <clients>` |            | Comma-separated list of email clients to show compatibility warnings for, like `gmail,outlook` |
+| `--vite-plugins <path>` |            | Module whose default export is an array of Vite plugins (or a function returning one) to compile your emails with |
 
 When `--clients` is left out, the `COMPATIBILITY_EMAIL_CLIENTS` environment variable is used, and without it the compatibility checks cover Gmail, Apple Mail, Outlook and Yahoo! Mail. The supported clients are `gmail`, `outlook`, `yahoo`, `apple-mail`, `aol`, `thunderbird`, `microsoft`, `samsung-email`, `sfr`, `orange`, `protonmail`, `hey`, `mail-ru`, `fastmail`, `laposte`, `t-online-de`, `free-fr`, `gmx`, `web-de`, `ionos-1and1`, `rainloop` and `wp-pl`.
 
-Templates are compiled with [Vite](https://vite.dev) and its [Vue plugin](https://github.com/vitejs/vite-plugin-vue), so they can be single file components written in TypeScript, and the `paths` aliases of your `tsconfig.json` are resolved. There is no bundler configuration to pass to the CLI, and the same goes for `email build` and `email export`.
+Templates are compiled with [Vite](https://vite.dev) and its [Vue plugin](https://github.com/vitejs/vite-plugin-vue), so they can be single file components written in TypeScript, and the `paths` aliases of your `tsconfig.json` are resolved. To compile them with more [Vite plugins](https://vite.dev/plugins/), like one that imports another kind of file, pass `--vite-plugins` a module whose default export is an array of plugins (or a function returning one). `email build` and `email export` take it too.
 
 ### `email build`
 
@@ -105,6 +108,7 @@ npx vuemail build
 | `-d, --dir <path>`        | `./emails` | Directory with your email templates                                        |
 | `-o, --outDir <path>`     | `.vuemail` | Output directory                                                           |
 | `-c, --clients <clients>` |            | Comma-separated list of email clients to show compatibility warnings for |
+| `--vite-plugins <path>` |            | Module whose default export is an array of Vite plugins (or a function returning one) to compile your emails with |
 
 ### `email start`
 
@@ -135,6 +139,7 @@ npx vuemail export
 | `-d, --dir <path>`            | `./emails` | Directory with your email templates                                     |
 | `-e, --extension <extension>` |            | Set a custom file extension for rendered emails (e.g. `blade.php`)      |
 | `-s, --silent`                | `false`    | Don't show a spinner with process information                           |
+| `--vite-plugins <path>` |            | Module whose default export is an array of Vite plugins (or a function returning one) to compile your emails with |
 
 ### `email resend`
 

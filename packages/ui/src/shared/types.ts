@@ -29,6 +29,9 @@ export type EmailRenderingResult =
   | RenderedEmailMetadata
   | {
       error: ErrorObject;
+      /** The file of the email that failed to render, as in `welcome.vue`. */
+      basename?: string;
+      extname?: string;
     };
 
 export interface HotReloadChange {
@@ -238,7 +241,7 @@ export interface CompatibilityStats {
   perEmailClient: Partial<Record<EmailClient, EmailClientStats>>;
 }
 
-/** A position in the pretty markup: 1-based line, 0-based column. */
+/** A position in the source of an email: 1-based line, 0-based column. */
 export interface SourcePosition {
   line: number;
   column: number;
@@ -251,9 +254,9 @@ export interface SourceLocation {
 }
 
 export interface CompatibilityCheckingResult {
-  /** Where the feature is first used in the pretty markup. */
+  /** Where the feature is first used in the source of the email. */
   location: SourceLocation;
-  /** The lines of the pretty markup around the feature. */
+  /** The lines of the source around the feature. */
   source: string;
   entry: SupportEntry;
   status: SupportStatus;

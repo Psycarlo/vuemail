@@ -3,8 +3,10 @@ import http from 'node:http';
 import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import logSymbols from 'log-symbols';
+import type { PluginOption } from 'vite';
 import type {
   EmailsDirectory,
+  ErrorObject,
   PreviewConfig,
   SpamCheckingResult,
   ToolbarData,
@@ -14,13 +16,21 @@ import { createEmailLoader } from './email-loader';
 import { checkCompatibility } from './email-validation/check-compatibility';
 import { getRelevantEmailClients } from './email-validation/email-clients';
 import { getLintingRows } from './email-validation/linting';
-import { getEmailSlugs, getEmailsDirectoryMetadata } from './emails-directory';
+import { createTailwindSetup } from './email-validation/tailwind-setup';
+import {
+  getEmailPathFromSlug,
+  getEmailSlugs,
+  getEmailsDirectoryMetadata,
+} from './emails-directory';
 import { serveFileFrom } from './http';
+import { loadVitePlugins } from './load-vite-plugins';
 import {
   getPreviewAppHtml,
   getWorkspaceId,
   previewAppDirectory,
 } from './preview-app';
+import { registerSpinnerAutostopping } from './register-spinner-autostopping';
+import { ReportedError } from './reported-error';
 import { createSpinner, stopSpinnerAndPersist } from './spinner';
 
 export interface BuildPreviewOptions {
@@ -30,6 +40,8 @@ export interface BuildPreviewOptions {
   outDir?: string;
   version: string;
   compatibilityClients?: string[];
+  /** A module with more Vite plugins to compile emails with. */
+  vitePlugins?: string;
 }
 
 /** Built previews are published, so they leave out local absolute paths. */
@@ -123,14 +135,15 @@ export async function buildPreview(options: BuildPreviewOptions) {
     prefixText: '  ',
   });
   spinner.start();
+  registerSpinnerAutostopping(spinner);
 
+  spinner.setText(`Checking if ${options.emailsDir} folder exists`);
   const metadata = await getEmailsDirectoryMetadata(emailsDirectory);
   if (!metadata) {
-    stopSpinnerAndPersist(spinner, {
-      symbol: logSymbols.error,
-      text: `Could not find the directory at ${options.emailsDir}`,
-    });
-    throw new Error(`Could not find the directory at ${options.emailsDir}`);
+    spinner.fail();
+    throw new ReportedError(
+      `Could not find the directory at ${options.emailsDir}`,
+    );
   }
 
   spinner.setText('Copying the preview app into `.vuemail`');
@@ -160,9 +173,39 @@ export async function buildPreview(options: BuildPreviewOptions) {
   const compatibilityClients = getRelevantEmailClients(
     options.compatibilityClients,
   );
-  const loader = await createEmailLoader(cwd);
+  let plugins: PluginOption[] = [];
+  if (options.vitePlugins) {
+    try {
+      plugins = await loadVitePlugins(options.vitePlugins);
+    } catch (exception) {
+      stopSpinnerAndPersist(spinner, {
+        symbol: logSymbols.error,
+        text: 'Failed to build emails',
+      });
+      const message =
+        exception instanceof Error ? exception.message : String(exception);
+      console.error(`\n${message}`);
+      throw new ReportedError('Failed to build emails', { cause: exception });
+    }
+  }
+  const loader = await createEmailLoader(cwd, { plugins });
   const staticServer = await serveStaticDirectory(staticDirectory);
-  const failed: string[] = [];
+  // As the preview does, for the source of emails, which HTML ones don't have
+  const checkEmailCompatibility = async (
+    slug: string,
+    extname: string,
+    source: string,
+  ) => {
+    const emailPath = await getEmailPathFromSlug(emailsDirectory, slug);
+    if (!emailPath || extname === 'html') return [];
+    return checkCompatibility(
+      source,
+      emailPath,
+      compatibilityClients,
+      createTailwindSetup(loader, emailPath),
+    );
+  };
+  const failed: { slug: string; error: ErrorObject | undefined }[] = [];
   const skippedSpamChecks: string[] = [];
   // Once the website can't be reached, the other emails don't wait for it
   let spamCheckUnavailableReason: string | undefined;
@@ -175,7 +218,7 @@ export async function buildPreview(options: BuildPreviewOptions) {
         JSON.stringify(result),
       );
       if (!result || 'error' in result) {
-        failed.push(slug);
+        failed.push({ slug, error: result?.error });
         continue;
       }
 
@@ -185,9 +228,10 @@ export async function buildPreview(options: BuildPreviewOptions) {
           result.prettyMarkup,
           staticServer.url,
         ),
-        compatibilityResults: checkCompatibility(
-          result.prettyMarkup,
-          compatibilityClients,
+        compatibilityResults: await checkEmailCompatibility(
+          slug,
+          result.extname,
+          result.source,
         ),
       };
       if (spamCheckUnavailableReason === undefined) {
@@ -234,11 +278,18 @@ export async function buildPreview(options: BuildPreviewOptions) {
   }
 
   if (failed.length > 0) {
+    const failedSlugs = failed.map(({ slug }) => slug).join(', ');
     stopSpinnerAndPersist(spinner, {
       symbol: logSymbols.error,
-      text: `Failed to render ${failed.join(', ')}`,
+      text: `Failed to render ${failedSlugs}`,
     });
-    throw new Error(`Failed to render ${failed.join(', ')}`);
+    // Tells why, as the preview would
+    for (const { slug, error } of failed) {
+      if (!error) continue;
+      const stack = error.stack ? `\n${error.stack}` : '';
+      console.error(`\n${slug}: ${error.name}: ${error.message}${stack}`);
+    }
+    throw new ReportedError(`Failed to render ${failedSlugs}`);
   }
 
   stopSpinnerAndPersist(spinner, {

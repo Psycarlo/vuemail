@@ -298,7 +298,7 @@ describe('extractRulesPerClass()', async () => {
     `);
   });
 
-  it('does not emit a bare nested rule for group/peer marker classes', async () => {
+  it('keys group/peer rules by their marker class too, like React Email does with Tailwind >=4.3.3', async () => {
     const tailwind = await setupTailwind({});
     const classes = ['group', 'group-hover:underline'];
     tailwind.addUtilities(classes);
@@ -309,15 +309,41 @@ describe('extractRulesPerClass()', async () => {
       classes,
     );
 
-    // Only the real utility is keyed; the `group` marker must not produce a
-    // duplicate, parentless `&:is(...)` rule.
+    // The marker is part of the utility's own selector (not of a nested,
+    // parentless `&:is(...)` rule), which also keys the rule, so that
+    // markers like `group/item` get sanitized the way the selector is.
     expect(Object.keys(convertToComparable(inlinable))).toEqual([]);
     expect(convertToComparable(nonInlinable)).toMatchInlineSnapshot(`
       {
+        "group": [
+          ".group-hover\\:underline:is(:where(.group):hover *){@media (hover:hover){text-decoration-line:underline}}",
+        ],
         "group-hover:underline": [
           ".group-hover\\:underline:is(:where(.group):hover *){@media (hover:hover){text-decoration-line:underline}}",
         ],
       }
     `);
+  });
+
+  it('keys rules whose class is only inside a pseudo-class of the selector, like divide-y', async () => {
+    const tailwind = await setupTailwind({});
+    const classes = ['divide-y', 'space-x-4', '*:p-2'];
+    tailwind.addUtilities(classes);
+
+    const stylesheet = tailwind.getStyleSheet();
+    const { inlinable, nonInlinable } = extractRulesPerClass(
+      stylesheet,
+      classes,
+    );
+
+    expect(Object.keys(convertToComparable(inlinable))).toEqual([]);
+    expect(Object.keys(convertToComparable(nonInlinable)).sort()).toEqual([
+      '*:p-2',
+      'divide-y',
+      'space-x-4',
+    ]);
+    expect(generate(nonInlinable.get('divide-y')![0]!)).toMatch(
+      /^:where\(\.divide-y>:not\(:last-child\)\)\{/,
+    );
   });
 });
