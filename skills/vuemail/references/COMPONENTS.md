@@ -8,7 +8,7 @@ In templates, use `class` (never `className`), bind dynamic values with `:` (`:h
 
 ## Available Components
 
-All components are imported from `vuemail`:
+All components are imported from `@vuemaildev/vuemail`:
 
 - **Body** - A Vue component to wrap emails
 - **Button** - A link that is styled to look like a button
@@ -46,7 +46,7 @@ import {
   Text,
   pixelBasedPreset,
   type TailwindConfig,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const tailwindConfig = {
   presets: [pixelBasedPreset],
@@ -110,7 +110,7 @@ Root wrapper for the email. Always use as the outermost component.
 
 ```vue
 <script setup lang="ts">
-import { Html, Tailwind, pixelBasedPreset } from 'vuemail';
+import { Html, Tailwind, pixelBasedPreset } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -327,7 +327,7 @@ Display code with a selected theme and regex highlighting using Prism.js.
 
 ```vue
 <script setup lang="ts">
-import { CodeBlock, dracula } from 'vuemail';
+import { CodeBlock, dracula } from '@vuemaildev/vuemail';
 
 const code = `export default defineEventHandler(async () => {
   try {
@@ -354,7 +354,7 @@ const code = `export default defineEventHandler(async () => {
 **Props:**
 - `code` (required) - The actual code to render in the code block. Just a plain string, with the proper indentation included
 - `language` (required) - The language under the supported languages defined in PrismLanguage (e.g., "javascript", "python", "typescript")
-- `theme` (required) - The theme to use for the code block (import from "vuemail": dracula, nord, oneDark, vscDarkPlus, etc.)
+- `theme` (required) - The theme to use for the code block (import from "@vuemaildev/vuemail": dracula, nord, oneDark, vscDarkPlus, etc.)
 - `font-family` (optional) - The font family to use for the code block (e.g., "monospace")
 - `line-numbers` (optional) - Whether or not to automatically include line numbers on the rendered code block (boolean, default: false)
 
@@ -379,7 +379,7 @@ A Markdown component that converts markdown to valid email HTML.
 
 ```vue
 <script setup lang="ts">
-import { Html, Markdown } from 'vuemail';
+import { Html, Markdown } from '@vuemaildev/vuemail';
 
 const markdown = `# Hello, World!`;
 const strikethrough = `# This is a ~~strikethrough~~`;

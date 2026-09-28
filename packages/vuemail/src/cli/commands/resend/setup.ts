@@ -23,7 +23,7 @@ export async function resendSetup() {
       `${logSymbols.success} Resend integration successfully set up`,
     );
     console.info(
-      `You can always remove it with ${styleText('green', 'npx vuemail@latest resend reset')}`,
+      `You can always remove it with ${styleText('green', 'npx @vuemaildev/vuemail@latest resend reset')}`,
     );
   }
 }

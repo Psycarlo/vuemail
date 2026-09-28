@@ -19,7 +19,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface VercelInviteUserEmailProps {
   username?: string;

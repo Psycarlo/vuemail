@@ -20,7 +20,7 @@ let unrelatedPath: string;
 const writePart = (text: string) =>
   fs.writeFileSync(
     partPath,
-    `<script setup lang="ts">\nimport { Text } from 'vuemail';\n</script>\n\n<template>\n  <Text>${text}</Text>\n</template>\n`,
+    `<script setup lang="ts">\nimport { Text } from '@vuemaildev/vuemail';\n</script>\n\n<template>\n  <Text>${text}</Text>\n</template>\n`,
   );
 
 describe('createRenderingCache()', () => {
@@ -38,7 +38,7 @@ describe('createRenderingCache()', () => {
     unrelatedPath = path.join(scratchDirectory, 'other.vue');
     fs.writeFileSync(
       emailPath,
-      `<script setup lang="ts">\nimport { Html } from 'vuemail';\nimport Part from './part.vue';\n\ndefineOptions({ PreviewProps: {} });\n</script>\n\n<template>\n  <Html><Part /></Html>\n</template>\n`,
+      `<script setup lang="ts">\nimport { Html } from '@vuemaildev/vuemail';\nimport Part from './part.vue';\n\ndefineOptions({ PreviewProps: {} });\n</script>\n\n<template>\n  <Html><Part /></Html>\n</template>\n`,
     );
     writePart('First part');
     fs.writeFileSync(unrelatedPath, '<template><p>Other</p></template>\n');

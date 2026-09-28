@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3';
+import { EditorProvider } from '@vuemaildev/editor';
+import { StarterKit } from '@vuemaildev/editor/extensions';
 import { Columns2, Columns3, Columns4 } from 'lucide-vue-next';
-import { EditorProvider } from 'vuemail-editor';
-import { StarterKit } from 'vuemail-editor/extensions';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const extensions = [StarterKit];

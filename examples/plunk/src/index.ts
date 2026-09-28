@@ -1,5 +1,5 @@
 import plunkImport from '@plunk/node';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const Plunk = (

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ChainedCommands } from '@tiptap/core';
+import { useCurrentEditor, useEditorState } from '@vuemaildev/editor/core';
 import {
   AlignCenterIcon,
   AlignLeftIcon,
@@ -10,7 +11,6 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from 'lucide-vue-next';
-import { useCurrentEditor, useEditorState } from 'vuemail-editor/core';
 import { setTextAlignment } from '~/utils/home/editor';
 
 const { editor } = useCurrentEditor();

@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import { EmailParams, MailerSend, Recipient, Sender } from 'mailersend';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const mailerSend = new MailerSend({

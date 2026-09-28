@@ -17,7 +17,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import { barebonesBoxedTailwindConfig } from './theme';
 import BarebonesFonts from './theme-fonts.vue';
 import WelcomeBulletCell from './welcome-bullet-cell.vue';

@@ -52,7 +52,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const { name } = defineProps<{ name: string }>();
 
@@ -184,7 +184,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const { name } = defineProps<{ name: string }>();
 
@@ -238,7 +238,7 @@ const { t } = useI18n();
 the email, with the [`setupApp`](/utilities/render#installing-vue-plugins) option:
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 import { createEmailI18n } from './emails/i18n';
 
@@ -259,7 +259,7 @@ for emails that call `useI18n()`. To preview an email, have it create its own i1
 
 ```vue emails/welcome.vue
 <script setup lang="ts">
-import { Html, Preview } from 'vuemail';
+import { Html, Preview } from '@vuemaildev/vuemail';
 import { createEmailI18n } from './i18n';
 
 const { name, locale } = defineProps<{ name: string; locale: string }>();

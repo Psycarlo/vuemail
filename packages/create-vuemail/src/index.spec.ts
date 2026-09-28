@@ -11,7 +11,7 @@ const testPath = path.resolve(import.meta.dirname, '../.test');
 // Loaded into the CLI's process in place of the npm registry,
 // so that creating a project doesn't need the network
 const registryStub = `
-const registry = 'https://registry.npmjs.org/vuemail/';
+const registry = 'https://registry.npmjs.org/@vuemaildev/vuemail/';
 const versions = { latest: '1.2.3', canary: '1.3.0-canary.0' };
 globalThis.fetch = async (url) => {
   const tag = String(url).startsWith(registry)
@@ -78,10 +78,13 @@ describe('create-vuemail', () => {
     const templatePackageJson = await readPackageJson(templatePath);
     expect(await readPackageJson(starterPath)).toEqual({
       ...templatePackageJson,
-      dependencies: { ...templatePackageJson.dependencies, vuemail: '1.2.3' },
+      dependencies: {
+        ...templatePackageJson.dependencies,
+        '@vuemaildev/vuemail': '1.2.3',
+      },
       devDependencies: {
         ...templatePackageJson.devDependencies,
-        'vuemail-ui': '1.2.3',
+        '@vuemaildev/ui': '1.2.3',
       },
     });
   });
@@ -93,7 +96,9 @@ describe('create-vuemail', () => {
     const packageJson = await readPackageJson(
       path.join(testPath, 'canary-starter'),
     );
-    expect(packageJson.dependencies.vuemail).toBe('1.3.0-canary.0');
+    expect(packageJson.dependencies['@vuemaildev/vuemail']).toBe(
+      '1.3.0-canary.0',
+    );
   });
 
   test('fails when the project already exists', () => {
@@ -108,7 +113,7 @@ describe('create-vuemail', () => {
     const createProcess = createVuemail(['missing-starter', '--tag', 'nope']);
     expect(createProcess.status).toBe(1);
     expect(createProcess.stderr).toContain(
-      'Tag nope does not exist for vuemail.',
+      'Tag nope does not exist for @vuemaildev/vuemail.',
     );
   });
 });

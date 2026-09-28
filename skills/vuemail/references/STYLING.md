@@ -8,7 +8,7 @@ Use the `Tailwind` component for styling if the project uses Tailwind CSS. Other
 
 ```vue
 <script setup lang="ts">
-import { Tailwind, pixelBasedPreset, type TailwindConfig } from 'vuemail';
+import { Tailwind, pixelBasedPreset, type TailwindConfig } from '@vuemaildev/vuemail';
 
 const tailwindConfig = {
   presets: [pixelBasedPreset],
@@ -68,7 +68,7 @@ Without Tailwind, style components with `:style` objects, or with `style` string
 
 ```vue
 <script setup lang="ts">
-import { Button, Container, Text } from 'vuemail';
+import { Button, Container, Text } from '@vuemaildev/vuemail';
 
 const container = {
   backgroundColor: '#ffffff',
@@ -117,7 +117,7 @@ Vue leaves `<style>` tags out of templates, and the `<style>` blocks of single f
 ```vue
 <script setup lang="ts">
 import { h } from 'vue';
-import { Head } from 'vuemail';
+import { Head } from '@vuemaildev/vuemail';
 
 // Vue leaves <style> tags out of templates, so this one is rendered from here
 const FontImport = () =>
@@ -349,7 +349,7 @@ Create a centralized Tailwind config file that all email templates import. Using
 
 ```ts
 // emails/tailwind.config.ts
-import { pixelBasedPreset, type TailwindConfig } from 'vuemail';
+import { pixelBasedPreset, type TailwindConfig } from '@vuemaildev/vuemail';
 
 export default {
   presets: [pixelBasedPreset],
@@ -381,7 +381,7 @@ Import the shared config in every email template:
 
 ```vue
 <script setup lang="ts">
-import { Body, Button, Container, Img, Tailwind } from 'vuemail';
+import { Body, Button, Container, Img, Tailwind } from '@vuemaildev/vuemail';
 import tailwindConfig, { brandAssets } from './tailwind.config';
 </script>
 

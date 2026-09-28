@@ -1,4 +1,4 @@
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from '~~/emails/welcome.vue';
 
 export default defineEventHandler(async (event) => {

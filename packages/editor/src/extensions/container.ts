@@ -1,8 +1,8 @@
 import { mergeAttributes } from '@tiptap/core';
 import type { Node as PmNode } from '@tiptap/pm/model';
 import { type EditorState, Plugin, PluginKey } from '@tiptap/pm/state';
+import { Container as VuemailContainer } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Container as VuemailContainer } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import { hasCollaborationExtension } from '../utils/is-collaboration';
 import { inlineCssToJs } from '../utils/styles';

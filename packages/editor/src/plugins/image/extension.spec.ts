@@ -1,8 +1,8 @@
 import type { Editor, JSONContent } from '@tiptap/core';
 import type { NodeType } from '@tiptap/pm/model';
+import { render } from '@vuemaildev/vuemail';
 import { describe, expect, it, vi } from 'vitest';
 import { h, type VNodeChild } from 'vue';
-import { render } from 'vuemail';
 import { createImageExtension } from './extension';
 
 function renderToHtml(content: () => VNodeChild) {

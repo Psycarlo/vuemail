@@ -73,15 +73,15 @@ npm install -g pnpm
 
 Currently, we have the following packages:
 
-- [vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail)
+- [@vuemaildev/vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail)
     - The package for our [email CLI](/cli), and for all of our components
-- [vuemail-render](https://github.com/psycarlo/vuemail/tree/main/packages/render)
-    - The [render](/utilities/render) utility. Can also be imported from `vuemail`.
-- [vuemail-ui](https://github.com/psycarlo/vuemail/tree/main/packages/ui)
+- [@vuemaildev/render](https://github.com/psycarlo/vuemail/tree/main/packages/render)
+    - The [render](/utilities/render) utility. Can also be imported from `@vuemaildev/vuemail`.
+- [@vuemaildev/ui](https://github.com/psycarlo/vuemail/tree/main/packages/ui)
     - The preview app the CLI runs
-- [vuemail-editor](https://github.com/psycarlo/vuemail/tree/main/packages/editor)
+- [@vuemaildev/editor](https://github.com/psycarlo/vuemail/tree/main/packages/editor)
     - The embeddable [visual editor](/editor/overview) for composing emails
-- [vuemail-nuxt](https://github.com/psycarlo/vuemail/tree/main/packages/nuxt)
+- [@vuemaildev/nuxt](https://github.com/psycarlo/vuemail/tree/main/packages/nuxt)
     - The [Nuxt module](/getting-started/nuxt) that lets server routes render emails
 - [create-vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/create-vuemail)
     - Used for our [automatic setup](/getting-started/automatic-setup)
@@ -98,18 +98,18 @@ you are on as well as the dependent packages. The global installation handles [v
 The CLI is built using [commander](https://www.npmjs.com/package/commander), a CLI builder for node. It handles
 parsing of command line arguments and ensuring that the syntax for the command is as expected.
 
-The `dev`, `build`, `start` and `export` commands all depend on the user first installing `vuemail-ui`,
-in the same version as `vuemail`. The CLI loads it from the user's project, and when it's missing or its
+The `dev`, `build`, `start` and `export` commands all depend on the user first installing `@vuemaildev/ui`,
+in the same version as `@vuemaildev/vuemail`. The CLI loads it from the user's project, and when it's missing or its
 version doesn't match, it asks to install it, using [nypm](https://www.npmjs.com/package/nypm) to add it
 with the user's package manager.
 
 ### The Preview Server
 
-The Preview Server, `vuemail-ui`, has two sides:
+The Preview Server, `@vuemaildev/ui`, has two sides:
 
 - `src/node` is the server the CLI starts. It compiles the user's emails with [Vite](https://vite.dev) and
   `@vitejs/plugin-vue`, loading them with Vite's server-side module loader, and renders them with the
-  [render](/utilities/render) utility from the user's own `vuemail`. Vite's file watcher detects changes to
+  [render](/utilities/render) utility from the user's own `@vuemaildev/vuemail`. Vite's file watcher detects changes to
   the files the emails depend on, which the server sends to the browser as server-sent events.
 - `src/client` is the preview app itself, a Vue 3 single page app built with Vite, [vue-router](https://router.vuejs.org),
   [reka-ui](https://reka-ui.com) and Tailwind CSS 4.
@@ -127,7 +127,7 @@ We do not strictly enforce testing coverage, but encourage it.
 For help testing, see our [Development workflow guide](/contributing/development-workflow/2-running-tests).
 
 <Note>
-The tests of `vuemail-nuxt` build and start real Nuxt apps, so they take longer than the others.
+The tests of `@vuemaildev/nuxt` build and start real Nuxt apps, so they take longer than the others.
 </Note>
 
 ## Linting
@@ -138,11 +138,11 @@ For help linting and formatting, see our [Development workflow guide on linting]
 
 ## Building
 
-We use [tsdown](https://tsdown.dev) to build the packages. The preview app of `vuemail-ui` is built with
+We use [tsdown](https://tsdown.dev) to build the packages. The preview app of `@vuemaildev/ui` is built with
 [Vite](https://vite.dev). For help building packages, see our [Development workflow guide](/contributing/development-workflow/4-building).
 
 <Note>
-Building each package runs `tsdown` with the settings in its `tsdown.config.ts`. `vuemail` and `vuemail-render` are built as both ESM and CJS,
+Building each package runs `tsdown` with the settings in its `tsdown.config.ts`. `@vuemaildev/vuemail` and `@vuemaildev/render` are built as both ESM and CJS,
 along with the type definitions exported from the entry point, `src/index.ts`, without bundling `vue`, which can cause issues.
 </Note>
 

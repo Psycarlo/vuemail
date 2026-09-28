@@ -205,7 +205,7 @@ test('asks to connect to Resend without an API key', async () => {
   );
   expect(container.textContent).toContain('Connect to Resend');
   expect(container.querySelector('code')?.textContent).toBe(
-    'npx vuemail@latest resend setup',
+    'npx @vuemaildev/vuemail@latest resend setup',
   );
 });
 

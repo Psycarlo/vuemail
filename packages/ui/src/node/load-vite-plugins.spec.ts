@@ -76,7 +76,7 @@ describe('loadVitePlugins()', () => {
     fs.mkdirSync(emailsDirectory);
     fs.writeFileSync(
       path.join(emailsDirectory, 'greeting.vue'),
-      `<script setup lang="ts">\nimport { Html, Text } from 'vuemail';\nimport greeting from 'virtual:greeting';\n</script>\n\n<template>\n  <Html><Text>{{ greeting }}</Text></Html>\n</template>\n`,
+      `<script setup lang="ts">\nimport { Html, Text } from '@vuemaildev/vuemail';\nimport greeting from 'virtual:greeting';\n</script>\n\n<template>\n  <Html><Text>{{ greeting }}</Text></Html>\n</template>\n`,
     );
     writeModule('plugins.ts', `export default [${greetingPlugin}];`);
     process.chdir(projectDirectory);

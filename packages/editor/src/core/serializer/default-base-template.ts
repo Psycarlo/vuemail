@@ -1,5 +1,5 @@
+import { Body, Head, Html, Preview } from '@vuemaildev/vuemail';
 import { h, type VNodeChild } from 'vue';
-import { Body, Head, Html, Preview } from 'vuemail';
 import { DARK_MODE_CSS } from '../../utils/dark-mode';
 
 interface DefaultBaseTemplateProps {

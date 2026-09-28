@@ -9,7 +9,7 @@ import {
   Preview,
   Section,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const features = [
   'Manage up to 25 premium products',

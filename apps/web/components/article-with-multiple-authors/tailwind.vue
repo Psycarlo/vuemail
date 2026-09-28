@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { Column, Heading, Hr, Img, Link, Row, Section, Text } from 'vuemail';
+import {
+  Column,
+  Heading,
+  Hr,
+  Img,
+  Link,
+  Row,
+  Section,
+  Text,
+} from '@vuemaildev/vuemail';
 
 const authors = [
   {

@@ -1,8 +1,8 @@
 import type { JSONContent } from '@tiptap/core';
 import { Editor, Extension } from '@tiptap/core';
+import { render, Container as VuemailContainer } from '@vuemaildev/vuemail';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { h, type VNodeChild } from 'vue';
-import { render, Container as VuemailContainer } from 'vuemail';
 import { composeVueEmail } from '../core/serializer/compose-vue-email';
 import { EmailTheming } from '../plugins';
 import { DEFAULT_STYLES } from '../utils/default-styles';

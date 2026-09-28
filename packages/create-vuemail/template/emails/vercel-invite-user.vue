@@ -36,7 +36,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const {
   username,

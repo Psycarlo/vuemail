@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Used by welcome.vue. Upstream it's defined in that same file,
 // but in Vue each component needs a file of its own.
-import { Column, Text } from 'vuemail';
+import { Column, Text } from '@vuemaildev/vuemail';
 
 const { isLast } = defineProps<{ isLast?: boolean }>();
 </script>

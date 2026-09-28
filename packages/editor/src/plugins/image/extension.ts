@@ -1,5 +1,5 @@
+import { Img, Link } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Img, Link } from 'vuemail';
 import { EmailNode } from '../../core/serializer/email-node';
 import { createImageFileHandlerPlugin } from './file-handler';
 import type { UseEditorImageOptions } from './types';

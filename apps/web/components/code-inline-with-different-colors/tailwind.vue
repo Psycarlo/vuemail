@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CodeInline, Text } from 'vuemail';
+import { CodeInline, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -7,6 +7,6 @@ import { CodeInline, Text } from 'vuemail';
     Install the
     <CodeInline
       class="rounded-[6px] bg-green-300 px-[4px] py-[2px]"
-    >vuemail</CodeInline> package
+    >@vuemaildev/vuemail</CodeInline> package
   </Text>
 </template>

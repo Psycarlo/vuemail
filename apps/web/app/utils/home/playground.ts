@@ -3,7 +3,7 @@
 // `app/components/home/playground/CodeExample.vue`.
 
 export const playgroundTailwindCode = `<script setup lang="ts">
-import { Body, Button, Container, Head, Heading, Html, Img, Preview, Section, Tailwind, Text } from 'vuemail';
+import { Body, Button, Container, Head, Heading, Html, Img, Preview, Section, Tailwind, Text } from '@vuemaildev/vuemail';
 
 interface WelcomeEmailProps {
   username?: string;
@@ -63,7 +63,7 @@ const previewText = \`Welcome to \${company}, \${username}!\`;
 </template>`;
 
 export const playgroundCssCode = `<script setup lang="ts">
-import { Body, Button, Container, Head, Heading, Html, Img, Preview, Section, Text } from 'vuemail';
+import { Body, Button, Container, Head, Heading, Html, Img, Preview, Section, Text } from '@vuemaildev/vuemail';
 
 interface WelcomeEmailProps {
   username?: string;

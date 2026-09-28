@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html, Text } from 'vuemail';
+import { Html, Text } from '@vuemaildev/vuemail';
 
 const { name = 'there' } = defineProps<{ name?: string }>();
 

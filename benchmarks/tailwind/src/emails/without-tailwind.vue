@@ -12,7 +12,7 @@ import {
   Row,
   Section,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

@@ -2,8 +2,8 @@ import type { Editor } from '@tiptap/core';
 import { mergeAttributes } from '@tiptap/core';
 import type { LinkOptions as TipTapLinkOptions } from '@tiptap/extension-link';
 import TiptapLink from '@tiptap/extension-link';
+import { Link as VuemailLink } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Link as VuemailLink } from 'vuemail';
 import { editorEventBus } from '../core/event-bus';
 import { EmailMark } from '../core/serializer/email-mark';
 import {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3';
+import { Hr } from '@vuemaildev/vuemail';
 import { computed } from 'vue';
-import { Hr } from 'vuemail';
 import { inlineCssToJs } from '../utils/styles';
 
 const props = defineProps(nodeViewProps);

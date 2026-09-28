@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Heading, Text } from 'vuemail';
+import { Button, Heading, Text } from '@vuemaildev/vuemail';
 
 // Notes for future exploration on finding a way to do this inside of
 // Desktop Outlook:

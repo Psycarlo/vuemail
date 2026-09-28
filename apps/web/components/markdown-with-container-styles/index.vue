@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Markdown } from 'vuemail';
+import { Markdown } from '@vuemaildev/vuemail';
 
 const markdown = `## Hello, this is my email template
 

@@ -15,28 +15,28 @@ Install component from your command line.
 <CodeGroup>
 
 ```sh npm
-npm install vuemail -E
+npm install @vuemaildev/vuemail -E
 ```
 
 ```sh yarn
-yarn add vuemail -E
+yarn add @vuemaildev/vuemail -E
 ```
 
 ```sh pnpm
-pnpm add vuemail -E
+pnpm add @vuemaildev/vuemail -E
 ```
 
 </CodeGroup>
 
 ## Getting started
 
-<Info>This component uses Tailwind CSS 4, which comes with `vuemail`.</Info>
+<Info>This component uses Tailwind CSS 4, which comes with `@vuemaildev/vuemail`.</Info>
 
 Add the component around your email body content.
 
 ```vue
 <script setup lang="ts">
-import { Button, pixelBasedPreset, Tailwind, type TailwindConfig } from 'vuemail';
+import { Button, pixelBasedPreset, Tailwind, type TailwindConfig } from '@vuemaildev/vuemail';
 
 const config: TailwindConfig = {
   presets: [pixelBasedPreset],
@@ -95,7 +95,7 @@ own utilities with the `utility` prop:
 
 ```vue
 <script setup lang="ts">
-import { Section, Tailwind, Text } from 'vuemail';
+import { Section, Tailwind, Text } from '@vuemaildev/vuemail';
 
 const theme = `
 @theme {
@@ -132,7 +132,7 @@ Outlook fallbacks from the padding, use `useTailwind()`. Outside of `Tailwind`, 
 
 ```ts badge.ts
 import { defineComponent, h } from 'vue';
-import { styleToString, useTailwind } from 'vuemail';
+import { styleToString, useTailwind } from '@vuemaildev/vuemail';
 
 export const Badge = defineComponent((_, { attrs, slots }) => {
   const resolveTailwind = useTailwind();

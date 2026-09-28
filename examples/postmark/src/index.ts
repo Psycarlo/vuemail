@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import postmark from 'postmark';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const client = new postmark.ServerClient(process.env.POSTMARK_API_KEY || '');

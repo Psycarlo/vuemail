@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DecorationWithType } from '@tiptap/core';
 import { NodeViewContent, NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3';
+import { Heading as EmailHeading, type HeadingAs } from '@vuemaildev/vuemail';
 import { computed } from 'vue';
-import { Heading as EmailHeading, type HeadingAs } from 'vuemail';
 import { inlineCssToJs } from '../utils/styles';
 
 const props = defineProps(nodeViewProps);

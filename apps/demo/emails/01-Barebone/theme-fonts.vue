@@ -4,8 +4,9 @@
  * Many webmail clients strip `@import`; the `<Font>` entries below register 400 / 500 / 600
  * static files as a fallback when the import does not run.
  */
+
+import { Font } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Font } from 'vuemail';
 
 // Vue leaves <style> tags out of templates, so this one is rendered from here
 const InterImport = () =>

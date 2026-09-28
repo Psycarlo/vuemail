@@ -15,7 +15,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import tailwindConfig from '../../tailwind.config';
 
 const baseUrl = process.env.VERCEL_URL

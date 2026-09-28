@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Font } from 'vuemail';
+import { Font } from '@vuemaildev/vuemail';
 </script>
 
 <template>

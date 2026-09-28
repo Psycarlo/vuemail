@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>

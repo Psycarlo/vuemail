@@ -4,20 +4,20 @@ import type {
   TailwindCssProp,
 } from './get-used-source-features';
 
-type Vuemail = typeof import('vuemail');
+type Vuemail = typeof import('@vuemaildev/vuemail');
 
 const cssPropCode = (prop: TailwindCssProp | undefined) =>
   prop && 'code' in prop ? prop.code : 'undefined';
 
 /**
  * Sets Tailwind up with what an email gives `<Tailwind>`, running the code
- * of its props next to it, with the `vuemail` the email renders with. What
+ * of its props next to it, with the `@vuemaildev/vuemail` the email renders with. What
  * can't run on its own is left out, with a warning, as upstream does.
  */
 export const createTailwindSetup =
   (loader: EmailLoader, emailPath: string): SetupTailwind =>
   async ({ imports, config, theme, utility }, candidates) => {
-    const vuemail = await loader.load<Vuemail>('vuemail');
+    const vuemail = await loader.load<Vuemail>('@vuemaildev/vuemail');
     const evaluate = (code: string) =>
       loader.evaluate(
         `${imports.join('\n')}\nexport default (${code});`,

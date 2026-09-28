@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import { test } from 'vitest';
-import { render } from 'vuemail';
 import EmailWithTailwind from './emails/with-tailwind.vue';
 import EmailWithoutTailwind from './emails/without-tailwind.vue';
 

@@ -1,8 +1,8 @@
 import { generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
+import { dracula, render } from '@vuemaildev/vuemail';
 import { describe, expect, it } from 'vitest';
 import { h, type VNodeChild } from 'vue';
-import { dracula, render } from 'vuemail';
 import { DEFAULT_STYLES } from '../utils/default-styles';
 import { CodeBlockPrism } from './code-block';
 import { StyleAttribute } from './style-attribute';

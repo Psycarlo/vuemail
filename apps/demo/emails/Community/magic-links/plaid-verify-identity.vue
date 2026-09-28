@@ -13,7 +13,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import tailwindConfig from '../../tailwind.config';
 
 interface PlaidVerifyIdentityEmailProps {

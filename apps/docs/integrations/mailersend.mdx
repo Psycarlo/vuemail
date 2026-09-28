@@ -7,20 +7,20 @@ description: 'Learn how to send an email using Vuemail and the MailerSend Node.j
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [MailerSend Node.js SDK](https://www.npmjs.com/package/mailersend).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [MailerSend Node.js SDK](https://www.npmjs.com/package/mailersend).
 
 <CodeGroup>
 
 ```sh npm
-npm install mailersend vuemail
+npm install mailersend @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add mailersend vuemail
+yarn add mailersend @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add mailersend vuemail
+pnpm add mailersend @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -31,7 +31,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -48,7 +48,7 @@ const { url } = defineProps<{ url: string }>();
 Import the email template you just built, convert into an HTML string, and use the MailerSend SDK to send it.
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 import Email from './email.vue';
 

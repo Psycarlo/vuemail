@@ -18,8 +18,8 @@
     "@tailwindcss/vite": "catalog:",
     "@tiptap/core": "catalog:",
     "@tiptap/vue-3": "catalog:",
-    "vuemail-editor": "workspace:*",
-    "vuemail-nuxt": "workspace:*",
+    "@vuemaildev/editor": "workspace:*",
+    "@vuemaildev/nuxt": "workspace:*",
     "@vueuse/core": "^15.0.0",
     "lucide-vue-next": "^1.0.0",
     "motion-v": "^2.4.4",
@@ -33,7 +33,7 @@
     "vue": "catalog:",
     "vue-router": "^4.6.3",
     "vue-sonner": "^2.0.9",
-    "vuemail": "workspace:*",
+    "@vuemaildev/vuemail": "workspace:*",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "@types/prismjs": "1.26.6",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-vue": "catalog:",
-    "vuemail-ui": "workspace:*",
+    "@vuemaildev/ui": "workspace:*",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vue-tsc": "catalog:"

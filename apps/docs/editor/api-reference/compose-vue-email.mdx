@@ -13,7 +13,7 @@ template, and produces both HTML and plain text output.
 ## Import
 
 ```ts
-import { composeVueEmail } from 'vuemail-editor/core';
+import { composeVueEmail } from '@vuemaildev/editor/core';
 ```
 
 ## Signature
@@ -159,7 +159,7 @@ default — it adds theme-specific body/container styles and can inject global C
 ### 7. Render to HTML and plain text
 
 The VNodes are rendered to an HTML string using the [`render()`](/utilities/render) function
-of `vuemail`. Both the formatted HTML and a plain text version (tags stripped, text preserved)
+of `@vuemaildev/vuemail`. Both the formatted HTML and a plain text version (tags stripped, text preserved)
 are then produced in parallel from that HTML.
 
 ---
@@ -169,7 +169,7 @@ are then produced in parallel from that HTML.
 ### Basic export
 
 ```ts
-import { composeVueEmail } from 'vuemail-editor/core';
+import { composeVueEmail } from '@vuemaildev/editor/core';
 
 const { html, text } = await composeVueEmail({ editor });
 ```
@@ -194,8 +194,8 @@ When the [`EmailTheming`](/editor/features/theming) extension is in your extensi
 theme styles are automatically inlined into every node during export:
 
 ```ts
-import { StarterKit } from 'vuemail-editor/extensions';
-import { EmailTheming } from 'vuemail-editor/plugins';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { EmailTheming } from '@vuemaildev/editor/plugins';
 
 const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
 
@@ -207,7 +207,7 @@ const { html } = await composeVueEmail({ editor });
 
 ```vue export-panel.vue
 <script setup lang="ts">
-import { composeVueEmail, useCurrentEditor } from 'vuemail-editor/core';
+import { composeVueEmail, useCurrentEditor } from '@vuemaildev/editor/core';
 import { ref } from 'vue';
 
 const { editor } = useCurrentEditor();

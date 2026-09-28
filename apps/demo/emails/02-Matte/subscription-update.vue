@@ -16,7 +16,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import CollageFonts from './collage-fonts.vue';
 import { collageTailwindConfig } from './theme';
 

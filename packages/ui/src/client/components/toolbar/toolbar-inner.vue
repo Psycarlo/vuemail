@@ -460,7 +460,7 @@ const toggle = () => {
             />
             <ToolbarSuccessState v-else title="Connect to Resend" wide>
               Run
-              <CodeSnippet>npx vuemail@latest resend setup</CodeSnippet>
+              <CodeSnippet>npx @vuemaildev/vuemail@latest resend setup</CodeSnippet>
               <br />
               on your terminal to connect your Resend account.
             </ToolbarSuccessState>

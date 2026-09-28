@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { $fetch, setup } from '@nuxt/test-utils/e2e';
 
-describe('vuemail-nuxt', async () => {
+describe('@vuemaildev/nuxt', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('./fixtures/basic', import.meta.url)),
   });

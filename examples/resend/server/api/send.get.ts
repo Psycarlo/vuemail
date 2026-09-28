@@ -1,4 +1,4 @@
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WaitlistEmail from '~~/emails/waitlist.vue';
 
 export default defineEventHandler(async () => {

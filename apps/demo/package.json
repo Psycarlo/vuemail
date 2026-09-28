@@ -14,12 +14,12 @@
   "dependencies": {
     "tailwindcss": "catalog:",
     "vue": "catalog:",
-    "vuemail": "workspace:*"
+    "@vuemaildev/vuemail": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "vuemail-ui": "workspace:*",
+    "@vuemaildev/ui": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "catalog:",
     "vitest": "catalog:",

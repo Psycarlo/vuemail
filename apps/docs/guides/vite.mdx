@@ -29,7 +29,7 @@ show up in `email dev` right away.
 
 ```vue emails/welcome.vue
 <script setup lang="ts">
-import { Body, Html, Tailwind, Text } from 'vuemail';
+import { Body, Html, Tailwind, Text } from '@vuemaildev/vuemail';
 import Footer from '@/emails/_components/footer.vue';
 import messages from '../messages/en.json';
 import theme from './theme.css?raw';
@@ -62,11 +62,11 @@ turning off `transformAssetUrls`.
 
 <Tabs>
   <Tab title="Nuxt">
-    Add the `vuemail-nuxt` module, and import emails from your server routes. See [Nuxt](/getting-started/nuxt).
+    Add the `@vuemaildev/nuxt` module, and import emails from your server routes. See [Nuxt](/getting-started/nuxt).
 
     ```ts nuxt.config.ts
     export default defineNuxtConfig({
-      modules: ['vuemail-nuxt'],
+      modules: ['@vuemaildev/nuxt'],
     });
     ```
   </Tab>

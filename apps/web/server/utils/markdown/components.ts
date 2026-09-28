@@ -48,7 +48,7 @@ export const categoryMarkdown = (
     '',
     `Web: ${categoryUrl(category)}`,
     '',
-    'Paste any snippet into an email built with Vuemail. The snippets are single file components that use the primitives from `vuemail`.',
+    'Paste any snippet into an email built with Vuemail. The snippets are single file components that use the primitives from `@vuemaildev/vuemail`.',
     '',
   ];
 

@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
+
+import { render } from '@vuemaildev/vuemail';
 import { describe, expect, it } from 'vitest';
 import { type Component, h } from 'vue';
-import { render } from 'vuemail';
 import Layout from './_components/layout.vue';
 import { componentsStructure } from './structure';
 

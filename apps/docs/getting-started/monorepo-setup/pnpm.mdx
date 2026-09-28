@@ -15,8 +15,8 @@ in there setup a new `package.json` and do not forget to add this to your `pnpm-
 Install Vuemail in the `transactional` workspace.
 
 ```sh packages/transactional
-pnpm add vuemail-ui -D -E
-pnpm add vuemail vue -E
+pnpm add @vuemaildev/ui -D -E
+pnpm add @vuemaildev/vuemail vue -E
 ```
 
 ## 3. Add scripts
@@ -39,7 +39,7 @@ Create a new folder called `emails`, create a file inside called `email.vue` and
 
 ```vue packages/transactional/emails/email.vue
 <script setup lang="ts">
-import { Body, Button, Head, Html } from 'vuemail';
+import { Body, Button, Head, Html } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -77,4 +77,4 @@ Visit [localhost:3000](http://localhost:3000) and edit the `emails/email.vue` fi
 
 Other workspaces can depend on `transactional` and import its emails to render them. Importing
 `.vue` files takes a bundler that compiles them, like [Nuxt](/getting-started/nuxt) with the
-`vuemail-nuxt` module. See [compiling emails](/guides/vite) for the options.
+`@vuemaildev/nuxt` module. See [compiling emails](/guides/vite) for the options.

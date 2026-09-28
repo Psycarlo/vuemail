@@ -7,7 +7,7 @@ const description =
 const cover = 'https://vuemail.dev/static/covers/vuemail.png';
 
 export default defineNuxtConfig({
-  modules: ['vuemail-nuxt'],
+  modules: ['@vuemaildev/nuxt'],
   css: ['~/assets/css/globals.css'],
   vite: {
     plugins: [tailwindcss()],
@@ -63,7 +63,7 @@ export default defineNuxtConfig({
               logo: cover,
               sameAs: [
                 'https://github.com/psycarlo/vuemail',
-                'https://www.npmjs.com/package/vuemail',
+                'https://www.npmjs.com/package/@vuemaildev/vuemail',
               ],
             },
             {

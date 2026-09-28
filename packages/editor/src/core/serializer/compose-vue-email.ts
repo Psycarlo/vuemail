@@ -1,7 +1,7 @@
 import type { Editor, JSONContent } from '@tiptap/core';
 import type { MarkType, Schema } from '@tiptap/pm/model';
+import { pretty, render, toPlainText } from '@vuemaildev/vuemail';
 import { h, type VNodeChild } from 'vue';
-import { pretty, render, toPlainText } from 'vuemail';
 import { inlineCssToJs } from '../../utils/styles';
 import { DefaultBaseTemplate } from './default-base-template';
 import { EmailMark } from './email-mark';

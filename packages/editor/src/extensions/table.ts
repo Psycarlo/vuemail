@@ -1,7 +1,7 @@
 import type { ParentConfig } from '@tiptap/core';
 import { mergeAttributes } from '@tiptap/core';
+import { Column } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Column } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import {
   COMMON_HTML_ATTRIBUTES,

@@ -1,5 +1,5 @@
+import { pretty, render } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { pretty, render } from 'vuemail';
 import { loadLayout, variants } from '#gallery';
 import {
   type Category,

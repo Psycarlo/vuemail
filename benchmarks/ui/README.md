@@ -1,4 +1,4 @@
-# Benchmarks for the preview app (`vuemail-ui`)
+# Benchmarks for the preview app (`@vuemaildev/ui`)
 
 A collection of [`tinybench`](https://github.com/tinylibs/tinybench) benchmarks that start the
 `vuemail dev` preview server as a subprocess and measure how long it takes to render an email
@@ -29,8 +29,8 @@ endpoint directly with the slug of an email under `apps/demo/emails`
 - `email-previews.ts` starts a single server once, then measures repeated renders against the
   already warmed-up server ("hot" previews).
 
-The CLI is resolved from the workspace `vuemail` package's built output
-(`packages/vuemail/dist/cli/index.mjs`), so `pnpm --filter vuemail build` must have run at least
+The CLI is resolved from the workspace `@vuemaildev/vuemail` package's built output
+(`packages/vuemail/dist/cli/index.mjs`), so `pnpm --filter @vuemaildev/vuemail build` must have run at least
 once before these benchmarks work.
 
 ## Running benchmarks

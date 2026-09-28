@@ -10,11 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "vuemail-nuxt": "0.1.0",
+    "@vuemaildev/nuxt": "0.1.0",
     "nuxt": "4.5.2",
     "@scaleway/sdk": "1.42.0",
     "vue": "3.5.43",
-    "vuemail": "0.1.0"
+    "@vuemaildev/vuemail": "0.1.0"
   },
   "devDependencies": {
     "typescript": "5.9.3"

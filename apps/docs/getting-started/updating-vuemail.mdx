@@ -10,38 +10,38 @@ import NextSteps from '/snippets/next-steps.mdx';
 
 ## Update the packages
 
-`vuemail` and `vuemail-ui` are released together, and the CLI only runs the preview app when both
+`@vuemaildev/vuemail` and `@vuemaildev/ui` are released together, and the CLI only runs the preview app when both
 are in the same version, so always update them at once:
 
 <CodeGroup>
 
 ```sh npm
-npm install vuemail@latest
-npm install vuemail-ui@latest -D
+npm install @vuemaildev/vuemail@latest
+npm install @vuemaildev/ui@latest -D
 ```
 
 ```sh yarn
-yarn add vuemail@latest
-yarn add vuemail-ui@latest -D
+yarn add @vuemaildev/vuemail@latest
+yarn add @vuemaildev/ui@latest -D
 ```
 
 ```sh pnpm
-pnpm add vuemail@latest
-pnpm add vuemail-ui@latest -D
+pnpm add @vuemaildev/vuemail@latest
+pnpm add @vuemaildev/ui@latest -D
 ```
 
 ```sh bun
-bun add vuemail@latest
-bun add vuemail-ui@latest -D
+bun add @vuemaildev/vuemail@latest
+bun add @vuemaildev/ui@latest -D
 ```
 
 </CodeGroup>
 
-If you use them, update `vuemail-nuxt`, `vuemail-editor` and `vuemail-render` too.
+If you use them, update `@vuemaildev/nuxt`, `@vuemaildev/editor` and `@vuemaildev/render` too.
 
 <Info>
-  `vuemail` includes everything in `vuemail-render`, so you only need `vuemail-render` when you want
-  the render utility on its own. The editor, `vuemail-editor`, and the preview app, `vuemail-ui`,
+  `@vuemaildev/vuemail` includes everything in `@vuemaildev/render`, so you only need `@vuemaildev/render` when you want
+  the render utility on its own. The editor, `@vuemaildev/editor`, and the preview app, `@vuemaildev/ui`,
   are separate packages.
 </Info>
 

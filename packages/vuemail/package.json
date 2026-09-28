@@ -1,5 +1,5 @@
 {
-  "name": "vuemail",
+  "name": "@vuemaildev/vuemail",
   "version": "0.1.0",
   "description": "Build and send emails using Vue. Components, rendering and a live preview of your emails right in your browser.",
   "bin": {
@@ -55,7 +55,7 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "vuemail-render": "workspace:*",
+    "@vuemaildev/render": "workspace:*",
     "commander": "catalog:",
     "conf": "^15.0.2",
     "css-tree": "3.2.1",

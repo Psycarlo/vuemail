@@ -12,15 +12,15 @@ Import `useEditorImage`, add the returned extension to your editor, register
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from 'vuemail-editor';
-import { StarterKit } from 'vuemail-editor/extensions';
-import { imageSlashCommand, useEditorImage } from 'vuemail-editor/plugins';
+import { EditorProvider } from '@vuemaildev/editor';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { imageSlashCommand, useEditorImage } from '@vuemaildev/editor/plugins';
 import {
   BubbleMenu,
   defaultSlashCommands,
   SlashCommand,
-} from 'vuemail-editor/ui';
-import 'vuemail-editor/themes/default.css';
+} from '@vuemaildev/editor/ui';
+import '@vuemaildev/editor/themes/default.css';
 
 async function uploadImage(file: File) {
   const url = await uploadToStorage(file);
@@ -68,7 +68,7 @@ don't need direct access to the extension or slash command list:
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor } from 'vuemail-editor';
+import { EmailEditor } from '@vuemaildev/editor';
 
 async function uploadImage(file: File) {
   return { url: await uploadToStorage(file) };

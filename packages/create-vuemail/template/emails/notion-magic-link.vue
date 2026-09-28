@@ -9,7 +9,7 @@ import {
   Link,
   Preview,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface NotionMagicLinkEmailProps {
   loginCode?: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Column, Img, Row, Section } from 'vuemail';
+import { Column, Img, Row, Section } from '@vuemaildev/vuemail';
 </script>
 
 <template>

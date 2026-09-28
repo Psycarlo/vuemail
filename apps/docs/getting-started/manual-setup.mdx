@@ -17,30 +17,30 @@ Install the Vuemail packages locally.
 <CodeGroup>
 
 ```sh npm
-npm install vuemail-ui -D -E
-npm install vuemail vue -E
+npm install @vuemaildev/ui -D -E
+npm install @vuemaildev/vuemail vue -E
 ```
 
 ```sh yarn
-yarn add vuemail-ui -D -E
-yarn add vuemail vue -E
+yarn add @vuemaildev/ui -D -E
+yarn add @vuemaildev/vuemail vue -E
 ```
 
 ```sh pnpm
-pnpm add vuemail-ui -D -E
-pnpm add vuemail vue -E
+pnpm add @vuemaildev/ui -D -E
+pnpm add @vuemaildev/vuemail vue -E
 ```
 
 ```sh bun
-bun add vuemail-ui -D -E
-bun add vuemail vue -E
+bun add @vuemaildev/ui -D -E
+bun add @vuemaildev/vuemail vue -E
 ```
 
 </CodeGroup>
 
 <Info>
-  Vuemail requires Node.js 20.19 or higher and Vue 3.4 or higher. `vuemail-ui` is the preview app,
-  and it needs to be installed in the same version as `vuemail`.
+  Vuemail requires Node.js 20.19 or higher and Vue 3.4 or higher. `@vuemaildev/ui` is the preview app,
+  and it needs to be installed in the same version as `@vuemaildev/vuemail`.
 </Info>
 
 ## 2. Add scripts
@@ -61,7 +61,7 @@ Create a new folder called `emails`, create a file inside called `email.vue`, an
 
 ```vue emails/email.vue
 <script setup lang="ts">
-import { Body, Button, Head, Html } from 'vuemail';
+import { Body, Button, Head, Html } from '@vuemaildev/vuemail';
 </script>
 
 <template>

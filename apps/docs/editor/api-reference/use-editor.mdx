@@ -18,7 +18,7 @@ import {
   provideCurrentEditor,
   useCurrentEditor,
   useEditorState,
-} from 'vuemail-editor/core';
+} from '@vuemaildev/editor/core';
 ```
 
 ## Parameters
@@ -103,7 +103,7 @@ state isn't reactive, so a `computed` that reads it directly would never update.
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor } from 'vuemail-editor/core';
+import { useCurrentEditor } from '@vuemaildev/editor/core';
 
 const { editor } = useCurrentEditor();
 </script>
@@ -121,7 +121,7 @@ Select the state your component renders with `useEditorState`, so that it update
 
 ```vue toolbar.vue
 <script setup lang="ts">
-import { useCurrentEditor, useEditorState } from 'vuemail-editor/core';
+import { useCurrentEditor, useEditorState } from '@vuemaildev/editor/core';
 
 const { editor } = useCurrentEditor();
 
@@ -158,7 +158,7 @@ const state = useEditorState({
 
 Use `useEditor` from `@tiptap/vue-3` directly when you need more control than `EditorProvider` offers,
 like the editor instance in the same component that creates it, and make it available to the UI
-components of `vuemail-editor` with `provideCurrentEditor`:
+components of `@vuemaildev/editor` with `provideCurrentEditor`:
 
 ```vue
 <script setup lang="ts">
@@ -166,9 +166,9 @@ import {
   isDocumentVisuallyEmpty,
   provideCurrentEditor,
   useEditorState,
-} from 'vuemail-editor/core';
-import { StarterKit } from 'vuemail-editor/extensions';
-import { BubbleMenu } from 'vuemail-editor/ui';
+} from '@vuemaildev/editor/core';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { BubbleMenu } from '@vuemaildev/editor/ui';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 
 const editor = useEditor({

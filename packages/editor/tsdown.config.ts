@@ -15,6 +15,11 @@ export default defineConfig({
   plugins: [vue({ isProduction: true })],
   dts: { vue: true },
   deps: {
-    neverBundle: [/^vue($|\/)/, /^vuemail($|\/)/, /^@tiptap\//, /^reka-ui/],
+    neverBundle: [
+      /^vue($|\/)/,
+      /^@vuemaildev\/vuemail($|\/)/,
+      /^@tiptap\//,
+      /^reka-ui/,
+    ],
   },
 });

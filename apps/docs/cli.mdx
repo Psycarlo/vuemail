@@ -6,11 +6,11 @@ description: "After installing the Vuemail package (or cloning a starter), you c
 icon: "square-terminal"
 ---
 
-The `vuemail` package installs the CLI as both `email` and `vuemail`, so `npx email dev` and `npx vuemail dev` run the same command.
+The `@vuemaildev/vuemail` package installs the CLI as both `email` and `vuemail`, so `npx email dev` and `npx vuemail dev` run the same command.
 
 <Note>
   `email dev`, `email build`, `email start` and `email export` run on the preview app,
-  `vuemail-ui`, which needs to be installed as a dev dependency in the same version as `vuemail`.
+  `@vuemaildev/ui`, which needs to be installed as a dev dependency in the same version as `@vuemaildev/vuemail`.
   If it's missing, or its version doesn't match, the CLI offers to install it for you.
 </Note>
 
@@ -60,7 +60,7 @@ your email template when you make changes.
 
     ```vue
     <script setup lang="ts">
-    import { Html, Img } from 'vuemail';
+    import { Html, Img } from '@vuemaildev/vuemail';
     </script>
 
     <template>
@@ -81,7 +81,7 @@ your email template when you make changes.
 
         ```vue
         <script setup lang="ts">
-        import { Html, Img } from 'vuemail';
+        import { Html, Img } from '@vuemaildev/vuemail';
 
         const baseURL = process.env.NODE_ENV === 'production' ? 'https://cdn.com' : '';
         </script>
@@ -105,7 +105,7 @@ your email template when you make changes.
 
     ```vue Email template
     <script setup lang="ts">
-    import { Html, Link } from 'vuemail';
+    import { Html, Link } from '@vuemaildev/vuemail';
 
     const { source } = defineProps<{ source: string }>();
 
@@ -127,7 +127,7 @@ your email template when you make changes.
     So, in a nutshell, it will render the same as if you were to do:
 
     ```ts Another file
-    import { render } from 'vuemail';
+    import { render } from '@vuemaildev/vuemail';
     import Email from './path-to-my-email.vue';
 
     await render(Email, Email.PreviewProps);

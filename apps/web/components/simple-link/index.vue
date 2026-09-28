@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link } from 'vuemail';
+import { Link } from '@vuemaildev/vuemail';
 </script>
 
 <template>

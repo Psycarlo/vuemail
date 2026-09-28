@@ -12,21 +12,21 @@ Install package from your command line.
 <CodeGroup>
 
 ```sh npm
-npm install vuemail -E
+npm install @vuemaildev/vuemail -E
 ```
 
 ```sh yarn
-yarn add vuemail -E
+yarn add @vuemaildev/vuemail -E
 ```
 
 ```sh pnpm
-pnpm add vuemail -E
+pnpm add @vuemaildev/vuemail -E
 ```
 
 </CodeGroup>
 
 <Info>
-  `render` is also published on its own as `vuemail-render`, for when you only need the render utility.
+  `render` is also published on its own as `@vuemaildev/render`, for when you only need the render utility.
   Both packages export the same functions.
 </Info>
 
@@ -36,7 +36,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Hr, Html, Text } from 'vuemail';
+import { Button, Hr, Html, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -55,7 +55,7 @@ Import an existing Vue component and convert into a HTML string.
 <Info>You can use the `pretty` function to beautify the output.</Info>
 
 ```ts
-import { pretty, render } from 'vuemail';
+import { pretty, render } from '@vuemaildev/vuemail';
 import MyTemplate from './email.vue';
 
 const html = await pretty(await render(MyTemplate));
@@ -94,7 +94,7 @@ This will generate the following output:
 The second argument of `render` are the props of the email:
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const html = await render(WelcomeEmail, { firstName: 'Jim' });
@@ -104,7 +104,7 @@ const html = await render(WelcomeEmail, { firstName: 'Jim' });
 
 ```ts
 import { h } from 'vue';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const html = await render(h(WelcomeEmail, { firstName: 'Jim' }), { pretty: true });
@@ -124,7 +124,7 @@ This is important because not all email clients and devices can display HTML ema
 Here's how to convert a Vue component into plain text.
 
 ```ts
-import { render, toPlainText } from 'vuemail';
+import { render, toPlainText } from '@vuemaildev/vuemail';
 import MyTemplate from './email.vue';
 
 const html = await render(MyTemplate);
@@ -151,7 +151,7 @@ Add `data-skip-in-text="true"` to an element to exclude the element and its cont
 
 ```vue
 <script setup lang="ts">
-import { Html, Section, Text } from 'vuemail';
+import { Html, Section, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -177,7 +177,7 @@ This content appears in both outputs.
 application before it renders:
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import { createI18n } from 'vue-i18n';
 import WelcomeEmail from './emails/welcome.vue';
 

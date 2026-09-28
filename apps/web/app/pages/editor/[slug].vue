@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import 'vuemail-editor/themes/default.css';
+import '@vuemaildev/editor/themes/default.css';
 import '~/assets/css/editor-overrides.css';
 import type { Component } from 'vue';
 

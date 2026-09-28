@@ -7,20 +7,20 @@ description: 'Learn how to send an email using Vuemail and the Azure Communicati
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Azure Communication Email SDK](https://www.npmjs.com/package/@azure/communication-email).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [Azure Communication Email SDK](https://www.npmjs.com/package/@azure/communication-email).
 
 <CodeGroup>
 
 ```sh npm
-npm install @azure/communication-email vuemail
+npm install @azure/communication-email @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add @azure/communication-email vuemail
+yarn add @azure/communication-email @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add @azure/communication-email vuemail
+pnpm add @azure/communication-email @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -31,7 +31,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -49,7 +49,7 @@ Import the email template you just built, convert into an HTML string, and use t
 
 ```ts
 import { EmailClient } from '@azure/communication-email';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const client = new EmailClient(process.env.AZURE_EMAIL_CONNECTION_STRING);

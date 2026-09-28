@@ -17,7 +17,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import BulletCell from './bullet-cell.vue';
 import NumberedStep from './numbered-step.vue';
 import { barebonesBoxedTailwindConfig } from './theme';

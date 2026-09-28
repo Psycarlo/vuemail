@@ -109,7 +109,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import en from '../messages/en/welcome-email.json';
 
 interface WelcomeEmailMessages {
@@ -173,7 +173,7 @@ defineOptions({
 When calling the email template, load the messages for the recipient's locale and pass them to the email.
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const locale = 'es';

@@ -4,14 +4,14 @@ General guidelines for sending emails with Vuemail.
 
 Important: Use verified domains in `from` addresses. Ask the user for the verified domain and use it in the `from` address. If the user does not have a verified domain, ask them to verify one with their email service provider.
 
-Every provider takes the email as HTML: render it with `render` from `vuemail`, and render the plain text version with `{ plainText: true }`.
+Every provider takes the email as HTML: render it with `render` from `@vuemaildev/vuemail`, and render the plain text version with `{ plainText: true }`.
 
 ## Send with Resend (Recommended)
 
 When you have access to the Resend MCP tool:
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const props = { name: 'John', verificationUrl: 'https://example.com/verify' };
@@ -33,7 +33,7 @@ If no MCP tool is available, you can use the Resend SDK for Node.js to send the 
 
 ```ts
 import { Resend } from 'resend';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -57,16 +57,16 @@ The `react` option of the SDK only takes React elements, so Vuemail emails are a
 
 ## Send from Nuxt Server Routes
 
-Nitro, the server of Nuxt, needs the `vuemail-nuxt` module to import emails written as Vue single file components:
+Nitro, the server of Nuxt, needs the `@vuemaildev/nuxt` module to import emails written as Vue single file components:
 
 ```sh
-npm i vuemail vuemail-nuxt resend
+npm i @vuemaildev/vuemail @vuemaildev/nuxt resend
 ```
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['vuemail-nuxt'],
+  modules: ['@vuemaildev/nuxt'],
 });
 ```
 
@@ -75,7 +75,7 @@ Keep the emails in an `emails` directory at the root of the project, so that bot
 ```ts
 // server/api/send.post.ts
 import { Resend } from 'resend';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from '~~/emails/welcome.vue';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -135,7 +135,7 @@ declare module '*.vue' {
 If preferred, you can upload the email as a template to Resend, which can be used to send emails with the Resend SDK for Node.js:
 
 ```bash
-npx vuemail@latest resend setup
+npx @vuemaildev/vuemail@latest resend setup
 ```
 
 This will require the user to provide a Resend API key in the terminal.
@@ -161,7 +161,7 @@ await resend.emails.send({
 
 ```ts
 import nodemailer from 'nodemailer';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const transporter = nodemailer.createTransport({
@@ -188,7 +188,7 @@ await transporter.sendMail({
 ```ts
 import FormData from 'form-data';
 import Mailgun from 'mailgun.js';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const mailgun = new Mailgun(FormData);
@@ -214,7 +214,7 @@ await client.messages.create(process.env.MAILGUN_DOMAIN || '', {
 
 ```ts
 import sgMail from '@sendgrid/mail';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');

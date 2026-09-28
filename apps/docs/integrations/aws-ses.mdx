@@ -7,20 +7,20 @@ description: 'Learn how to send an email using Vuemail and the AWS SES Node.js S
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [AWS SES Node.js SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [AWS SES Node.js SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/).
 
 <CodeGroup>
 
 ```sh npm
-npm install @aws-sdk/client-ses vuemail
+npm install @aws-sdk/client-ses @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add @aws-sdk/client-ses vuemail
+yarn add @aws-sdk/client-ses @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add @aws-sdk/client-ses vuemail
+pnpm add @aws-sdk/client-ses @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -31,7 +31,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -49,7 +49,7 @@ Import the email template you just built, convert into an HTML string, and use t
 
 ```ts
 import type { SendEmailCommandInput } from "@aws-sdk/client-ses";
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import { SES } from '@aws-sdk/client-ses';
 import Email from './email.vue';
 

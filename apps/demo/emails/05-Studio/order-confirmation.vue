@@ -18,7 +18,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import TechFonts from './tech-fonts.vue';
 import { techTailwindConfig } from './theme';
 

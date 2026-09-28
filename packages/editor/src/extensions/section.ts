@@ -1,7 +1,7 @@
 import { mergeAttributes } from '@tiptap/core';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
+import { Section as VuemailSection } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Section as VuemailSection } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import { getTextAlignment } from '../utils/get-text-alignment';
 import { inlineCssToJs } from '../utils/styles';

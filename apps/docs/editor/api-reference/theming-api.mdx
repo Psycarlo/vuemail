@@ -7,11 +7,11 @@ icon: "swatchbook"
 
 ## EmailTheming extension
 
-The `EmailTheming` extension from `vuemail-editor/plugins` adds theme-aware styling
+The `EmailTheming` extension from `@vuemaildev/editor/plugins` adds theme-aware styling
 to the editor and provides a `SerializerPlugin` for theme-aware HTML export.
 
 ```ts
-import { EmailTheming } from 'vuemail-editor/plugins';
+import { EmailTheming } from '@vuemaildev/editor/plugins';
 
 const extensions = [StarterKit, EmailTheming.configure({ theme: 'basic' })];
 ```
@@ -204,7 +204,7 @@ interface PanelInputProperty {
 Creates a custom theme from scratch (uses `minimal` reset as base):
 
 ```ts
-import { createTheme } from 'vuemail-editor/plugins';
+import { createTheme } from '@vuemaildev/editor/plugins';
 
 const theme = createTheme({
   body: { backgroundColor: '#1a1a2e', color: '#e2e8f0' },
@@ -225,7 +225,7 @@ Returns a `ThemeConfig` object.
 Extends a built-in theme with style overrides:
 
 ```ts
-import { extendTheme } from 'vuemail-editor/plugins';
+import { extendTheme } from '@vuemaildev/editor/plugins';
 
 const theme = extendTheme('basic', {
   body: { backgroundColor: '#eff6ff' },
@@ -252,7 +252,7 @@ Returns a `ThemeConfig` object.
 Merges the base theme styles with custom panel overrides:
 
 ```ts
-import { getMergedCssJs } from 'vuemail-editor/plugins';
+import { getMergedCssJs } from '@vuemaildev/editor/plugins';
 
 const mergedStyles = getMergedCssJs(theme, panelStyles);
 ```
@@ -272,7 +272,7 @@ const mergedStyles = getMergedCssJs(theme, panelStyles);
 Resolves the final CSS styles for a specific node based on theme and document depth:
 
 ```ts
-import { getResolvedNodeStyles } from 'vuemail-editor/plugins';
+import { getResolvedNodeStyles } from '@vuemaildev/editor/plugins';
 
 const styles = getResolvedNodeStyles(node, depth, mergedCssJs);
 ```
@@ -296,7 +296,7 @@ const styles = getResolvedNodeStyles(node, depth, mergedCssJs);
 Maps a node type and depth to a theme component key:
 
 ```ts
-import { getThemeComponentKey } from 'vuemail-editor/plugins';
+import { getThemeComponentKey } from '@vuemaildev/editor/plugins';
 
 const paragraphKey = getThemeComponentKey('paragraph', 0); // 'paragraph'
 const nestedListKey = getThemeComponentKey('bulletList', 2); // 'nestedList'
@@ -309,7 +309,7 @@ const nestedListKey = getThemeComponentKey('bulletList', 2); // 'nestedList'
 Converts a theme's style definitions to a CSS object:
 
 ```ts
-import { stylesToCss } from 'vuemail-editor/plugins';
+import { stylesToCss } from '@vuemaildev/editor/plugins';
 
 const css = stylesToCss(styles, theme);
 ```
@@ -323,8 +323,8 @@ editor, or a ref or getter of it, and returns a ref that updates as the document
 
 ```vue
 <script setup lang="ts">
-import { useCurrentEditor } from 'vuemail-editor/core';
-import { useEmailTheming } from 'vuemail-editor/plugins';
+import { useCurrentEditor } from '@vuemaildev/editor/core';
+import { useEmailTheming } from '@vuemaildev/editor/plugins';
 
 const { editor } = useCurrentEditor();
 const theming = useEmailTheming(editor);

@@ -12,7 +12,7 @@ import { ReportedError } from './reported-error';
 import { createSpinner, type Spinner, stopSpinnerAndPersist } from './spinner';
 import { tree } from './tree';
 
-type Vuemail = typeof import('vuemail');
+type Vuemail = typeof import('@vuemaildev/vuemail');
 
 export interface ExportTemplatesOptions {
   /** Where the rendered emails go, relative to the current directory. */
@@ -45,7 +45,7 @@ const toError = (exception: unknown) =>
   exception instanceof Error ? exception : new Error(String(exception));
 
 /**
- * Compiles every email, and `vuemail` to render them with, collecting what
+ * Compiles every email, and `@vuemaildev/vuemail` to render them with, collecting what
  * fails to compile. HTML emails need no compiling.
  */
 const compileTemplates = async (loader: EmailLoader, templates: string[]) => {
@@ -54,7 +54,7 @@ const compileTemplates = async (loader: EmailLoader, templates: string[]) => {
 
   let vuemail: Vuemail | undefined;
   try {
-    vuemail = await loader.load<Vuemail>('vuemail');
+    vuemail = await loader.load<Vuemail>('@vuemaildev/vuemail');
   } catch (exception) {
     failures.push(toError(exception));
   }

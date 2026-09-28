@@ -7,12 +7,12 @@ icon: "image"
 
 ## `useEditorImage`
 
-The `useEditorImage` composable from `vuemail-editor/plugins` creates the image
+The `useEditorImage` composable from `@vuemaildev/editor/plugins` creates the image
 extension used for paste, drop, file-picker, and slash-command uploads.
 
 ```ts
-import { StarterKit } from 'vuemail-editor/extensions';
-import { useEditorImage } from 'vuemail-editor/plugins';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { useEditorImage } from '@vuemaildev/editor/plugins';
 
 const imageExtension = useEditorImage({
   uploadImage: async (file) => {
@@ -76,8 +76,8 @@ interface UploadImageResult {
 
 ```vue
 <script setup lang="ts">
-import { imageSlashCommand } from 'vuemail-editor/plugins';
-import { defaultSlashCommands, SlashCommand } from 'vuemail-editor/ui';
+import { imageSlashCommand } from '@vuemaildev/editor/plugins';
+import { defaultSlashCommands, SlashCommand } from '@vuemaildev/editor/ui';
 </script>
 
 <template>

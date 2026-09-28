@@ -7,24 +7,24 @@ description: "Learn how to send an email using Vuemail and the Brevo Node.js SDK
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Brevo Node.js SDK](https://www.npmjs.com/package/@getbrevo/brevo).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [Brevo Node.js SDK](https://www.npmjs.com/package/@getbrevo/brevo).
 
 <CodeGroup>
 
 ```sh npm
-npm install @getbrevo/brevo vuemail
+npm install @getbrevo/brevo @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add @getbrevo/brevo vuemail
+yarn add @getbrevo/brevo @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add @getbrevo/brevo vuemail
+pnpm add @getbrevo/brevo @vuemaildev/vuemail
 ```
 
 ```sh bun
-bun add @getbrevo/brevo vuemail
+bun add @getbrevo/brevo @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -35,7 +35,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -53,7 +53,7 @@ Import the email template you just built, convert into an HTML string, and use t
 
 ```ts
 import { BrevoClient } from "@getbrevo/brevo";
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const brevo = new BrevoClient({ apiKey: process.env.BREVO_API_KEY || "" });

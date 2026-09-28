@@ -1,6 +1,7 @@
 import type { Editor, JSONContent } from '@tiptap/core';
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
+import { Body, Head, Html, Preview } from '@vuemaildev/vuemail';
 import {
   type CSSProperties,
   h,
@@ -10,7 +11,6 @@ import {
   toValue,
   watch,
 } from 'vue';
-import { Body, Head, Html, Preview } from 'vuemail';
 import type { SerializerPlugin } from '../../core/serializer/serializer-plugin';
 import { getGlobalContent } from '../../extensions/global-content';
 import { DARK_MODE_CSS } from '../../utils/dark-mode';

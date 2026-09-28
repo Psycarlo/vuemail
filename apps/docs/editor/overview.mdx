@@ -21,16 +21,16 @@ Using the power of Vuemail, it produces email-ready HTML, and is built on top of
 
 ## Architecture
 
-The editor is organized into five entry points, next to the main one, `vuemail-editor`, which exports
+The editor is organized into five entry points, next to the main one, `@vuemaildev/editor`, which exports
 the `EmailEditor` and `EditorProvider` components:
 
 | Import | Purpose |
 |--------|---------|
-| `vuemail-editor/core` | `composeVueEmail` serialization, `useCurrentEditor`, event bus, types |
-| `vuemail-editor/extensions` | `StarterKit` and 35+ email-aware extensions |
-| `vuemail-editor/ui` | Bubble menus, slash commands, inspector |
-| `vuemail-editor/plugins` | Email theming and image upload plugins |
-| `vuemail-editor/utils` | Attribute helpers, style utilities |
+| `@vuemaildev/editor/core` | `composeVueEmail` serialization, `useCurrentEditor`, event bus, types |
+| `@vuemaildev/editor/extensions` | `StarterKit` and 35+ email-aware extensions |
+| `@vuemaildev/editor/ui` | Bubble menus, slash commands, inspector |
+| `@vuemaildev/editor/plugins` | Email theming and image upload plugins |
+| `@vuemaildev/editor/utils` | Attribute helpers, style utilities |
 
 <Info>
   The editor uses [TipTap](https://tiptap.dev/) for Vue under the hood, so [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/) concepts apply.
@@ -89,7 +89,7 @@ Runnable examples are available at [vuemail.dev/editor](https://vuemail.dev/edit
     that register themselves, so all of them end up in your app's bundle
     whenever the editor is in the module graph.
 
-    The current escape hatch is to patch your installed copy of `vuemail`,
+    The current escape hatch is to patch your installed copy of `@vuemaildev/vuemail`,
     with [`pnpm patch`](https://pnpm.io/cli/patch) or
     [`patch-package`](https://www.npmjs.com/package/patch-package), stripping the
     grammars you don't use out of `dist/components/code-block/prism.mjs` (and

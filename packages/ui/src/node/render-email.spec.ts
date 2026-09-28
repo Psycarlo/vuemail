@@ -24,7 +24,7 @@ const emailsDirectory = path.join(projectDirectory, 'emails');
 const makeScratchDirectory = (prefix: string) =>
   fs.mkdtempSync(path.join(projectDirectory, prefix));
 
-const uncompilableEmail = `<script setup lang="ts">\nimport { Html } from 'vuemail';\nconst broken = ;\n</script>\n\n<template>\n  <Html />\n</template>\n`;
+const uncompilableEmail = `<script setup lang="ts">\nimport { Html } from '@vuemaildev/vuemail';\nconst broken = ;\n</script>\n\n<template>\n  <Html />\n</template>\n`;
 
 describe('renderEmailByPath()', () => {
   let loader: EmailLoader;
@@ -73,7 +73,7 @@ describe('renderEmailByPath()', () => {
     const emailPath = path.join(scratchDirectory, 'commented.vue');
     fs.writeFileSync(
       emailPath,
-      `<script setup lang="ts">\nimport { Html, Text } from 'vuemail';\n</script>\n\n<template>\n  <Html>\n    <!-- Footer -->\n    <Text>Bye</Text>\n  </Html>\n</template>\n`,
+      `<script setup lang="ts">\nimport { Html, Text } from '@vuemaildev/vuemail';\n</script>\n\n<template>\n  <Html>\n    <!-- Footer -->\n    <Text>Bye</Text>\n  </Html>\n</template>\n`,
     );
 
     const result = await renderEmailByPath(loader, emailPath);
@@ -188,7 +188,7 @@ describe('renderEmailByPath()', () => {
     const emailPath = path.join(scratchDirectory, 'logging.vue');
     fs.writeFileSync(
       emailPath,
-      `<script setup lang="ts">\nimport { Html } from 'vuemail';\nconsole.log('logged by the email');\n</script>\n\n<template>\n  <Html />\n</template>\n`,
+      `<script setup lang="ts">\nimport { Html } from '@vuemaildev/vuemail';\nconsole.log('logged by the email');\n</script>\n\n<template>\n  <Html />\n</template>\n`,
     );
     const output: string[] = [];
     const write = vi
@@ -217,7 +217,7 @@ describe('renderEmailByPath()', () => {
     const writeEmail = (text: string) =>
       fs.writeFileSync(
         emailPath,
-        `<script setup lang="ts">\nimport { Html, Text } from 'vuemail';\n</script>\n\n<template>\n  <Html><Text>${text}</Text></Html>\n</template>\n`,
+        `<script setup lang="ts">\nimport { Html, Text } from '@vuemaildev/vuemail';\n</script>\n\n<template>\n  <Html><Text>${text}</Text></Html>\n</template>\n`,
       );
 
     writeEmail('First version');

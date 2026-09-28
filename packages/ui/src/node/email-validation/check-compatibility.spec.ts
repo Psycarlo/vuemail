@@ -183,7 +183,7 @@ describe('checkCompatibility() on the source of emails', () => {
     );
     const results = await checkCompatibility(
       `<script setup lang="ts">
-import { Tailwind } from 'vuemail';
+import { Tailwind } from '@vuemaildev/vuemail';
 import { config } from './theme';
 </script>
 

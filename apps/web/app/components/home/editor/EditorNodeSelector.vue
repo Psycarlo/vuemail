@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/core';
+import { useEditorState } from '@vuemaildev/editor/core';
 import { ChevronDownIcon } from 'lucide-vue-next';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from 'reka-ui';
 import { ref } from 'vue';
-import { useEditorState } from 'vuemail-editor/core';
 import { TOOLBAR_NODE_ITEMS } from '~/utils/home/editor';
 
 const props = defineProps<{ editor: Editor }>();

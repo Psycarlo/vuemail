@@ -1,6 +1,6 @@
+import { render } from '@vuemaildev/vuemail';
 import FormData from 'form-data';
 import Mailgun from 'mailgun.js';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const mailgun = new Mailgun(FormData);

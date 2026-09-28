@@ -14,8 +14,8 @@ const installUi = async (message: string): Promise<never> => {
     initial: true,
   });
   if (install) {
-    console.log('Installing "vuemail-ui"');
-    await addDevDependency(`vuemail-ui@${packageJson.version}`);
+    console.log('Installing "@vuemaildev/ui"');
+    await addDevDependency(`@vuemaildev/ui@${packageJson.version}`);
   }
   process.exit(0);
 };
@@ -28,18 +28,18 @@ export async function loadUi(): Promise<Ui> {
   let uiPath: string;
   try {
     uiPath = createRequire(path.join(process.cwd(), 'package.json')).resolve(
-      'vuemail-ui',
+      '@vuemaildev/ui',
     );
   } catch {
     return installUi(
-      'To run the preview server, the package "vuemail-ui" must be installed. Would you like to install it?',
+      'To run the preview server, the package "@vuemaildev/ui" must be installed. Would you like to install it?',
     );
   }
 
   const ui = (await import(pathToFileURL(uiPath).href)) as Ui;
   if (ui.version !== packageJson.version) {
     return installUi(
-      `To run the preview server, the version of "vuemail-ui" must match the version of "vuemail" (${packageJson.version}). Would you like to install it?`,
+      `To run the preview server, the version of "@vuemaildev/ui" must match the version of "@vuemaildev/vuemail" (${packageJson.version}). Would you like to install it?`,
     );
   }
   return ui;

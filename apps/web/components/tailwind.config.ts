@@ -1,3 +1,3 @@
-import type { TailwindConfig } from 'vuemail';
+import type { TailwindConfig } from '@vuemaildev/vuemail';
 
 export default {} satisfies TailwindConfig;

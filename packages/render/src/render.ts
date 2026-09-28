@@ -35,7 +35,7 @@ const doctype =
  *
  * @example
  * ```ts
- * import { render } from 'vuemail-render';
+ * import { render } from '@vuemaildev/render';
  * import WelcomeEmail from './emails/welcome.vue';
  *
  * const html = await render(WelcomeEmail, { firstName: 'Jim' });

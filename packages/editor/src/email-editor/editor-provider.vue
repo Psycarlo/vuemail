@@ -2,7 +2,7 @@
 /**
  * Creates an editor and provides it to the components inside, like
  * `EditorProvider` from `@tiptap/react` does: use it to compose an editor out
- * of the extensions and UI components of `vuemail-editor` yourself.
+ * of the extensions and UI components of `@vuemaildev/editor` yourself.
  */
 import type { Content, EditorOptions, Extensions } from '@tiptap/core';
 import { Editor, EditorContent } from '@tiptap/vue-3';

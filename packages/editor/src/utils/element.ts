@@ -1,3 +1,4 @@
+import { styleToString, toStyleObject } from '@vuemaildev/vuemail';
 import {
   h,
   normalizeClass,
@@ -5,7 +6,6 @@ import {
   type VNodeArrayChildren,
   type VNodeChild,
 } from 'vue';
-import { styleToString, toStyleObject } from 'vuemail';
 
 /**
  * Renders a plain HTML element into an email the way React renders it, for

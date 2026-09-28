@@ -8,7 +8,7 @@ import {
   Preview,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const { name } = defineProps<{ name: string }>();
 </script>

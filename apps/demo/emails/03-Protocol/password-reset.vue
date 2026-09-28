@@ -16,7 +16,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import DitherFonts from './dither-fonts.vue';
 import { ditherTailwindConfig } from './theme';
 

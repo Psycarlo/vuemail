@@ -1,5 +1,5 @@
+import type { TailwindConfig } from '@vuemaildev/vuemail';
 import plugin from 'tailwindcss/plugin';
-import type { TailwindConfig } from 'vuemail';
 
 const colors = {
   bg: '#300610',

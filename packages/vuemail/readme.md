@@ -23,7 +23,7 @@ This will create a new folder called `vuemail-starter` with a few email template
 To add Vuemail to an existing project instead, install it:
 
 ```sh
-npm i vuemail
+npm i @vuemaildev/vuemail
 ```
 
 ## Components
@@ -32,7 +32,7 @@ Emails are Vue single file components that use the components of this package, i
 
 ```vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 
@@ -70,11 +70,11 @@ defineOptions({
 - [Tailwind](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/tailwind)
 - [Text](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/text)
 
-This package also exports `render`, from [`vuemail-render`](https://github.com/psycarlo/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
+This package also exports `render`, from [`@vuemaildev/render`](https://github.com/psycarlo/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
 
 ## Commands
 
-The package comes with the `email` command. It runs the preview app, `vuemail-ui`, which it asks to install as a dev dependency, in the same version as `vuemail`, the first time you use it.
+The package comes with the `email` command. It runs the preview app, `@vuemaildev/ui`, which it asks to install as a dev dependency, in the same version as `@vuemaildev/vuemail`, the first time you use it.
 
 ### `email dev`
 
@@ -157,11 +157,11 @@ npx vuemail resend reset
 
 ## Setting Up the Environment
 
-When working in the CLI, a lot of friction can get introduced with rebuilding it for every change. To avoid that, you can keep it building in watch mode, and run it from the [playground](https://github.com/psycarlo/vuemail/tree/main/playground), which uses the `vuemail` package of this monorepo.
+When working in the CLI, a lot of friction can get introduced with rebuilding it for every change. To avoid that, you can keep it building in watch mode, and run it from the [playground](https://github.com/psycarlo/vuemail/tree/main/playground), which uses the `@vuemaildev/vuemail` package of this monorepo.
 
-This assumes the packages were built once, with `pnpm build` at the root of the monorepo, since the CLI runs the preview app from `vuemail-ui`'s build.
+This assumes the packages were built once, with `pnpm build` at the root of the monorepo, since the CLI runs the preview app from `@vuemaildev/ui`'s build.
 
-### 1. Build `vuemail` in watch mode
+### 1. Build `@vuemaildev/vuemail` in watch mode
 
 Inside of `packages/vuemail`:
 

@@ -16,7 +16,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface PapermarkYearInReviewEmailProps {
   year?: number;

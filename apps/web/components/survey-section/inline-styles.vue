@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Button, Column, Heading, Row, Section, Text } from 'vuemail';
+import {
+  Button,
+  Column,
+  Heading,
+  Row,
+  Section,
+  Text,
+} from '@vuemaildev/vuemail';
 </script>
 
 <template>

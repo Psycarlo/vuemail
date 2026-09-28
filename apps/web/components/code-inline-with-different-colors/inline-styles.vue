@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CodeInline, Text } from 'vuemail';
+import { CodeInline, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -14,6 +14,6 @@ import { CodeInline, Text } from 'vuemail';
         paddingTop: '2px',
         paddingBottom: '2px',
       }"
-    >vuemail</CodeInline> package
+    >@vuemaildev/vuemail</CodeInline> package
   </Text>
 </template>

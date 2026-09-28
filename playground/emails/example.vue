@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Body, Head, Html, Tailwind, Text } from 'vuemail';
+import { Body, Head, Html, Tailwind, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>

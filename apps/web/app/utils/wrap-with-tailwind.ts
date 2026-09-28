@@ -1,15 +1,16 @@
-const vuemailImportRegex = /import\s*\{([^}]*)\}\s*from\s*(['"])vuemail\2;?/;
+const vuemailImportRegex =
+  /import\s*\{([^}]*)\}\s*from\s*(['"])@vuemaildev\/vuemail\2;?/;
 const scriptSetupRegex = /<script\b[^>]*\bsetup\b[^>]*>\n?/;
 // Up to the last `</template>`, the one closing the template of the component
 const templateRegex = /^<template>([\s\S]*)<\/template>/m;
 
 const LINE_WIDTH = 80;
 
-/** Adds a component to the named imports from `vuemail`, keeping them sorted. */
+/** Adds a component to the named imports from `@vuemaildev/vuemail`, keeping them sorted. */
 const importFromVuemail = (code: string, name: string): string => {
   const match = vuemailImportRegex.exec(code);
   if (!match) {
-    const statement = `import { ${name} } from 'vuemail';\n`;
+    const statement = `import { ${name} } from '@vuemaildev/vuemail';\n`;
     const scriptSetup = scriptSetupRegex.exec(code);
     if (!scriptSetup) {
       return `<script setup lang="ts">\n${statement}</script>\n\n${code}`;
@@ -32,17 +33,17 @@ const importFromVuemail = (code: string, name: string): string => {
 
   const quote = match[2]!;
   const semicolon = match[0].endsWith(';') ? ';' : '';
-  const singleLine = `import { ${names.join(', ')} } from ${quote}vuemail${quote}${semicolon}`;
+  const singleLine = `import { ${names.join(', ')} } from ${quote}@vuemaildev/vuemail${quote}${semicolon}`;
   const statement =
     singleLine.length <= LINE_WIDTH
       ? singleLine
-      : `import {\n${names.map((specifier) => `  ${specifier},`).join('\n')}\n} from ${quote}vuemail${quote}${semicolon}`;
+      : `import {\n${names.map((specifier) => `  ${specifier},`).join('\n')}\n} from ${quote}@vuemaildev/vuemail${quote}${semicolon}`;
   return `${code.slice(0, match.index)}${statement}${code.slice(match.index + match[0].length)}`;
 };
 
 /**
  * Wraps the template of a single file component with `<Tailwind>`, which the
- * Tailwind variants of the components need, importing it from `vuemail`.
+ * Tailwind variants of the components need, importing it from `@vuemaildev/vuemail`.
  */
 export function wrapWithTailwind(code: string): string {
   const withImport = importFromVuemail(code, 'Tailwind');

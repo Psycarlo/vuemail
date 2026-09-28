@@ -1,4 +1,4 @@
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import { SendMailClient } from 'zeptomail';
 import Email from './email.vue';
 

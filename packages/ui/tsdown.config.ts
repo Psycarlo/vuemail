@@ -7,6 +7,11 @@ export default defineConfig({
   outDir: './dist/node',
   platform: 'node',
   deps: {
-    neverBundle: [/^vite($|\/)/, /^@vitejs\//, /^vue($|\/)/, /^vuemail($|\/)/],
+    neverBundle: [
+      /^vite($|\/)/,
+      /^@vitejs\//,
+      /^vue($|\/)/,
+      /^@vuemaildev\/vuemail($|\/)/,
+    ],
   },
 });

@@ -12,7 +12,7 @@
   "dependencies": {
     "@plunk/node": "3.0.3",
     "vue": "3.5.43",
-    "vuemail": "0.1.0"
+    "@vuemaildev/vuemail": "0.1.0"
   },
   "devDependencies": {
     "tsdown": "0.23.0",

@@ -13,7 +13,7 @@ import {
   Preview,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import tailwindConfig from '../../tailwind.config';
 
 interface NotionMagicLinkEmailProps {

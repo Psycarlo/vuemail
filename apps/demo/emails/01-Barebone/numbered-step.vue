@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Used by product-update.vue. Upstream it's defined in that same file,
 // but in Vue each component needs a file of its own.
-import { Column, Row, Section, Text } from 'vuemail';
+import { Column, Row, Section, Text } from '@vuemaildev/vuemail';
 
 const { n, title, body, last } = defineProps<{
   n: string;

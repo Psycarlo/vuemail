@@ -12,7 +12,7 @@ that controls how the node is serialized when exporting to email HTML via
 ## Import
 
 ```ts
-import { EmailNode } from 'vuemail-editor/core';
+import { EmailNode } from '@vuemaildev/editor/core';
 ```
 
 ## EmailNode.create
@@ -20,7 +20,7 @@ import { EmailNode } from 'vuemail-editor/core';
 Create a new email-compatible node from scratch.
 
 ```ts
-import { EmailNode } from 'vuemail-editor/core';
+import { EmailNode } from '@vuemaildev/editor/core';
 import { mergeAttributes } from '@tiptap/core';
 import { h } from 'vue';
 
@@ -67,7 +67,7 @@ Wrap an existing TipTap node with email serialization support. This is useful wh
 reuse a community TipTap extension and add email export support without rewriting it.
 
 ```ts
-import { EmailNode } from 'vuemail-editor/core';
+import { EmailNode } from '@vuemaildev/editor/core';
 import Blockquote from '@tiptap/extension-blockquote';
 import { h } from 'vue';
 
@@ -88,7 +88,7 @@ as described above.
 Configure options on an `EmailNode` (same as TipTap's `.configure()`):
 
 ```ts
-import { Heading } from 'vuemail-editor/extensions';
+import { Heading } from '@vuemaildev/editor/extensions';
 
 const CustomHeading = Heading.configure({ levels: [1, 2] });
 ```
@@ -98,7 +98,7 @@ const CustomHeading = Heading.configure({ levels: [1, 2] });
 Extend an `EmailNode` with additional behavior:
 
 ```ts
-import { Paragraph } from 'vuemail-editor/extensions';
+import { Paragraph } from '@vuemaildev/editor/extensions';
 
 const CustomParagraph = Paragraph.extend({
   addKeyboardShortcuts() {
@@ -112,7 +112,7 @@ const CustomParagraph = Paragraph.extend({
 You can also override `renderToVueEmail` when extending:
 
 ```ts
-import { Paragraph } from 'vuemail-editor/extensions';
+import { Paragraph } from '@vuemaildev/editor/extensions';
 import { h } from 'vue';
 
 const CustomParagraph = Paragraph.extend({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Heading } from 'vuemail';
+import { Heading } from '@vuemaildev/vuemail';
 </script>
 
 <template>

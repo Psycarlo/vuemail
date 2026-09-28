@@ -7,20 +7,20 @@ description: 'Learn how to send an email using Vuemail and the Mailgun JavaScrip
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail), [mailgun.js](https://www.npmjs.com/package/mailgun.js), and [form-data](https://www.npmjs.com/package/form-data) packages.
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail), [mailgun.js](https://www.npmjs.com/package/mailgun.js), and [form-data](https://www.npmjs.com/package/form-data) packages.
 
 <CodeGroup>
 
 ```sh npm
-npm install mailgun.js form-data vuemail
+npm install mailgun.js form-data @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add mailgun.js form-data vuemail
+yarn add mailgun.js form-data @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add mailgun.js form-data vuemail
+pnpm add mailgun.js form-data @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -31,7 +31,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -48,7 +48,7 @@ const { url } = defineProps<{ url: string }>();
 Import the email template you just built, convert it into an HTML string, and use the Mailgun SDK to send it.
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import FormData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Email from './email.vue';

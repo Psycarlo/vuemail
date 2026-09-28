@@ -12,7 +12,7 @@ View a minimal example of the Inspector at the [Standalone Editor Inspector](htt
 Everything is accessed through a single import:
 
 ```ts
-import { Inspector } from 'vuemail-editor/ui';
+import { Inspector } from '@vuemaildev/editor/ui';
 ```
 
 `Inspector.Root` must be rendered inside the current editor context, and it
@@ -27,10 +27,10 @@ current selection.
 
 ```vue
 <script setup lang="ts">
-import { EditorProvider } from 'vuemail-editor';
-import { StarterKit } from 'vuemail-editor/extensions';
-import { EmailTheming } from 'vuemail-editor/plugins';
-import { Inspector } from 'vuemail-editor/ui';
+import { EditorProvider } from '@vuemaildev/editor';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { EmailTheming } from '@vuemaildev/editor/plugins';
+import { Inspector } from '@vuemaildev/editor/ui';
 
 const extensions = [StarterKit, EmailTheming];
 </script>
@@ -242,7 +242,7 @@ Each segment includes:
 
 ```vue
 <script setup lang="ts">
-import { getNodeMeta, Inspector } from 'vuemail-editor/ui';
+import { getNodeMeta, Inspector } from '@vuemaildev/editor/ui';
 </script>
 
 <template>
@@ -286,15 +286,15 @@ reuse the default section UIs in your own layout. They take the context of the s
 ## CSS import
 
 ```ts
-import 'vuemail-editor/styles/inspector.css';
+import '@vuemaildev/editor/styles/inspector.css';
 ```
 
 <Tip>
-  `vuemail-editor/themes/default.css` bundles all UI component styles.
+  `@vuemaildev/editor/themes/default.css` bundles all UI component styles.
   Unless you need to cherry-pick, use this single import:
 
 ```ts
-import 'vuemail-editor/themes/default.css';
+import '@vuemaildev/editor/themes/default.css';
 ```
 
 </Tip>

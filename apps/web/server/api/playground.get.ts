@@ -1,4 +1,4 @@
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from '../../app/components/home/playground/CodeExample.vue';
 
 // The email never changes, so it's rendered once

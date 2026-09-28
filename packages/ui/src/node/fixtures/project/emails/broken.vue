@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html } from 'vuemail';
+import { Html } from '@vuemaildev/vuemail';
 
 defineOptions({ PreviewProps: {} });
 

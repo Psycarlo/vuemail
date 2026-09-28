@@ -9,14 +9,14 @@ For testing, we use [vitest](https://vitest.dev/). We prefer to define globals, 
 environment for the code that runs in the browser, like the preview app and the editor, and under `node` for the rest.
 
 <Note>
-The tests of `vuemail-nuxt` build and start real Nuxt apps, so they take longer than the others.
+The tests of `@vuemaildev/nuxt` build and start real Nuxt apps, so they take longer than the others.
 </Note>
 
-The specs of `vuemail-editor` that type into the editor (`*.browser.spec.ts`) run in a real Chromium, through
+The specs of `@vuemaildev/editor` that type into the editor (`*.browser.spec.ts`) run in a real Chromium, through
 Vitest's browser mode and Playwright. Install that browser once before running them:
 
 ```bash
-pnpm --filter vuemail-editor exec playwright install chromium
+pnpm --filter @vuemaildev/editor exec playwright install chromium
 ```
 
 In `packages/editor`, `pnpm test:unit` and `pnpm test:browser` run each kind on its own.

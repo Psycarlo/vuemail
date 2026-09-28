@@ -26,7 +26,7 @@ import {
   Tailwind,
   Text,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface PasswordResetProps {
   resetUrl: string;
@@ -101,7 +101,7 @@ import {
   Tailwind,
   Text,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface Product {
   name: string;
@@ -311,7 +311,7 @@ import {
   Text,
   dracula,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface NotificationProps {
   title: string;
@@ -456,7 +456,7 @@ import {
   Tailwind,
   Text,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface Article {
   title: string;
@@ -653,7 +653,7 @@ import {
   Tailwind,
   Text,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface TeamInvitationProps {
   inviterName: string;

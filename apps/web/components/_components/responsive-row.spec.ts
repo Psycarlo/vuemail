@@ -1,6 +1,6 @@
+import { render } from '@vuemaildev/vuemail';
 import { describe, expect, it } from 'vitest';
 import { h } from 'vue';
-import { render } from 'vuemail';
 import ResponsiveColumn from './responsive-column.vue';
 import ResponsiveRow from './responsive-row.vue';
 

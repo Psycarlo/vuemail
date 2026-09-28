@@ -1,9 +1,9 @@
 /// <reference types="vite/client" />
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { render } from '@vuemaildev/vuemail';
 import { describe, expect, it } from 'vitest';
 import type { Component } from 'vue';
-import { render } from 'vuemail';
 
 type EmailComponent = Component & { PreviewProps?: Record<string, unknown> };
 

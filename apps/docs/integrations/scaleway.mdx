@@ -7,20 +7,20 @@ description: "Learn how to send an email using Vuemail and the Scaleway Node.js 
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Scaleway Node.js SDK](https://www.npmjs.com/package/@scaleway/sdk).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [Scaleway Node.js SDK](https://www.npmjs.com/package/@scaleway/sdk).
 
 <CodeGroup>
 
 ```sh npm
-npm install @scaleway/sdk vuemail
+npm install @scaleway/sdk @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add @scaleway/sdk vuemail
+yarn add @scaleway/sdk @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add @scaleway/sdk vuemail
+pnpm add @scaleway/sdk @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -31,7 +31,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -48,7 +48,7 @@ const { url } = defineProps<{ url: string }>();
 Import the email template you just built, convert into an HTML string, and use the Scaleway SDK to send it.
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import { TransactionalEmail, createClient } from "@scaleway/sdk";
 import Email from './email.vue';
 

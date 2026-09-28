@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Used by feature-announcement.vue. Upstream it's defined in that same file,
 // but in Vue each component needs a file of its own.
-import { Button, Img, Section, Text } from 'vuemail';
+import { Button, Img, Section, Text } from '@vuemaildev/vuemail';
 
 const { imageUrl, ctaUrl, title, bodyP1 } = defineProps<{
   imageUrl: string;

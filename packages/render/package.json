@@ -1,5 +1,5 @@
 {
-  "name": "vuemail-render",
+  "name": "@vuemaildev/render",
   "version": "0.1.0",
   "description": "Transform Vue components into HTML email templates",
   "type": "module",

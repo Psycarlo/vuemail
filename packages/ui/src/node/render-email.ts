@@ -8,7 +8,7 @@ import type { EmailLoader } from './email-loader';
 import { registerSpinnerAutostopping } from './register-spinner-autostopping';
 import { createSpinner, type Spinner, stopSpinnerAndPersist } from './spinner';
 
-type Vuemail = typeof import('vuemail');
+type Vuemail = typeof import('@vuemaildev/vuemail');
 
 type EmailComponent = Component & { PreviewProps?: Record<string, unknown> };
 
@@ -127,7 +127,9 @@ async function renderRawHtmlEmail(
 ): Promise<EmailRenderingResult> {
   const basename = path.basename(emailPath, '.html');
   try {
-    const { pretty, toPlainText } = await loader.load<Vuemail>('vuemail');
+    const { pretty, toPlainText } = await loader.load<Vuemail>(
+      '@vuemaildev/vuemail',
+    );
     const source = await fs.promises.readFile(emailPath, 'utf8');
     const markup = source.replaceAll('\0', '');
 
@@ -162,7 +164,7 @@ export interface RenderEmailOptions {
  * Renders an email the way it will be sent: into its HTML, a prettified copy
  * of it and its plain text version.
  *
- * `vuemail` is loaded from the project itself, so that the email renders
+ * `@vuemaildev/vuemail` is loaded from the project itself, so that the email renders
  * with the very same Vue and components it imports.
  */
 export async function renderEmailByPath(
@@ -194,7 +196,7 @@ export async function renderEmailByPath(
   const timeBeforeEmailLoaded = performance.now();
   try {
     [vuemail, emailModule, source] = await Promise.all([
-      loader.load<Vuemail>('vuemail'),
+      loader.load<Vuemail>('@vuemaildev/vuemail'),
       loader.load<{ default?: EmailComponent }>(emailPath),
       fs.promises.readFile(emailPath, 'utf8'),
     ]);

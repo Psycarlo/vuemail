@@ -1,5 +1,5 @@
 /**
- * What the CLI uses from `vuemail-ui`. It's written out here instead of
+ * What the CLI uses from `@vuemaildev/ui`. It's written out here instead of
  * imported so that the two packages don't depend on each other.
  */
 export interface Ui {

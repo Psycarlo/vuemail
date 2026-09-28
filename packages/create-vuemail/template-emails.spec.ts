@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
+import { render } from '@vuemaildev/vuemail';
 import { describe, expect, it } from 'vitest';
 import type { Component } from 'vue';
-import { render } from 'vuemail';
 import NotionMagicLinkEmail from './template/emails/notion-magic-link.vue';
 import PlaidVerifyIdentityEmail from './template/emails/plaid-verify-identity.vue';
 import StripeWelcomeEmail from './template/emails/stripe-welcome.vue';

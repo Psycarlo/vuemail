@@ -9,7 +9,7 @@ import {
   Link,
   Section,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface PlaidVerifyIdentityEmailProps {
   validationCode?: string;

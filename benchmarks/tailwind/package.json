@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "vue": "catalog:",
-    "vuemail": "workspace:*"
+    "@vuemaildev/vuemail": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",

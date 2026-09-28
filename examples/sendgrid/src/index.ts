@@ -1,5 +1,5 @@
 import sendgrid from '@sendgrid/mail';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');

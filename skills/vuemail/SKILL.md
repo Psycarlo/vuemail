@@ -24,7 +24,7 @@ Build and send HTML emails using Vue components. A modern, component-based appro
 ## Installation
 
 ```sh
-npm i vuemail
+npm i @vuemaildev/vuemail
 ```
 
 Or scaffold a new project:
@@ -42,11 +42,11 @@ The dev server runs at localhost:3000 with a preview interface for templates in 
 
 ### Adding to an Existing Project
 
-Install the packages (the preview app, `vuemail-ui`, is a dev dependency in the same version as `vuemail`) and add a script to your `package.json`:
+Install the packages (the preview app, `@vuemaildev/ui`, is a dev dependency in the same version as `@vuemaildev/vuemail`) and add a script to your `package.json`:
 
 ```sh
-npm i vuemail
-npm i -D vuemail-ui
+npm i @vuemaildev/vuemail
+npm i -D @vuemaildev/ui
 ```
 
 ```json
@@ -59,7 +59,7 @@ npm i -D vuemail-ui
 
 Make sure the path to the emails folder is relative to the base project directory. Emails are compiled with Vite, so TypeScript and the `paths` aliases of `tsconfig.json` work in them without extra configuration. Vuemail requires Node 20.19 or higher, and `vue` 3.4 or higher as a peer dependency.
 
-In a Nuxt app, also add the `vuemail-nuxt` module, so that server routes can import and render the emails (see [references/SENDING.md](references/SENDING.md)).
+In a Nuxt app, also add the `@vuemaildev/nuxt` module, so that server routes can import and render the emails (see [references/SENDING.md](references/SENDING.md)).
 
 ## Basic Email Template
 
@@ -80,7 +80,7 @@ import {
   Text,
   pixelBasedPreset,
   type TailwindConfig,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface WelcomeEmailProps {
   name: string;
@@ -218,7 +218,7 @@ Use this pattern for images that work in both dev preview and production:
 
 ```vue
 <script setup lang="ts">
-import { Img } from 'vuemail';
+import { Img } from '@vuemaildev/vuemail';
 
 const baseURL = process.env.NODE_ENV === 'production'
   ? 'https://cdn.example.com' // User's production CDN
@@ -247,7 +247,7 @@ See [references/STYLING.md](references/STYLING.md) for comprehensive styling doc
 
 ### Key Rules
 
-- Use `Tailwind` with `pixelBasedPreset` (email clients don't support `rem`). Import `pixelBasedPreset` from `vuemail`.
+- Use `Tailwind` with `pixelBasedPreset` (email clients don't support `rem`). Import `pixelBasedPreset` from `@vuemaildev/vuemail`.
 - Never use flexbox or grid — use `Row`/`Column` components or tables for layouts.
 - Avoid CSS/Tailwind media queries (`sm:`, `md:`, `lg:`, `xl:`) — limited email client support.
 - Never use theme selectors (`dark:`, `light:`) — not supported.
@@ -281,7 +281,7 @@ See [references/STYLING.md](references/STYLING.md) for comprehensive styling doc
 ### Convert to HTML
 
 ```ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const html = await render(WelcomeEmail, {
@@ -300,7 +300,7 @@ const text = await render(
 );
 ```
 
-Importing a `.vue` file needs a build step that compiles it: Nuxt with the `vuemail-nuxt` module, Vite (an SSR build, or vite-node), or a bundler with a Vue plugin, like tsdown with `unplugin-vue`. Plain Node can't import `.vue` files.
+Importing a `.vue` file needs a build step that compiles it: Nuxt with the `@vuemaildev/nuxt` module, Vite (an SSR build, or vite-node), or a bundler with a Vue plugin, like tsdown with `unplugin-vue`. Plain Node can't import `.vue` files.
 
 ## Sending
 
@@ -310,7 +310,7 @@ Quick example using the Resend SDK:
 
 ```ts
 import { Resend } from 'resend';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from './emails/welcome.vue';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -330,7 +330,7 @@ The `react` option of the Resend SDK only takes React elements, so render Vuemai
 
 ## CLI Commands
 
-The `vuemail` package provides a CLI accessible via the `email` command:
+The `@vuemaildev/vuemail` package provides a CLI accessible via the `email` command:
 
 | Command | Description |
 |---------|-------------|
@@ -347,7 +347,7 @@ See [references/I18N.md](references/I18N.md) for complete i18n documentation. Vu
 
 ## Email Editor
 
-Vuemail includes a visual editor (`vuemail-editor`) that can be embedded in your Vue app. It's built on TipTap/ProseMirror and produces email-ready HTML.
+Vuemail includes a visual editor (`@vuemaildev/editor`) that can be embedded in your Vue app. It's built on TipTap/ProseMirror and produces email-ready HTML.
 
 See [references/EDITOR.md](references/EDITOR.md) for complete documentation including:
 - `EmailEditor` — batteries-included component with bubble menus, slash commands, and theming
@@ -361,8 +361,8 @@ Quick example:
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor, type EmailEditorRef } from 'vuemail-editor';
-import 'vuemail-editor/themes/default.css';
+import { EmailEditor, type EmailEditorRef } from '@vuemaildev/editor';
+import '@vuemaildev/editor/themes/default.css';
 import { ref } from 'vue';
 
 const editorRef = ref<EmailEditorRef | null>(null);

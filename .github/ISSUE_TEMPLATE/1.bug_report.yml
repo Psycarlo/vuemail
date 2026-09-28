@@ -7,11 +7,11 @@ body:
     attributes:
       label: What package is this bug report for?
       options:
-        - vuemail (components and render)
-        - vuemail (CLI) / vuemail-ui (preview)
-        - 'vuemail-render'
-        - 'vuemail-editor'
-        - 'vuemail-nuxt'
+        - '@vuemaildev/vuemail (components and render)'
+        - '@vuemaildev/vuemail (CLI) / @vuemaildev/ui (preview)'
+        - '@vuemaildev/render'
+        - '@vuemaildev/editor'
+        - '@vuemaildev/nuxt'
         - create-vuemail
         - Website or docs
     validations:
@@ -36,6 +36,6 @@ body:
     id: versions
     attributes:
       label: What versions are you using?
-      placeholder: vuemail@0.1.0, vue@3.5.x, node@22
+      placeholder: '@vuemaildev/vuemail@0.1.0, vue@3.5.x, node@22'
     validations:
       required: true

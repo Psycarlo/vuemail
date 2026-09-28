@@ -1,7 +1,14 @@
 <script setup lang="ts">
 // Wraps every component of the gallery when it's previewed, the same way
 // for all of them. It's not part of the code shown for each component.
-import { Body, Container, Font, Head, Html, Tailwind } from 'vuemail';
+import {
+  Body,
+  Container,
+  Font,
+  Head,
+  Html,
+  Tailwind,
+} from '@vuemaildev/vuemail';
 import tailwindConfig from '../tailwind.config';
 
 const { withTailwind = true } = defineProps<{ withTailwind?: boolean }>();

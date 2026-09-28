@@ -1,5 +1,5 @@
 import mailchimpTransactional from '@mailchimp/mailchimp_transactional';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const mailchimp = mailchimpTransactional(process.env.MAILCHIMP_API_KEY || '');

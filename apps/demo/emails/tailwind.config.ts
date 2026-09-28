@@ -1,4 +1,4 @@
-import { pixelBasedPreset, type TailwindConfig } from 'vuemail';
+import { pixelBasedPreset, type TailwindConfig } from '@vuemaildev/vuemail';
 
 export default {
   presets: [pixelBasedPreset],

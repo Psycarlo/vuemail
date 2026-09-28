@@ -8,11 +8,11 @@
     "export": "email export"
   },
   "dependencies": {
-    "vuemail": "INSERT_VUEMAIL_VERSION",
+    "@vuemaildev/vuemail": "INSERT_VUEMAIL_VERSION",
     "vue": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "vuemail-ui": "INSERT_VUEMAIL_VERSION"
+    "@vuemaildev/ui": "INSERT_VUEMAIL_VERSION"
   }
 }

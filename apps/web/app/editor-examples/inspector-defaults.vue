@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { EditorContent, useEditor } from '@tiptap/vue-3';
-import { provideCurrentEditor } from 'vuemail-editor/core';
-import { StarterKit } from 'vuemail-editor/extensions';
-import { EmailTheming } from 'vuemail-editor/plugins';
-import { Inspector } from 'vuemail-editor/ui';
+import { provideCurrentEditor } from '@vuemaildev/editor/core';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { EmailTheming } from '@vuemaildev/editor/plugins';
+import { Inspector } from '@vuemaildev/editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const extensions = [StarterKit, EmailTheming];

@@ -2,7 +2,6 @@
 // Get the full source code, including the theme and Tailwind config:
 // https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails
 
-import { h, type VNode } from 'vue';
 import {
   Body,
   Button,
@@ -19,7 +18,8 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
+import { h, type VNode } from 'vue';
 
 interface NetlifyWelcomeEmailProps {
   steps: {

@@ -2,7 +2,6 @@
 // Get the full source code, including the theme and Tailwind config:
 // https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails
 
-import { computed } from 'vue';
 import {
   Body,
   Button,
@@ -17,7 +16,8 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
+import { computed } from 'vue';
 import CollageFonts from './collage-fonts.vue';
 import { collageTailwindConfig } from './theme';
 

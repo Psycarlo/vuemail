@@ -1,6 +1,6 @@
 /* Minimal functional styles for Inspector compound components.
  * This file handles layout only - no visual design.
- * Import this optionally: import 'vuemail-editor/styles/inspector.css';
+ * Import this optionally: import '@vuemaildev/editor/styles/inspector.css';
  */
 
 [data-re-inspector-field] {

@@ -1,6 +1,6 @@
 import { mergeAttributes } from '@tiptap/core';
+import { Column, Row, Button as VuemailButton } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Column, Row, Button as VuemailButton } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import { inlineCssToJs } from '../utils/styles';
 

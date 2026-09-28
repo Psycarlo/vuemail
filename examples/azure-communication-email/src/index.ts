@@ -1,5 +1,5 @@
 import { EmailClient } from '@azure/communication-email';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const client = new EmailClient(process.env.AZURE_EMAIL_CONNECTION_STRING);

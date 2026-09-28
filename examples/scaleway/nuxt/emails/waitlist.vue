@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { Body, Container, Head, Heading, Html, Preview, Text } from 'vuemail';
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Preview,
+  Text,
+} from '@vuemaildev/vuemail';
 
 const { name } = defineProps<{ name: string }>();
 

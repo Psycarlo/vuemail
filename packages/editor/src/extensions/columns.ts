@@ -6,8 +6,8 @@ import {
   TextSelection,
   type Transaction,
 } from '@tiptap/pm/state';
+import { Column, Row } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Column, Row } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import {
   COMMON_HTML_ATTRIBUTES,

@@ -3,13 +3,13 @@ import type { CodeBlockOptions } from '@tiptap/extension-code-block';
 import CodeBlock from '@tiptap/extension-code-block';
 import { Fragment, type Schema } from '@tiptap/pm/model';
 import { TextSelection } from '@tiptap/pm/state';
-import { h } from 'vue';
-import * as VuemailComponents from 'vuemail';
+import * as VuemailComponents from '@vuemaildev/vuemail';
 import {
   type PrismLanguage,
   type Theme,
   CodeBlock as VuemailCodeBlock,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
+import { h } from 'vue';
 import { EmailNode } from '../core/serializer/email-node';
 import { inlineCssToJs } from '../utils/styles';
 import { PrismPlugin } from './prism-plugin';

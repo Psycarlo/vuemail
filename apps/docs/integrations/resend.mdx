@@ -10,20 +10,20 @@ description: 'Learn how to send an email and set up Templates using Vuemail and 
 
 ### 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Resend Node.js SDK](https://www.npmjs.com/package/resend).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [Resend Node.js SDK](https://www.npmjs.com/package/resend).
 
 <CodeGroup>
 
 ```sh npm
-npm install resend vuemail
+npm install resend @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add resend vuemail
+yarn add resend @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add resend vuemail
+pnpm add resend @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -34,7 +34,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -54,7 +54,7 @@ Import the email template you just built, convert it into an HTML string, and us
 
 ```ts
 import { Resend } from 'resend';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const resend = new Resend('re_123456789');
@@ -80,7 +80,7 @@ First, sign up for a [free Resend account](https://resend.com/signup).
 Next, set up the Resend integration using the Vuemail CLI:
 
 ```bash
-npx vuemail@latest resend setup
+npx @vuemaildev/vuemail@latest resend setup
 ```
 
 This will prompt you to enter your Resend API Key. To get one, navigate to [API Keys](https://resend.com/api-keys) in your Resend dashboard, click **Create API key**, and ensure that the API Key is scoped to **Full Access**.
@@ -93,7 +93,7 @@ Run `email dev` and visit the **Resend** tab of the toolbar, located at the bott
 
 Choose **Upload** or **Bulk Upload** to import your Template to Resend.
 
-If you want to remove the Resend integration, run `npx vuemail@latest resend reset`.
+If you want to remove the Resend integration, run `npx @vuemaildev/vuemail@latest resend reset`.
 
 ## Try it yourself
 

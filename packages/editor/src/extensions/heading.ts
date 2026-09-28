@@ -1,8 +1,8 @@
 import type { HeadingOptions as TipTapHeadingOptions } from '@tiptap/extension-heading';
 import { Heading as TipTapHeading } from '@tiptap/extension-heading';
 import { VueNodeViewRenderer } from '@tiptap/vue-3';
+import { Heading as EmailHeading } from '@vuemaildev/vuemail';
 import { h } from 'vue';
-import { Heading as EmailHeading } from 'vuemail';
 import { EmailNode } from '../core/serializer/email-node';
 import { getTextAlignment } from '../utils/get-text-alignment';
 import { inlineCssToJs } from '../utils/styles';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-/** Geist + Inter via `vuemail` (avoids `<style>` + `@import`, which Gmail strips). */
-import { Font } from 'vuemail';
+/** Geist + Inter via `@vuemaildev/vuemail` (avoids `<style>` + `@import`, which Gmail strips). */
+import { Font } from '@vuemaildev/vuemail';
 
 const geistLatinWoff2 =
   'https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwcGFU.woff2';

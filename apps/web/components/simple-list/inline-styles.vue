@@ -10,7 +10,7 @@ import {
   Row,
   Section,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 const features = [
   {

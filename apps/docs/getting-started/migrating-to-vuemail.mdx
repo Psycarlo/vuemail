@@ -10,7 +10,7 @@ import NextSteps from '/snippets/next-steps.mdx';
 
 ## From MJML
 
-1. Remove the `mjml` npm package and install `vuemail`
+1. Remove the `mjml` npm package and install `@vuemaildev/vuemail`
 2. Find all MJML templates ending with the `.mjml` extension and convert these to Vue single file components with the `.vue` extension.
 3. Replace MJML standard component tags with Vuemail component tags where possible, including `<Text>`, `<Img>`, `<Button>` etc.
 4. Convert custom MJML components with the `.js` extension to Vue components with the `.vue` extension.
@@ -26,26 +26,26 @@ What changes is how emails are written: as Vue single file components instead of
 
    ```sh npm
    npm uninstall react-email @react-email/ui react react-dom
-   npm install vuemail vue
-   npm install vuemail-ui -D
+   npm install @vuemaildev/vuemail vue
+   npm install @vuemaildev/ui -D
    ```
 
    ```sh yarn
    yarn remove react-email @react-email/ui react react-dom
-   yarn add vuemail vue
-   yarn add vuemail-ui -D
+   yarn add @vuemaildev/vuemail vue
+   yarn add @vuemaildev/ui -D
    ```
 
    ```sh pnpm
    pnpm remove react-email @react-email/ui react react-dom
-   pnpm add vuemail vue
-   pnpm add vuemail-ui -D
+   pnpm add @vuemaildev/vuemail vue
+   pnpm add @vuemaildev/ui -D
    ```
 
    ```sh bun
    bun remove react-email @react-email/ui react react-dom
-   bun add vuemail vue
-   bun add vuemail-ui -D
+   bun add @vuemaildev/vuemail vue
+   bun add @vuemaildev/ui -D
    ```
 
    </CodeGroup>
@@ -54,7 +54,7 @@ What changes is how emails are written: as Vue single file components instead of
 
    | React Email | Vuemail |
    | -- | -- |
-   | `import { Button } from 'react-email'` | `import { Button } from 'vuemail'` |
+   | `import { Button } from 'react-email'` | `import { Button } from '@vuemaildev/vuemail'` |
    | `Email.PreviewProps = { ... }` | `defineOptions({ PreviewProps: { ... } })` |
    | Props of the component function | `defineProps<Props>()` |
    | `className="..."` | `class="..."` |
@@ -71,7 +71,7 @@ What changes is how emails are written: as Vue single file components instead of
 
    ```vue emails/welcome.vue
    <script setup lang="ts">
-   import { Body, Button, Head, Html, Preview, Text } from 'vuemail';
+   import { Body, Button, Head, Html, Preview, Text } from '@vuemaildev/vuemail';
 
    interface WelcomeEmailProps {
      name: string;

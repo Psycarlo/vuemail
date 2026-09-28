@@ -1,5 +1,5 @@
 import { createClient, TransactionalEmail } from '@scaleway/sdk';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const client = createClient({

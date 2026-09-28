@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import { h, type VNodeChild } from 'vue';
-import { render } from 'vuemail';
 import { DEFAULT_STYLES } from '../utils/default-styles';
 import { Body } from './body';
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CodeBlock, Font, type Theme } from 'vuemail';
+import { CodeBlock, Font, type Theme } from '@vuemaildev/vuemail';
 
 const code = `await resend.emails.send({
   from: 'you@example.com',

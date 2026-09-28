@@ -2,7 +2,7 @@
 
 This is a playground for Vuemail made to experiment with components in realtime.
 
-It renders the components straight from their source, through a path alias of `vuemail` in `tsconfig.json`, with hot reloading in the `dev` script.
+It renders the components straight from their source, through a path alias of `@vuemaildev/vuemail` in `tsconfig.json`, with hot reloading in the `dev` script.
 
 ## Development workflow
 
@@ -12,7 +12,7 @@ Create a new file at `playground/emails/testing.vue`
 
 ```vue emails/testing.vue
 <script setup lang="ts">
-import { Body, Head, Html, Tailwind, Text } from 'vuemail';
+import { Body, Head, Html, Tailwind, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>

@@ -77,7 +77,7 @@ const init = async (name, { tag }) => {
     templatePackageJsonPath,
     templatePackageJson.replaceAll(
       'INSERT_VUEMAIL_VERSION',
-      await getLatestVersionOfTag('vuemail', tag),
+      await getLatestVersionOfTag('@vuemaildev/vuemail', tag),
     ),
     'utf8',
   );

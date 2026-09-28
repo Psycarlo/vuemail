@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { mergeAttributes } from '@tiptap/core';
 import type { Editor } from '@tiptap/vue-3';
+import { EditorProvider } from '@vuemaildev/editor';
+import { EmailNode } from '@vuemaildev/editor/core';
+import { StarterKit } from '@vuemaildev/editor/extensions';
+import { BubbleMenu } from '@vuemaildev/editor/ui';
 import { Info } from 'lucide-vue-next';
 import { h } from 'vue';
-import { EditorProvider } from 'vuemail-editor';
-import { EmailNode } from 'vuemail-editor/core';
-import { StarterKit } from 'vuemail-editor/extensions';
-import { BubbleMenu } from 'vuemail-editor/ui';
 import ExampleShell from '~/components/editor/ExampleShell.vue';
 
 const Callout = EmailNode.create({

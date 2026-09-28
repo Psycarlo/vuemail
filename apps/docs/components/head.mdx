@@ -15,15 +15,15 @@ Install component from your command line.
 <CodeGroup>
 
 ```sh npm
-npm install vuemail -E
+npm install @vuemaildev/vuemail -E
 ```
 
 ```sh yarn
-yarn add vuemail -E
+yarn add @vuemaildev/vuemail -E
 ```
 
 ```sh pnpm
-pnpm add vuemail -E
+pnpm add @vuemaildev/vuemail -E
 ```
 
 </CodeGroup>
@@ -34,7 +34,7 @@ Add the component to your email template. Include children tags where needed.
 
 ```vue
 <script setup lang="ts">
-import { Head } from 'vuemail';
+import { Head } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -51,7 +51,7 @@ import { Head } from 'vuemail';
   ```vue
   <script setup lang="ts">
   import { h } from 'vue';
-  import { Head } from 'vuemail';
+  import { Head } from '@vuemaildev/vuemail';
 
   const Styles = () => h('style', { innerHTML: 'a { color: #42b883; }' });
   </script>

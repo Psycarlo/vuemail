@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import { Lettermint } from 'lettermint';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const email = Lettermint.email(process.env.LETTERMINT_SENDING_TOKEN || '');

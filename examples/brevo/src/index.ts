@@ -1,5 +1,5 @@
 import { BrevoClient } from '@getbrevo/brevo';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const brevo = new BrevoClient({ apiKey: process.env.BREVO_API_KEY || '' });

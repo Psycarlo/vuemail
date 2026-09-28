@@ -1,5 +1,5 @@
 {
-  "name": "vuemail-editor",
+  "name": "@vuemaildev/editor",
   "version": "0.1.0",
   "description": "A rich text editor for editing and building email templates with Vue",
   "type": "module",
@@ -101,7 +101,7 @@
     "hast-util-from-html": "^2.0.3",
     "prismjs": "^1.30.0",
     "reka-ui": "catalog:",
-    "vuemail": "workspace:*"
+    "@vuemaildev/vuemail": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

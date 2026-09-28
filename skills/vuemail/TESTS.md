@@ -207,9 +207,9 @@ Create a welcome email with Tailwind styling and a call-to-action button.
 ```
 
 **Expected Behavior:**
-- Import `pixelBasedPreset` from `vuemail`
+- Import `pixelBasedPreset` from `@vuemaildev/vuemail`
 - Do NOT import from `tailwindcss` or from packages of other projects, like `@vue-email/components`
-- All Vuemail imports should come from `vuemail`
+- All Vuemail imports should come from `@vuemaildev/vuemail`
 
 **Pass Criteria:**
 ```ts
@@ -219,7 +219,7 @@ import {
   Head,
   Tailwind,
   pixelBasedPreset, // Same package as other components
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 // WRONG - separate import from wrong package
 import { pixelBasedPreset } from '@vue-email/components';
@@ -618,7 +618,7 @@ import {
   Text,
   Tailwind,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 // WRONG - imports unused components
 import {
@@ -634,7 +634,7 @@ import {
   Column, // Not used
   Tailwind,
   pixelBasedPreset,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 ```
 
 ---
@@ -882,19 +882,19 @@ Send this welcome email from an API route of my Nuxt app.
 ```
 
 **Expected Behavior:**
-- Add the `vuemail-nuxt` module to `nuxt.config.ts`
-- Import the email in `server/api/*.ts` (from `~~/emails/...`) and render it with `render` from `vuemail`
+- Add the `@vuemaildev/nuxt` module to `nuxt.config.ts`
+- Import the email in `server/api/*.ts` (from `~~/emails/...`) and render it with `render` from `@vuemaildev/vuemail`
 - Keep the emails in `emails/` at the root, so `email dev` previews them too
 
 **Pass Criteria:**
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['vuemail-nuxt'],
+  modules: ['@vuemaildev/nuxt'],
 });
 
 // server/api/send.post.ts
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import WelcomeEmail from '~~/emails/welcome.vue';
 ```
 

@@ -5,7 +5,7 @@ import type { Component } from 'vue';
 useSeoMeta({
   title: 'Editor examples',
   description:
-    'Interactive examples showing how to build email editors with vuemail-editor.',
+    'Interactive examples showing how to build email editors with @vuemaildev/editor.',
 });
 
 useHead({
@@ -67,7 +67,7 @@ const examples = editorExamples.map((example) => ({
         </UiHeading>
         <p>
           Interactive examples showing how to build email editors with
-          vuemail-editor.
+          @vuemaildev/editor.
         </p>
       </div>
       <ul

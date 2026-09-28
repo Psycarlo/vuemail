@@ -37,6 +37,6 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vuemail": "workspace:*"
+    "@vuemaildev/vuemail": "workspace:*"
   }
 }

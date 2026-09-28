@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "vue": "catalog:",
-    "vuemail": "workspace:*"
+    "@vuemaildev/vuemail": "workspace:*"
   },
   "devDependencies": {
-    "vuemail-ui": "workspace:*",
+    "@vuemaildev/ui": "workspace:*",
     "tsconfig": "workspace:*"
   }
 }

@@ -1,8 +1,8 @@
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import { mount } from '@vue/test-utils';
+import { render } from '@vuemaildev/vuemail';
 import { h, nextTick, type VNodeChild } from 'vue';
-import { render } from 'vuemail';
 import { DEFAULT_STYLES } from '../utils/default-styles';
 import { Heading } from './heading';
 import { StarterKit } from './index';

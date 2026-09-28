@@ -7,26 +7,26 @@ description: 'Learn how to send and receive emails using Vuemail and the Inbound
 
 ## 1. Install dependencies
 
-Get the [vuemail](https://www.npmjs.com/package/vuemail) package and the [Inbound Node.js SDK](https://www.npmjs.com/package/inboundemail).
+Get the [@vuemaildev/vuemail](https://www.npmjs.com/package/@vuemaildev/vuemail) package and the [Inbound Node.js SDK](https://www.npmjs.com/package/inboundemail).
 
 Make sure you have an account on [inbound](https://inbound.new), you will need an inbound API key.
 
 <CodeGroup>
 
 ```sh npm
-npm install inboundemail vuemail
+npm install inboundemail @vuemaildev/vuemail
 ```
 
 ```sh yarn
-yarn add inboundemail vuemail
+yarn add inboundemail @vuemaildev/vuemail
 ```
 
 ```sh pnpm
-pnpm add inboundemail vuemail
+pnpm add inboundemail @vuemaildev/vuemail
 ```
 
 ```sh bun
-bun add inboundemail vuemail
+bun add inboundemail @vuemaildev/vuemail
 ```
 
 </CodeGroup>
@@ -37,7 +37,7 @@ Start by building your email template in a `.vue` file.
 
 ```vue email.vue
 <script setup lang="ts">
-import { Button, Html } from 'vuemail';
+import { Button, Html } from '@vuemaildev/vuemail';
 
 const { url } = defineProps<{ url: string }>();
 </script>
@@ -57,7 +57,7 @@ Import the email template you just built, convert it into an HTML string, and us
 
 ```ts
 import { Inbound } from 'inboundemail';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const inbound = new Inbound({
@@ -78,7 +78,7 @@ Use the Inbound SDK to reply to an email with the same template you just created
 
 ```ts
 import { Inbound } from 'inboundemail';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const inbound = new Inbound({

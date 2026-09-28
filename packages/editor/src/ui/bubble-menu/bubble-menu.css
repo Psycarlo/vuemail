@@ -1,6 +1,6 @@
 /* Minimal functional styles for BubbleMenu compound components.
  * This file handles layout and positioning only - no visual design.
- * Import this optionally: import 'vuemail-editor/styles/bubble-menu.css';
+ * Import this optionally: import '@vuemaildev/editor/styles/bubble-menu.css';
  */
 
 [data-re-bubble-menu] {

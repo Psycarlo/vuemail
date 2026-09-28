@@ -1,6 +1,6 @@
 import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
 import { SES } from '@aws-sdk/client-ses';
-import { render } from 'vuemail';
+import { render } from '@vuemaildev/vuemail';
 import Email from './email.vue';
 
 const ses = new SES({ region: process.env.AWS_SES_REGION });

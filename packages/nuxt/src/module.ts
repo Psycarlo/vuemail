@@ -23,7 +23,7 @@ const toArray = <Item>(value: Item | Item[] | undefined | null): Item[] => {
  * @example
  * ```ts
  * // server/api/welcome.post.ts
- * import { render } from 'vuemail';
+ * import { render } from '@vuemaildev/vuemail';
  * import WelcomeEmail from '~~/emails/welcome.vue';
  *
  * export default defineEventHandler(async () => {
@@ -34,7 +34,7 @@ const toArray = <Item>(value: Item | Item[] | undefined | null): Item[] => {
  */
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'vuemail-nuxt',
+    name: '@vuemaildev/nuxt',
     configKey: 'vuemail',
     compatibility: { nuxt: '>=3.13.0' },
   },
@@ -63,8 +63,8 @@ export default defineNuxtModule<ModuleOptions>({
       nitroConfig.externals ??= {};
       nitroConfig.externals.external = [
         ...toArray(nitroConfig.externals.external),
-        'vuemail',
-        'vuemail-render',
+        '@vuemaildev/vuemail',
+        '@vuemaildev/render',
       ];
     });
   },

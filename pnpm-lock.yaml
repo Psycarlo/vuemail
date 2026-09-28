@@ -122,15 +122,15 @@ importers:
 
   apps/demo:
     dependencies:
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../../packages/vuemail
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../../packages/vuemail
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -138,6 +138,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 6.0.9(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.43(typescript@5.9.3))
+      '@vuemaildev/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       tsconfig:
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -150,9 +153,6 @@ importers:
       vue-tsc:
         specifier: 'catalog:'
         version: 3.3.11(typescript@5.9.3)
-      vuemail-ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
 
   apps/docs:
     devDependencies:
@@ -171,6 +171,15 @@ importers:
       '@tiptap/vue-3':
         specifier: 'catalog:'
         version: 3.31.3(@floating-ui/dom@1.8.0)(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3)(vue@3.5.43(typescript@5.9.3))
+      '@vuemaildev/editor':
+        specifier: workspace:*
+        version: link:../../packages/editor
+      '@vuemaildev/nuxt':
+        specifier: workspace:*
+        version: link:../../packages/nuxt
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../../packages/vuemail
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.43(typescript@5.9.3))
@@ -210,15 +219,6 @@ importers:
       vue-sonner:
         specifier: ^2.0.9
         version: 2.0.9(@nuxt/kit@4.5.2(magic-string@1.4.2)(magicast@0.5.5)(rolldown@1.2.11)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.11)(rollup@4.63.5)(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))))(@nuxt/schema@4.5.2)(nuxt@4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@biomejs/biome@2.5.14)(@oxc-project/types@0.151.0)(@types/node@22.19.18)(@vue/compiler-sfc@3.5.43)(commander@14.0.3)(db0@0.3.4)(esbuild@0.28.2)(ioredis@5.11.1)(lightningcss@1.33.0)(magicast@0.5.5)(rolldown@1.2.11)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.11)(rollup@4.63.5))(rollup@4.63.5)(srvx@0.11.22)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue-tsc@3.3.11(typescript@5.9.3))(yaml@2.9.1))
-      vuemail:
-        specifier: workspace:*
-        version: link:../../packages/vuemail
-      vuemail-editor:
-        specifier: workspace:*
-        version: link:../../packages/editor
-      vuemail-nuxt:
-        specifier: workspace:*
-        version: link:../../packages/nuxt
       zod:
         specifier: ^4.6.5
         version: 4.6.5
@@ -235,6 +235,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 6.0.9(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.43(typescript@5.9.3))
+      '@vuemaildev/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -244,18 +247,15 @@ importers:
       vue-tsc:
         specifier: 'catalog:'
         version: 3.3.11(typescript@5.9.3)
-      vuemail-ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
 
   benchmarks/tailwind:
     dependencies:
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../../packages/vuemail
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../../packages/vuemail
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
@@ -304,6 +304,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 6.0.9(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.43(typescript@5.9.3))
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../vuemail
       nypm:
         specifier: ^0.6.6
         version: 0.6.10
@@ -319,9 +322,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../vuemail
 
   packages/editor:
     dependencies:
@@ -406,6 +406,9 @@ importers:
       '@tiptap/vue-3':
         specifier: 'catalog:'
         version: 3.31.3(@floating-ui/dom@1.8.0)(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3)(vue@3.5.43(typescript@5.9.3))
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../vuemail
       hast-util-from-html:
         specifier: ^2.0.3
         version: 2.0.3
@@ -415,9 +418,6 @@ importers:
       reka-ui:
         specifier: 'catalog:'
         version: 2.10.5(vue@3.5.43(typescript@5.9.3))
-      vuemail:
-        specifier: workspace:*
-        version: link:../vuemail
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -492,6 +492,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.3.3(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../vuemail
       nuxt:
         specifier: 'catalog:'
         version: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@biomejs/biome@2.5.14)(@oxc-project/types@0.151.0)(@types/node@22.19.18)(@vue/compiler-sfc@3.5.43)(commander@14.0.3)(db0@0.3.4)(esbuild@0.28.2)(ioredis@5.11.1)(lightningcss@1.33.0)(magicast@0.5.5)(rolldown@1.2.11)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.11)(rollup@4.63.5))(rollup@4.63.5)(srvx@0.11.22)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(vite@8.3.1(@types/node@22.19.18)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue-tsc@3.3.11(typescript@5.9.3))(xml2js@0.6.2)(yaml@2.9.1)
@@ -510,9 +513,6 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../vuemail
 
   packages/render:
     dependencies:
@@ -589,6 +589,9 @@ importers:
       '@types/prismjs':
         specifier: 1.26.6
         version: 1.26.6
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../vuemail
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.43(typescript@5.9.3))
@@ -628,12 +631,12 @@ importers:
       vue-tsc:
         specifier: 'catalog:'
         version: 3.3.11(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../vuemail
 
   packages/vuemail:
     dependencies:
+      '@vuemaildev/render':
+        specifier: workspace:*
+        version: link:../render
       commander:
         specifier: 'catalog:'
         version: 13.1.0
@@ -667,9 +670,6 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
-      vuemail-render:
-        specifier: workspace:*
-        version: link:../render
     devDependencies:
       '@types/css-tree':
         specifier: 'catalog:'
@@ -698,19 +698,19 @@ importers:
 
   playground:
     dependencies:
+      '@vuemaildev/vuemail':
+        specifier: workspace:*
+        version: link:../packages/vuemail
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript@5.9.3)
-      vuemail:
-        specifier: workspace:*
-        version: link:../packages/vuemail
     devDependencies:
+      '@vuemaildev/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
       tsconfig:
         specifier: workspace:*
         version: link:../packages/tsconfig
-      vuemail-ui:
-        specifier: workspace:*
-        version: link:../packages/ui
 
 packages:
 

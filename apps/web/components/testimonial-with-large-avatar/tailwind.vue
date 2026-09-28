@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Img } from 'vuemail';
+import { Img } from '@vuemaildev/vuemail';
 import ResponsiveColumn from '../_components/responsive-column.vue';
 import ResponsiveRow from '../_components/responsive-row.vue';
 </script>

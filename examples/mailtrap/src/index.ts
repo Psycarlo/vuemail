@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import { MailtrapClient } from 'mailtrap';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const mailtrap = new MailtrapClient({

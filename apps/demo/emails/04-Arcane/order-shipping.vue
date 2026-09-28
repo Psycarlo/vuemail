@@ -15,7 +15,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 import type { OrderLine } from './order-confirmation.vue';
 import SkinFonts from './skin-fonts.vue';
 import { skinTailwindConfig } from './theme';

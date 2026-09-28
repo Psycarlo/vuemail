@@ -1,5 +1,5 @@
+import { render } from '@vuemaildev/vuemail';
 import nodemailer from 'nodemailer';
-import { render } from 'vuemail';
 import Email from './email.vue';
 
 const transporter = nodemailer.createTransport({

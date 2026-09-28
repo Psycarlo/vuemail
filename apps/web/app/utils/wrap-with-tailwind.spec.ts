@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { wrapWithTailwind } from './wrap-with-tailwind';
 
 const code = `<script setup lang="ts">
-import { Img, Link, Section, Text } from 'vuemail';
+import { Img, Link, Section, Text } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -41,7 +41,7 @@ import { Img, Link, Section, Text } from 'vuemail';
 test('wrapWithTailwind()', () => {
   expect(wrapWithTailwind(code)).toMatchInlineSnapshot(`
     "<script setup lang="ts">
-    import { Img, Link, Section, Tailwind, Text } from 'vuemail';
+    import { Img, Link, Section, Tailwind, Text } from '@vuemaildev/vuemail';
     </script>
 
     <template>
@@ -89,7 +89,7 @@ describe('wrapWithTailwind() imports', () => {
 
   test('breaks the import in lines when it gets too long', () => {
     const wrapped = wrapWithTailwind(`<script setup lang="ts">
-import { Body, Column, Container, Heading, Img, Row, Section, Text } from 'vuemail';
+import { Body, Column, Container, Heading, Img, Row, Section, Text } from '@vuemaildev/vuemail';
 </script>
 
 ${template}`);
@@ -104,7 +104,7 @@ ${template}`);
   Section,
   Tailwind,
   Text,
-} from 'vuemail';`);
+} from '@vuemaildev/vuemail';`);
   });
 
   test('adds Tailwind to an import already broken in lines', () => {
@@ -112,13 +112,13 @@ ${template}`);
 import {
   Button,
   Section,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 </script>
 
 ${template}`);
 
     expect(wrapped).toContain(
-      "import { Button, Section, Tailwind } from 'vuemail';",
+      "import { Button, Section, Tailwind } from '@vuemaildev/vuemail';",
     );
   });
 
@@ -131,7 +131,7 @@ ${template}`);
 
     expect(
       wrapped.startsWith(`<script setup lang="ts">
-import { Tailwind } from 'vuemail';
+import { Tailwind } from '@vuemaildev/vuemail';
 const href = 'https://vuemail.dev';
 </script>`),
     ).toBe(true);
@@ -139,7 +139,7 @@ const href = 'https://vuemail.dev';
 
   test('adds a script to components without one', () => {
     expect(wrapWithTailwind(template)).toBe(`<script setup lang="ts">
-import { Tailwind } from 'vuemail';
+import { Tailwind } from '@vuemaildev/vuemail';
 </script>
 
 <template>
@@ -152,12 +152,14 @@ import { Tailwind } from 'vuemail';
 
   test('keeps an import of Tailwind that is already there', () => {
     const wrapped = wrapWithTailwind(`<script setup lang="ts">
-import { Button, Tailwind } from 'vuemail';
+import { Button, Tailwind } from '@vuemaildev/vuemail';
 </script>
 
 ${template}`);
 
-    expect(wrapped).toContain("import { Button, Tailwind } from 'vuemail';");
+    expect(wrapped).toContain(
+      "import { Button, Tailwind } from '@vuemaildev/vuemail';",
+    );
     expect(wrapped.match(/Tailwind,|Tailwind }/g)).toHaveLength(1);
   });
 });

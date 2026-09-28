@@ -10,7 +10,7 @@ import {
   Preview,
   Section,
   Text,
-} from 'vuemail';
+} from '@vuemaildev/vuemail';
 
 interface EmailProps {
   url: string;
