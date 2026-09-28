@@ -236,7 +236,7 @@
   "navbar": {
     "primary": {
       "type": "github",
-      "href": "https://github.com/vuemail/vuemail"
+      "href": "https://github.com/psycarlo/vuemail"
     }
   }
 }

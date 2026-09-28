@@ -10,7 +10,7 @@ We've created this guide to help new contributors understand and navigate the Vu
 
 ## Top-level directories
 
-After cloning the [Vuemail repository](https://github.com/vuemail/vuemail) you will see a few root-level directories. Here's a brief overview of each:
+After cloning the [Vuemail repository](https://github.com/psycarlo/vuemail) you will see a few root-level directories. Here's a brief overview of each:
 
 <table>
   <thead>
@@ -22,29 +22,29 @@ After cloning the [Vuemail repository](https://github.com/vuemail/vuemail) you w
   <tbody>
     <tr>
       <td>
-[apps](https://github.com/vuemail/vuemail/tree/main/apps)
+[apps](https://github.com/psycarlo/vuemail/tree/main/apps)
       </td>
       <td>
         Here you can find all of the apps related to our online presence, like:
-        - this documentation (under [apps/docs](https://github.com/vuemail/vuemail/tree/main/apps/docs)),
+        - this documentation (under [apps/docs](https://github.com/psycarlo/vuemail/tree/main/apps/docs)),
         - the demo emails we have on [demo.vuemail.dev](https://demo.vuemail.dev/preview/Community/notifications/vercel-invite-user)
-          (under [apps/demo](https://github.com/vuemail/vuemail/tree/main/apps/demo))
-        - the Nuxt app we have for our landing page on [vuemail.dev](https://vuemail.dev) (under [apps/web](https://github.com/vuemail/vuemail/tree/main/apps/web))
+          (under [apps/demo](https://github.com/psycarlo/vuemail/tree/main/apps/demo))
+        - the Nuxt app we have for our landing page on [vuemail.dev](https://vuemail.dev) (under [apps/web](https://github.com/psycarlo/vuemail/tree/main/apps/web))
       </td>
     </tr>
     <tr>
       <td>
-[benchmarks](https://github.com/vuemail/vuemail/tree/main/benchmarks)
+[benchmarks](https://github.com/psycarlo/vuemail/tree/main/benchmarks)
       </td>
       <td>
         We make benchmarks from version-to-version to demonstrate data-observable performance gains with metrics like *p99 and p75*.
 
-        For example, see the [Tailwind benchmark](https://github.com/vuemail/vuemail/tree/main/benchmarks/tailwind), which measures the cost of rendering an email with the `Tailwind` component.
+        For example, see the [Tailwind benchmark](https://github.com/psycarlo/vuemail/tree/main/benchmarks/tailwind), which measures the cost of rendering an email with the `Tailwind` component.
       </td>
     </tr>
     <tr>
       <td>
-        [packages](https://github.com/vuemail/vuemail/tree/main/packages)
+        [packages](https://github.com/psycarlo/vuemail/tree/main/packages)
       </td>
       <td>
         Most contributions will be made to the packages in this directory.
@@ -57,7 +57,7 @@ After cloning the [Vuemail repository](https://github.com/vuemail/vuemail) you w
 </table>
 
 <Note>
-  Feel free to [open a discussion](https://github.com/vuemail/vuemail/discussions) if you have suggestions on how to better structure these packages to make them more manageable and approachable.
+  Feel free to [open a discussion](https://github.com/psycarlo/vuemail/discussions) if you have suggestions on how to better structure these packages to make them more manageable and approachable.
 </Note>
 
 ## Multiple packages
@@ -73,17 +73,17 @@ npm install -g pnpm
 
 Currently, we have the following packages:
 
-- [vuemail](https://github.com/vuemail/vuemail/tree/main/packages/vuemail)
+- [vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail)
     - The package for our [email CLI](/cli), and for all of our components
-- [@vuemail/render](https://github.com/vuemail/vuemail/tree/main/packages/render)
+- [@vuemail/render](https://github.com/psycarlo/vuemail/tree/main/packages/render)
     - The [render](/utilities/render) utility. Can also be imported from `vuemail`.
-- [@vuemail/ui](https://github.com/vuemail/vuemail/tree/main/packages/ui)
+- [@vuemail/ui](https://github.com/psycarlo/vuemail/tree/main/packages/ui)
     - The preview app the CLI runs
-- [@vuemail/editor](https://github.com/vuemail/vuemail/tree/main/packages/editor)
+- [@vuemail/editor](https://github.com/psycarlo/vuemail/tree/main/packages/editor)
     - The embeddable [visual editor](/editor/overview) for composing emails
-- [@vuemail/nuxt](https://github.com/vuemail/vuemail/tree/main/packages/nuxt)
+- [@vuemail/nuxt](https://github.com/psycarlo/vuemail/tree/main/packages/nuxt)
     - The [Nuxt module](/getting-started/nuxt) that lets server routes render emails
-- [create-vuemail](https://github.com/vuemail/vuemail/tree/main/packages/create-vuemail)
+- [create-vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/create-vuemail)
     - Used for our [automatic setup](/getting-started/automatic-setup)
 
 ### Turborepo

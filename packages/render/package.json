@@ -33,11 +33,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuemail/vuemail.git",
+    "url": "https://github.com/psycarlo/vuemail.git",
     "directory": "packages/render"
   },
   "bugs": {
-    "url": "https://github.com/vuemail/vuemail/issues"
+    "url": "https://github.com/psycarlo/vuemail/issues"
   },
   "homepage": "https://vuemail.dev",
   "keywords": [

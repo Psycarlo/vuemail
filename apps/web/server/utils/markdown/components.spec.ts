@@ -54,7 +54,7 @@ describe('categoryMarkdown', () => {
     );
     expect(markdown).not.toContain('<table>');
     expect(markdown).toContain(
-      'Source: https://github.com/vuemail/vuemail/tree/main/apps/web/components/code-block-basic',
+      'Source: https://github.com/psycarlo/vuemail/tree/main/apps/web/components/code-block-basic',
     );
   });
 

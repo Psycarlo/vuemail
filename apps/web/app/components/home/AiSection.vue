@@ -3,7 +3,7 @@ import { CheckIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const installPrompt = (agent: string) =>
-  `Install the Vuemail skill with \`npx skills add vuemail/vuemail --agent ${agent}\`, then help me build an HTML email using Vuemail components. Docs: https://vuemail.dev/docs/llms.txt`;
+  `Install the Vuemail skill with \`npx skills add psycarlo/vuemail --agent ${agent}\`, then help me build an HTML email using Vuemail components. Docs: https://vuemail.dev/docs/llms.txt`;
 
 const items = [
   {
@@ -34,7 +34,7 @@ const items = [
   {
     title: 'Lovable',
     prompt:
-      'Import the Vuemail skill from https://github.com/vuemail/vuemail (path: skills/vuemail). Then help me build an HTML email using Vuemail components. Docs: https://vuemail.dev/docs/llms.txt',
+      'Import the Vuemail skill from https://github.com/psycarlo/vuemail (path: skills/vuemail). Then help me build an HTML email using Vuemail components. Docs: https://vuemail.dev/docs/llms.txt',
     icon: 'lovable',
   },
 ] as const;
@@ -133,7 +133,7 @@ const handleCopy = async (item: (typeof items)[number]) => {
       <SiteCode
         language="bash"
         class="w-auto! max-w-full"
-        code="npx skills add vuemail/vuemail"
+        code="npx skills add psycarlo/vuemail"
       />
       <UiButton as-child size="4" appearance="gradient">
         <SmartLink href="/docs/llms.txt">Docs for LLMs</SmartLink>

@@ -6,7 +6,7 @@ const official = {
   name: 'Matte',
   href: 'https://demo.vuemail.dev/preview/02-Matte/welcome',
   github:
-    'https://github.com/vuemail/vuemail/tree/main/apps/demo/emails/02-Matte',
+    'https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails/02-Matte',
   figma: 'https://figma.com/community/file/1',
 };
 
@@ -23,7 +23,7 @@ describe('templateSourceUrl', () => {
 
   it('derives the source file from the preview path otherwise', () => {
     expect(templateSourceUrl(community)).toBe(
-      'https://github.com/vuemail/vuemail/blob/main/apps/demo/emails/Community/magic-links/slack-confirm.vue',
+      'https://github.com/psycarlo/vuemail/blob/main/apps/demo/emails/Community/magic-links/slack-confirm.vue',
     );
   });
 });
@@ -40,7 +40,7 @@ describe('templatesMarkdown', () => {
     expect(markdown).toContain(`Figma: ${official.figma}`);
     expect(markdown).toContain('### Slack / Confirm Email\n\nAuthor: c0dr');
     expect(markdown).toContain(
-      'Source: https://github.com/vuemail/vuemail/blob/main/apps/demo/emails/Community/magic-links/slack-confirm.vue',
+      'Source: https://github.com/psycarlo/vuemail/blob/main/apps/demo/emails/Community/magic-links/slack-confirm.vue',
     );
     expect(markdown).not.toContain('Figma: undefined');
   });

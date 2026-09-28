@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Get the full source code, including the theme and Tailwind config:
-// https://github.com/vuemail/vuemail/tree/main/apps/demo/emails
+// https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails
 
 /** Figma Email-Templates `2738:4169` — Tech shipping notification (track CTA, line items, FAQ strip). */
 

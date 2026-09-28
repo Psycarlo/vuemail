@@ -13,7 +13,7 @@ export interface TemplateItem {
 
 export const DEMO_EMAIL_PREVIEW_BASE_URL = 'https://demo.vuemail.dev/preview';
 export const GITHUB_BASE =
-  'https://github.com/vuemail/vuemail/tree/main/apps/demo/emails';
+  'https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails';
 const FIGMA_BASE = 'https://figma.com/community/file';
 
 export const officialItems: TemplateItem[] = [

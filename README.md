@@ -6,7 +6,7 @@
 <div align="center">
 <a href="https://vuemail.dev">Website</a>
 <span> · </span>
-<a href="https://github.com/vuemail/vuemail">GitHub</a>
+<a href="https://github.com/psycarlo/vuemail">GitHub</a>
 </div>
 
 ## Introduction
@@ -45,7 +45,7 @@ import { Button } from 'vuemail';
 Install the Vuemail skill to teach your coding agent (Claude Code, Codex, Cursor, GitHub Copilot, and others) how to build emails with Vuemail:
 
 ```sh
-npx skills add vuemail/vuemail
+npx skills add psycarlo/vuemail
 ```
 
 The docs are also available for LLMs at [vuemail.dev/docs/llms.txt](https://vuemail.dev/docs/llms.txt).
@@ -54,25 +54,25 @@ The docs are also available for LLMs at [vuemail.dev/docs/llms.txt](https://vuem
 
 A set of standard components to help you build amazing emails without having to deal with the mess of creating table-based layouts and maintaining archaic markup.
 
-- [Html](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/html)
-- [Head](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/head)
-- [Button](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/button)
-- [Container](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/container)
-- [CodeBlock](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/code-block)
-- [CodeInline](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/code-inline)
-- [Column](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/column)
-- [Row](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/row)
-- [Font](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/font)
-- [Heading](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/heading)
-- [Divider](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/hr)
-- [Image](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/img)
-- [Link](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/link)
-- [Markdown](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/markdown)
-- [Preview](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/preview)
-- [Section](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/section)
-- [Tailwind](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/tailwind)
-- [Paragraph](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/text)
-- [Body](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/body)
+- [Html](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/html)
+- [Head](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/head)
+- [Button](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/button)
+- [Container](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/container)
+- [CodeBlock](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/code-block)
+- [CodeInline](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/code-inline)
+- [Column](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/column)
+- [Row](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/row)
+- [Font](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/font)
+- [Heading](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/heading)
+- [Divider](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/hr)
+- [Image](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/img)
+- [Link](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/link)
+- [Markdown](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/markdown)
+- [Preview](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/preview)
+- [Section](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/section)
+- [Tailwind](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/tailwind)
+- [Paragraph](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/text)
+- [Body](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/body)
 
 ## Nuxt
 
@@ -100,7 +100,7 @@ export default defineEventHandler(async () => {
 });
 ```
 
-See the [module's documentation](https://github.com/vuemail/vuemail/tree/main/packages/nuxt) for more details.
+See the [module's documentation](https://github.com/psycarlo/vuemail/tree/main/packages/nuxt) for more details.
 
 ## Editor
 
@@ -112,16 +112,16 @@ See the [Editor documentation](https://vuemail.dev/docs/editor/overview) for mor
 
 Emails built with Vuemail can be converted into HTML and sent using any email service provider. Here are some examples:
 
-- [Resend](https://github.com/vuemail/vuemail/tree/main/examples/resend)
-- [Nodemailer](https://github.com/vuemail/vuemail/tree/main/examples/nodemailer)
-- [SendGrid](https://github.com/vuemail/vuemail/tree/main/examples/sendgrid)
-- [MailerSend](https://github.com/vuemail/vuemail/tree/main/examples/mailersend)
-- [Mailgun](https://github.com/vuemail/vuemail/tree/main/examples/mailgun)
-- [Postmark](https://github.com/vuemail/vuemail/tree/main/examples/postmark)
-- [AWS SES](https://github.com/vuemail/vuemail/tree/main/examples/aws-ses)
-- [Azure Communication Email](https://github.com/vuemail/vuemail/tree/main/examples/azure-communication-email)
-- [Plunk](https://github.com/vuemail/vuemail/tree/main/examples/plunk)
-- [Scaleway](https://github.com/vuemail/vuemail/tree/main/examples/scaleway)
+- [Resend](https://github.com/psycarlo/vuemail/tree/main/examples/resend)
+- [Nodemailer](https://github.com/psycarlo/vuemail/tree/main/examples/nodemailer)
+- [SendGrid](https://github.com/psycarlo/vuemail/tree/main/examples/sendgrid)
+- [MailerSend](https://github.com/psycarlo/vuemail/tree/main/examples/mailersend)
+- [Mailgun](https://github.com/psycarlo/vuemail/tree/main/examples/mailgun)
+- [Postmark](https://github.com/psycarlo/vuemail/tree/main/examples/postmark)
+- [AWS SES](https://github.com/psycarlo/vuemail/tree/main/examples/aws-ses)
+- [Azure Communication Email](https://github.com/psycarlo/vuemail/tree/main/examples/azure-communication-email)
+- [Plunk](https://github.com/psycarlo/vuemail/tree/main/examples/plunk)
+- [Scaleway](https://github.com/psycarlo/vuemail/tree/main/examples/scaleway)
 
 ## Support
 

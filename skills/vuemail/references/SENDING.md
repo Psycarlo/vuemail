@@ -232,4 +232,4 @@ await sgMail.send({
 });
 ```
 
-The Vuemail repository has complete examples for these and other providers, like Postmark, AWS SES, and MailerSend, in [`examples`](https://github.com/vuemail/vuemail/tree/main/examples).
+The Vuemail repository has complete examples for these and other providers, like Postmark, AWS SES, and MailerSend, in [`examples`](https://github.com/psycarlo/vuemail/tree/main/examples).

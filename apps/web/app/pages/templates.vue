@@ -39,7 +39,7 @@ useHead({
           {{ description }}. Recreate an existing email or submit a
           <a
             class="rounded-xs outline-hidden transition-transform duration-200 ease-in-out hover:-translate-y-1 focus:ring-2 focus:ring-white/20 focus:ring-offset-4 focus:ring-offset-black text-slate-12"
-            href="https://github.com/vuemail/vuemail/tree/main/apps/demo/emails"
+            href="https://github.com/psycarlo/vuemail/tree/main/apps/demo/emails"
             target="_blank"
             >pull request</a
           >

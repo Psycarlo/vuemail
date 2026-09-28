@@ -6,7 +6,7 @@
 <div align="center">
 <a href="https://vuemail.dev">Website</a>
 <span> · </span>
-<a href="https://github.com/vuemail/vuemail">GitHub</a>
+<a href="https://github.com/psycarlo/vuemail">GitHub</a>
 
 </div>
 
@@ -26,7 +26,7 @@ yarn add @vuemail/render -E
 npm install @vuemail/render -E
 ```
 
-`render` is also exported from [`vuemail`](https://github.com/vuemail/vuemail/tree/main/packages/vuemail), so you don't need to install this package if you already use it.
+`render` is also exported from [`vuemail`](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail), so you don't need to install this package if you already use it.
 
 ## Getting started
 

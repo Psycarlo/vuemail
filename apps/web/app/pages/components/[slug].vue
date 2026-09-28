@@ -57,7 +57,7 @@ const jsonLd = {
   description: category.description,
   programmingLanguage: ['TypeScript', 'Vue'],
   runtimePlatform: 'Node.js',
-  codeRepository: 'https://github.com/vuemail/vuemail',
+  codeRepository: 'https://github.com/psycarlo/vuemail',
   url: `https://vuemail.dev/components/${slug}`,
   hasPart: category.components.map((component) => ({
     '@type': 'SoftwareSourceCode',

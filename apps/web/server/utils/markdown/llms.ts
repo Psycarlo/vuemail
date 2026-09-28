@@ -18,7 +18,7 @@ Vuemail is an open-source library that lets developers build emails with Vue com
 - Components: https://vuemail.dev/components
 - Templates: https://vuemail.dev/templates
 - Editor: https://vuemail.dev/editor
-- GitHub: https://github.com/vuemail/vuemail
+- GitHub: https://github.com/psycarlo/vuemail
 - npm: https://www.npmjs.com/package/vuemail
 
 ## Getting Started
@@ -35,7 +35,7 @@ ${categories.map((category) => category.name).join(', ')}
 
 ## Skills
 
-- [Vuemail Skill](https://raw.githubusercontent.com/vuemail/vuemail/main/skills/vuemail/SKILL.md)
+- [Vuemail Skill](https://raw.githubusercontent.com/psycarlo/vuemail/main/skills/vuemail/SKILL.md)
 
 ## Optional
 
@@ -119,7 +119,7 @@ export const llmsFullTxt = (categories: Category[]): string => {
   lines.push('## Links');
   lines.push('');
   lines.push('- Documentation: https://vuemail.dev/docs');
-  lines.push('- GitHub: https://github.com/vuemail/vuemail');
+  lines.push('- GitHub: https://github.com/psycarlo/vuemail');
   lines.push('- npm: https://www.npmjs.com/package/vuemail');
   lines.push('- Templates: https://vuemail.dev/templates');
   lines.push('- Editor: https://vuemail.dev/editor');

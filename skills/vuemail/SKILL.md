@@ -6,14 +6,14 @@ metadata:
   author: Vuemail
   version: "0.1.0"
   homepage: https://vuemail.dev
-  source: https://github.com/vuemail/vuemail
+  source: https://github.com/psycarlo/vuemail
   openclaw:
     install:
       - kind: node
         package: vuemail
         label: Vuemail
     links:
-      repository: https://github.com/vuemail/vuemail
+      repository: https://github.com/psycarlo/vuemail
       documentation: https://vuemail.dev/docs
 ---
 
@@ -422,7 +422,7 @@ For the full rule set, severity ranking, and authoring checklist, see the [acces
 ## Additional Resources
 
 - [Vuemail Documentation](https://vuemail.dev/docs/llms.txt)
-- [Vuemail GitHub](https://github.com/vuemail/vuemail)
+- [Vuemail GitHub](https://github.com/psycarlo/vuemail)
 - [Resend Documentation](https://resend.com/docs/llms.txt)
 - [Email Client CSS Support](https://www.caniemail.com)
 - Component Reference: [references/COMPONENTS.md](references/COMPONENTS.md)

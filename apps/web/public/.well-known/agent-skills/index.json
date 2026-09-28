@@ -5,7 +5,7 @@
       "name": "vuemail",
       "type": "skill-md",
       "description": "Create HTML email templates with Vue components: welcome emails, password resets, notifications, order confirmations, newsletters, or transactional emails.",
-      "url": "https://raw.githubusercontent.com/vuemail/vuemail/main/skills/vuemail/SKILL.md"
+      "url": "https://raw.githubusercontent.com/psycarlo/vuemail/main/skills/vuemail/SKILL.md"
     }
   ]
 }

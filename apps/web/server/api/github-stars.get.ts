@@ -1,4 +1,4 @@
-const REPOSITORY = 'vuemail/vuemail';
+const REPOSITORY = 'psycarlo/vuemail';
 
 /** The star count of the repository, formatted like `1.2K`, cached for an hour. */
 export default defineCachedEventHandler(

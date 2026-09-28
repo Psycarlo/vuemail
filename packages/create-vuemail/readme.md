@@ -6,7 +6,7 @@
 <div align="center">
 <a href="https://vuemail.dev">Website</a>
 <span> · </span>
-<a href="https://github.com/vuemail/vuemail">GitHub</a>
+<a href="https://github.com/psycarlo/vuemail">GitHub</a>
 
 </div>
 

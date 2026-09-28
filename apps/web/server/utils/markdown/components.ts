@@ -4,7 +4,7 @@ import type { CodeVariant, ImportedComponent } from '../gallery';
 
 const SITE = 'https://vuemail.dev';
 const SOURCE =
-  'https://github.com/vuemail/vuemail/tree/main/apps/web/components';
+  'https://github.com/psycarlo/vuemail/tree/main/apps/web/components';
 
 const variantHeadings: Array<[CodeVariant, string]> = [
   ['tailwind', 'Tailwind'],

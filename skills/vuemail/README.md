@@ -33,7 +33,7 @@ Agent Skills are a standardized format for giving AI agents specialized knowledg
 Install it with:
 
 ```sh
-npx skills add vuemail/vuemail
+npx skills add psycarlo/vuemail
 ```
 
 AI agents can load this skill to gain expertise in Vuemail development. The skill follows the [Agent Skills specification](https://agentskills.io) with:

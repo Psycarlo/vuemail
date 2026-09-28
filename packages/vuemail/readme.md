@@ -6,7 +6,7 @@
 <div align="center">
 <a href="https://vuemail.dev">Website</a>
 <span> · </span>
-<a href="https://github.com/vuemail/vuemail">GitHub</a>
+<a href="https://github.com/psycarlo/vuemail">GitHub</a>
 
 </div>
 
@@ -50,27 +50,27 @@ defineOptions({
 
 `PreviewProps` are the props the preview renders the email with. The components are:
 
-- [Html](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/html)
-- [Head](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/head)
-- [Body](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/body)
-- [Button](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/button)
-- [Container](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/container)
-- [CodeBlock](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/code-block)
-- [CodeInline](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/code-inline)
-- [Column](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/column)
-- [Row](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/row)
-- [Font](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/font)
-- [Heading](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/heading)
-- [Hr](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/hr)
-- [Img](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/img)
-- [Link](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/link)
-- [Markdown](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/markdown)
-- [Preview](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/preview)
-- [Section](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/section)
-- [Tailwind](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/tailwind)
-- [Text](https://github.com/vuemail/vuemail/tree/main/packages/vuemail/src/components/text)
+- [Html](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/html)
+- [Head](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/head)
+- [Body](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/body)
+- [Button](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/button)
+- [Container](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/container)
+- [CodeBlock](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/code-block)
+- [CodeInline](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/code-inline)
+- [Column](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/column)
+- [Row](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/row)
+- [Font](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/font)
+- [Heading](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/heading)
+- [Hr](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/hr)
+- [Img](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/img)
+- [Link](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/link)
+- [Markdown](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/markdown)
+- [Preview](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/preview)
+- [Section](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/section)
+- [Tailwind](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/tailwind)
+- [Text](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail/src/components/text)
 
-This package also exports `render`, from [`@vuemail/render`](https://github.com/vuemail/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
+This package also exports `render`, from [`@vuemail/render`](https://github.com/psycarlo/vuemail/tree/main/packages/render), which turns an email into HTML or plain text.
 
 ## Commands
 
@@ -157,7 +157,7 @@ npx vuemail resend reset
 
 ## Setting Up the Environment
 
-When working in the CLI, a lot of friction can get introduced with rebuilding it for every change. To avoid that, you can keep it building in watch mode, and run it from the [playground](https://github.com/vuemail/vuemail/tree/main/playground), which uses the `vuemail` package of this monorepo.
+When working in the CLI, a lot of friction can get introduced with rebuilding it for every change. To avoid that, you can keep it building in watch mode, and run it from the [playground](https://github.com/psycarlo/vuemail/tree/main/playground), which uses the `vuemail` package of this monorepo.
 
 This assumes the packages were built once, with `pnpm build` at the root of the monorepo, since the CLI runs the preview app from `@vuemail/ui`'s build.
 

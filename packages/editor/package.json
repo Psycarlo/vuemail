@@ -54,7 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuemail/vuemail.git",
+    "url": "https://github.com/psycarlo/vuemail.git",
     "directory": "packages/editor"
   },
   "homepage": "https://vuemail.dev/docs/editor/overview",

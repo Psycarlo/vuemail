@@ -4,13 +4,13 @@
 <div align="center">
 <a href="https://vuemail.dev">Website</a>
 <span> · </span>
-<a href="https://github.com/vuemail/vuemail">GitHub</a>
+<a href="https://github.com/psycarlo/vuemail">GitHub</a>
 
 </div>
 
 ## Introduction
 
-Nitro, the server of Nuxt, can't import Vue single file components on its own. This module lets it bundle them, so that your server routes can import the emails you write with [Vuemail](https://github.com/vuemail/vuemail/tree/main/packages/vuemail) and render them into HTML.
+Nitro, the server of Nuxt, can't import Vue single file components on its own. This module lets it bundle them, so that your server routes can import the emails you write with [Vuemail](https://github.com/psycarlo/vuemail/tree/main/packages/vuemail) and render them into HTML.
 
 It works with Nuxt 4 and Nuxt 3.13 or later, and with Tailwind CSS 4 in both your app and your emails.
 
@@ -81,7 +81,7 @@ npm i -D @vuemail/ui
 npx vuemail dev
 ```
 
-See the [Resend example](https://github.com/vuemail/vuemail/tree/main/examples/resend) for a complete app.
+See the [Resend example](https://github.com/psycarlo/vuemail/tree/main/examples/resend) for a complete app.
 
 ## Options
 

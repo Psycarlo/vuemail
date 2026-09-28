@@ -255,5 +255,5 @@ export function editorSectionTone(
 }
 
 export function getEditorExampleGitHubUrl(slug: string) {
-  return `https://github.com/vuemail/vuemail/tree/main/apps/web/app/editor-examples/${slug}.vue`;
+  return `https://github.com/psycarlo/vuemail/tree/main/apps/web/app/editor-examples/${slug}.vue`;
 }

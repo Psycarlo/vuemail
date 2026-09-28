@@ -11,7 +11,7 @@ import { ref } from 'vue';
 
 defineProps<{ starCount: string }>();
 
-const GITHUB_URL = 'https://github.com/vuemail/vuemail';
+const GITHUB_URL = 'https://github.com/psycarlo/vuemail';
 
 const items = [
   { href: '/components', label: 'Components' },

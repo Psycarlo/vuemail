@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuemail/vuemail.git",
+    "url": "https://github.com/psycarlo/vuemail.git",
     "directory": "packages/create-vuemail"
   },
   "homepage": "https://vuemail.dev",

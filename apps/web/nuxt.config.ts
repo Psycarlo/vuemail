@@ -62,7 +62,7 @@ export default defineNuxtConfig({
               url: 'https://vuemail.dev',
               logo: cover,
               sameAs: [
-                'https://github.com/vuemail/vuemail',
+                'https://github.com/psycarlo/vuemail',
                 'https://www.npmjs.com/package/vuemail',
               ],
             },
